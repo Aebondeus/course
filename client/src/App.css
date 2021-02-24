@@ -1,0 +1,43 @@
+@import './normalize.css';
+
+.header{
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-logo{
+  display: block;
+  font-weight: 700;
+  font-size: 5rem;
+}
+
+.header-app{
+  display:block;
+  margin: auto .5rem;
+}
+
+ul > .btn{
+  display: block;
+}
+
+.main-content{
+  margin-top: 1rem;
+}
+
+.all-fictions{
+  float: left;
+}
+
+.all-fictions > * {
+  margin: 2rem 0;
+  width:750px;
+}
+
+.extra-part{
+  float: right;
+  width:300px;
+}
+
+.extra-part > * {
+  margin: 2rem 0;
+}
