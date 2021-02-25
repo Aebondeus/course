@@ -20,6 +20,9 @@ ul > .btn{
   display: block;
 }
 
+.card-body > .card {
+  margin-top: 1rem;
+}
 .main-content{
   margin-top: 1rem;
 }

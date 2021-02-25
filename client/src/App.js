@@ -19,10 +19,10 @@ function App() {
       <div className="main-content">
         <div className="all-fictions">
           <div className="popular-fictions">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Popular fictions</h5>
-                <p class="card-text">
+            <div className="card">
+              <div className="card-body">
+                <h5 className="card-title">Popular fictions</h5>
+                <p className="card-text">
                   The most popular fictions will be placed here
                 </p>
                 <div className="card">
@@ -50,10 +50,10 @@ function App() {
             </div>
           </div>
           <div className="updated-fictions">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Recently updated</h5>
-                <p class="card-text">All recently updated posts will be here</p>
+            <div className="card">
+              <div className="card-body">
+                <h5 className="card-title">Recently updated</h5>
+                <p className="card-text">All recently updated posts will be here</p>
                 <div className="card">
                   <div className="card-body">
                     <p className="One of the popular fictions">
@@ -91,13 +91,13 @@ function App() {
               </div>
             </div>
           </div>
-          <div class="card" style={{ marginTop: "1rem" }}>
-            <div class="card-body">
-              <h5 class="card-title">Tag cloud</h5>
-              <h6 class="card-subtitle mb-2 text-muted">
+          <div className="card" style={{ marginTop: "1rem" }}>
+            <div className="card-body">
+              <h5 className="card-title">Tag cloud</h5>
+              <h6 className="card-subtitle mb-2 text-muted">
                 Here will be tag cloud
               </h6>
-              <p class="card-text">Tag Tag Tag Tag Tag</p>
+              <p className="card-text">Tag Tag Tag Tag Tag</p>
             </div>
           </div>
         </div>
