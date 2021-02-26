@@ -7,8 +7,8 @@ const postSchema = new Schema({
     author:{type:Schema.Types.ObjectId, ref:"User"},
     genre:{type:String, required:true},
     tags:[{type:Schema.Types.ObjectId, ref:"Tag"}],
-    parts:{type:Array},
-    comments:{type:Array},
+    parts: [{type:Schema.Types.ObjectId, ref:"Part"}],
+    comments:[{type:Schema.Types.ObjectId, ref:"Comment"}],
     rating:{type:Number},
     updated:{type:Date}
 })
