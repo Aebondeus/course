@@ -6,6 +6,7 @@ import config from "./config.js";
 import postRouter from "./routes/postPage.js";
 import { mainRouter } from "./routes/mainPage.js";
 import { authRouter } from "./routes/authPage.js";
+import {userRouter} from "./routes/userPage.js"
 const app = express();
 const port = process.env.PORT || 5000;
 const dbUri = process.env.MONGODB_URI || config.dbUri;
@@ -17,6 +18,7 @@ app.use(express.json({ extended: true }));
 app.use("/post", postRouter);
 app.use("/main", mainRouter);
 app.use("/auth", authRouter);
+app.use("/user", userRouter)
 
 const start = async () => {
   try {

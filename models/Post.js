@@ -9,7 +9,7 @@ const postSchema = new Schema({
     tags:[{type:Schema.Types.ObjectId, ref:"Tag"}],
     parts: [{type:Schema.Types.ObjectId, ref:"Part"}],
     comments:[{type:Schema.Types.ObjectId, ref:"Comment"}],
-    rating:{type:Number},
+    rating:{type:Array},
     updated:{type:Date}
 })
 

@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
 import config from "../config.js";
-
+import jwt from "jsonwebtoken";
 const router = express.Router();
 
 router.use("/register", async (req, res) => {
@@ -14,6 +14,7 @@ router.use("/register", async (req, res) => {
       password: pass,
       nickName: nickname,
       posts: [],
+      comments:[],
       isAdmin: false,
     });
     user.save((err) => {
@@ -21,19 +22,42 @@ router.use("/register", async (req, res) => {
         if (err.name === "MongoError" && err.code === 11000) {
           return res
             .status(400)
-            .json({ msg: "User with such login or nickname already exist" });
+            .json({ msg: "User with this login or nickname already exist" });
         }
       }
       return res.status(200).json({ msg: "User was created" });
     });
   } catch (e) {
-    console.log(e);
     return res
       .status(500)
       .json({ msg: "Server error while register", error: e });
   }
 });
 
-router.use("/login", async (req, res) => {});
+router.use("/login", async (req, res) => {
+  try {
+    const { login, password } = req.body;
+    User.findOne({ login }, (err, user) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ msg: "Check error handler in login" });
+      }
+      if (!!!user) {
+        return res.status(403).json({ msg: "Wrong login/password" });
+      }
+      const ispass = bcrypt.compareSync(password, user.password);
+      if (!ispass) {
+        return res.status(402).json({ msg: "Wrong password/login" });
+      }
+      const token = jwt({ login }, config.forToken, {
+        expiresIn: "1h",
+      });
+      return res.status(200).json({ token, userLogin: login });
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ msg: "Troubles with server" });
+  }
+});
 
 export const authRouter = router;
