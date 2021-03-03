@@ -2,12 +2,11 @@ import express from "express";
 import mongoose from "mongoose";
 import Post from "../models/Post.js";
 import User from "../models/User.js";
-import postRouter from "./postPage.js";
 const ObjectId = mongoose.Types.ObjectId;
 const router = express.Router();
 const defaultSort = {name:-1};
 
-const matchConvert = (match) => {
+const matchConvert = (match) => { // match will always have author property
     match["author"] = ObjectId(match["author"]);
 }
 

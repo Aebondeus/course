@@ -3,6 +3,7 @@ import User from "../models/User.js";
 import Post from "../models/Post.js";
 import Tag from "../models/Tag.js";
 import Part from "../models/Part.js";
+import Comment from "../models/Comment.js";
 
 const router = express.Router();
 
@@ -26,6 +27,36 @@ const unboundPost = (userId, post) => {
     user.save();
   });
 };
+
+const createComment = (postId, comment) => {
+  const data = new Comment({
+    post: postId,
+    author: comment.author,
+    content: comment.content,
+    publishDate: new Date(),
+  });
+  data.save(() => {
+    User.findById(comment.author, (err, user) => {
+      user.comments.push(data);
+      user.save();
+    });
+  });
+  return data;
+};
+
+const prettifyComment = (arr) => {
+  const result = []
+  arr.forEach((doc) => {
+    result.push({
+      commentId:doc._id,
+      date:doc.publishDate,
+      content:doc.content,
+      author:doc.author.nickName,
+      authorId:doc.author._id
+    })
+  });
+  return result;
+}
 
 router.use("/newpost", async (req, res) => {
   try {
@@ -121,7 +152,7 @@ router.use("/getpart/:postId/:partId", async (req, res) => {
         if (err) {
           return res.status(404).json({ msg: "Part not found" });
         }
-        return res.status(200).json({ part });
+        return res.status(200).json({ part, parts:docs.parts });
       });
     });
   } catch (e) {
@@ -197,14 +228,14 @@ router.use("/deletepart", async (req, res) => {
 });
 
 // will work with ajax
-router.use("/upload_comm", (req, res) => {
-  const postId = req.body;
-  Post.findById(postId, (err, post) => {
-    if (err) {
-      throw err;
-    }
-    return res.status(200).json({ comms: post.comments });
-  });
+router.use("/upload_comm/:postId", (req, res) => {
+  Comment.find({ post: req.params.postId })
+    .sort({ publishDate: 1 })
+    .populate("author")
+    .exec((err, docs) => {
+      const result = prettifyComment(docs);
+      return res.status(200).json(result);
+    });
 });
 
 router.use("/add_comm", (req, res) => {
@@ -213,7 +244,9 @@ router.use("/add_comm", (req, res) => {
     if (err) {
       throw err;
     }
-    post.comments.push(comment);
+    let data = createComment(postId, comment);
+    post.comments.push(data);
+    post.save();
     return res.status(200).json({ msg: "Comment was added" });
   });
 });
@@ -226,8 +259,9 @@ router.use("/rate", (req, res) => {
       throw err;
     }
     if (!!rate) {
-      post.rating.push(rate);
-      res.status(200).json({ msg: "You rated this post!" });
+      post.rating.push(Number(rate));
+      post.save();
+      return res.status(200).json({ msg: "You rated this post!" });
     }
     return res.status(200).json({ rating: medium(post.rating) });
   });

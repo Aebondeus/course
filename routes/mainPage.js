@@ -7,7 +7,7 @@ const router = express.Router();
 
 // try to make one function that handle docsarray
 
-router.use("/ratedposts", async (req, res) => {
+router.use("/ratedposts", (req, res) => {
   try {
     Post.find({})
       .sort({ rating: "desc" })
@@ -25,7 +25,7 @@ router.use("/ratedposts", async (req, res) => {
           };
           docsarray.push(data);
         });
-        return res.status(200).json({ result: docsarray });
+        return res.status(200).json(docsarray);
       });
   } catch (e) {
     console.log("Erorr in ratedposts");
@@ -33,7 +33,7 @@ router.use("/ratedposts", async (req, res) => {
   }
 });
 
-router.use("/updatedposts", async (req, res) => {
+router.use("/updatedposts", (req, res) => {
   try {
     Post.find({})
       .sort({ updated: -1 })
@@ -51,8 +51,7 @@ router.use("/updatedposts", async (req, res) => {
           };
           docsarray.push(data);
         });
-
-        return res.status(200).json({ result: docsarray });
+        return res.status(200).json(docsarray);
       });
   } catch (e) {
     console.log("Error in updatedposts");
