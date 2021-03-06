@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { PartContent } from "../partComponents/partContent";
-import { PartNav } from "../partComponents/partNavigation";
+import { PartContent } from "../components/partComponents/partContent";
+import { PartNav } from "../components/partComponents/partNavigation";
 
 export const PartPage = ({ match }) => {
   const [curPart, setPart] = useState({});
   const [allParts, setAll] = useState([]);
 
   useEffect(() => {
-    const getData = async () => {
-      await fetch(`/post/getpart/${match.params.postId}/${match.params.partId}`)
+    const getData = () => {
+      fetch(`/post/getpart/${match.params.postId}/${match.params.partId}`)
         .then((data) => data.json())
         .then((result) => {
-          setTimeout(() => {
             setPart(result.part);
-            setAll(result.parts)
-          }, 0);
+            setAll(result.parts);
         });
     };
     getData();

@@ -1,26 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { Routes } from "./routers";
-import { Link } from "react-router-dom";
+import { MainHeader } from "./components/headerComponents/mainHeader";
+import { authContext } from "./context/authContext.js";
+import {useAuth} from "./hooks/authHook.js"
 
 function App() {
-  const Route = Routes();
-
+  const {token, id, nickname, login, logout} = useAuth();
+  const Route = Routes(token, id);
   return (
-    <div className="container">
-      <div className="header">
-        <div className="header-logo"><Link to="/" style={{color:'black', textDecoration:"none"}}>MORDOR</Link> </div>
-        <div className="header-app">
-          <ul style={{ marginTop: "5px" }}>
-            <li className="btn header-lang">En/Ru</li>
-            <li className="btn header-theme">Dark/Light</li>
-            <li className="btn btn-header">Login/Register</li>
-          </ul>
-        </div>
+    <authContext.Provider value={{token, id, nickname, login, logout}}>
+      <div className="container">
+        <MainHeader />
+        {Route}
       </div>
-      {Route}
-    </div>
+    </authContext.Provider>
   );
 }
 

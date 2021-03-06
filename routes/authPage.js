@@ -14,7 +14,7 @@ router.use("/register", async (req, res) => {
       password: pass,
       nickName: nickname,
       posts: [],
-      comments:[],
+      comments: [],
       isAdmin: false,
     });
     user.save((err) => {
@@ -49,10 +49,14 @@ router.use("/login", async (req, res) => {
       if (!ispass) {
         return res.status(402).json({ msg: "Wrong password/login" });
       }
-      const token = jwt({ login }, config.forToken, {
+      const id = user._id;
+      const nickname = user.nickName;
+      const token = jwt.sign({ login }, config.forToken, {
         expiresIn: "1h",
       });
-      return res.status(200).json({ token, userLogin: login });
+      return res
+        .status(200)
+        .json({ msg: "User was authorized!", token, userId: id, nickname });
     });
   } catch (e) {
     console.log(e);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {MostRated} from "../mainComponents/mostRated.js";
-import {LastUpdated} from "../mainComponents/lastUpdated.js";
+import {MostRated} from "../components/mainComponents/mostRated.js";
+import {LastUpdated} from "../components/mainComponents/lastUpdated.js";
 
 export const MainPage = ({match}) => {
   const [lastData, setLast] = useState([]);

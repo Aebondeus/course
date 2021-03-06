@@ -1,13 +1,13 @@
 import React from "react";
 import {Switch, Route, Redirect} from "react-router-dom";
-import { LoginPage } from "./pageRouters/LoginPage.js";
+import { LoginPage } from "./pageRouters/LoginPage.js"; // will be deleted
 import {MainPage} from "./pageRouters/MainPage.js";
 import { PartPage } from "./pageRouters/PartPage.js";
 import { PostPage } from "./pageRouters/PostPage.js";
 import { RegisterPage } from "./pageRouters/RegisterPage.js";
 import { UserPage } from "./pageRouters/UserPage.js";
 
-export const Routes = () => {
+export const Routes = (token, id) => {
     return (
         <Switch>
             <Route path="/login" component={LoginPage} exact />

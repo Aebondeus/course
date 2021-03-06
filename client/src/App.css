@@ -44,3 +44,21 @@ ul > .btn{
 .extra-part > * {
   margin: 2rem 0;
 }
+
+.registr-card{
+  border: none;
+}
+
+.reg-form{
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+.error-text{
+  color:red;
+  font-weight: 700;
+}
+
+.error-text::before{
+  content: "\274c ";
+}
