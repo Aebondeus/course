@@ -62,3 +62,16 @@ ul > .btn{
 .error-text::before{
   content: "\274c ";
 }
+
+.change-post{
+  margin-right: 1rem;
+}
+
+.delete-post{
+  color:white;
+}
+
+.posts-abscence {
+  font-weight: 700;
+  font-size: 2rem;
+}

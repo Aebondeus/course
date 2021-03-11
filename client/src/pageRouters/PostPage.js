@@ -48,9 +48,11 @@ export const PostPage = ({ match }) => {
         <h2 style={{ marginTop: "2rem" }}>Content</h2>
       </div>
       <PostParts postId={match.params.postId} data={postData.data} />
-      {context.token ? <PostCommentsForm /> : null}
-      <div className="comment-part" style={{marginTop:"2rem"}}>
-        <div className="comments-title text-center"><h2>Comments</h2></div>
+      {context.token ? <PostCommentsForm data={match.params.postId} /> : null}
+      <div className="comment-part" style={{ marginTop: "2rem" }}>
+        <div className="comments-title text-center">
+          <h2>Comments</h2>
+        </div>
         <Comments data={comments} />
       </div>
     </div>

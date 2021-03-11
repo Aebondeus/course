@@ -36,7 +36,6 @@ export const AuthButton = () => {
       console.log(result.userId, result.token);
       context.login(result.token, result.userId, result.nickname);
       setShow(false);
-      // history.push('/')
     } catch (err) {
       console.log(err.message);
     }

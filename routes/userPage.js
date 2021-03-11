@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import Post from "../models/Post.js";
 import User from "../models/User.js";
+import Comment from "../models/Comment.js";
 const ObjectId = mongoose.Types.ObjectId;
 const router = express.Router();
 const defaultSort = {name:-1};
@@ -9,6 +10,24 @@ const defaultSort = {name:-1};
 const matchConvert = (match) => { // match will always have author property
     match["author"] = ObjectId(match["author"]);
 }
+
+router.use("/user_posts/:userId", (req, res) => {
+  Post.find({author:req.params.userId}).sort({updated:-1}).exec((err, posts) => {
+    if (err){
+      return res.status(404).json({msg:"User not found!"})
+    }
+    return res.status(200).json(posts)
+  })
+})
+
+router.use("/user_comments/:userId", (req, res) => {
+  Comment.find({author:req.params.userId}).sort({updated:-1}).exec((err, comments) => {
+    if (err) {
+      return res.status(404).json({msg:"User not found!"})
+    }
+    return res.status(200).json(comments)
+  })
+})
 
 router.use("/sort", (req, res) => {
   const { match, sort } = req.body;

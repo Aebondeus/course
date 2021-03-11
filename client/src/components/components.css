@@ -1,0 +1,8 @@
+.post-title {
+    font-size: 35px;
+}
+
+.post-synopsis, .post-rating, .post-link {
+    font-size: medium;
+} 
+/* remove it or change */

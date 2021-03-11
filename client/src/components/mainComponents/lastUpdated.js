@@ -16,10 +16,10 @@ export const LastUpdated = (props) => {
             return (
               <div className="card" key={idx}>
                 <div className="card-body">
-                  <div className="card-title">{data.name}</div>
+                  <div className="card-title post-title">{data.name}</div>
                   <div className="card-text">
-                    <div className="post-synopsis">{data.synopsis}</div>
-                    <div className="post-date">{data.updated}</div>
+                    <div className="post-synopsis">Synopsis: {data.synopsis}</div>
+                    <div className="post-date">Updated: {data.updated}</div>
                     <div className="post-link"><Link to={`/post/${data.id}`}>Посмотреть пост</Link></div>
                     
                   </div>

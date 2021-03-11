@@ -1,4 +1,5 @@
 import React from "react";
+import ReactMarkdown from "react-markdown";
 import {Link} from "react-router-dom";
 
 export const Comments = (props) => {
@@ -9,9 +10,9 @@ export const Comments = (props) => {
                     <div className="card">
                         <div className="card-body">
                             <Link to={`/user/${comment.authorId}`}>
-                                <div className="comment-author">{comment.author}</div>
+                                <div className="comment-author">{comment.author}: </div>
                             </Link>
-                            <div className="comment-content">{comment.content}</div>
+                            <ReactMarkdown className="comment-content" children={comment.content}/>
                             <div className="comment-date">{comment.date}</div>
                         </div>
                     </div>

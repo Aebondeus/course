@@ -24,7 +24,8 @@ const start = async () => {
   try {
     await mongoose.connect(dbUri, {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
+      useUnifiedTopology:true,
+      useFindAndModify:false
     });
     app.listen(port, () => console.log(`App on port number ${port}`));
   } catch (e) {
