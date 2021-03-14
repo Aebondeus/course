@@ -1,0 +1,17 @@
+.header-logo{
+    padding-top: .82rem;
+}
+#mock {
+  margin-right: auto;
+}
+.nav-item > * :hover{
+    background-color: none;
+}
+.auth-btn{
+    display: flex;
+}
+
+#logout{
+  margin-left: .5rem;
+  background-size: 2rem;
+}

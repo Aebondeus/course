@@ -3,27 +3,28 @@ import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useLoad } from "../hooks/loadHook";
 import {useHistory} from "react-router-dom";
+import {FormattedMessage} from "react-intl";
 
 const registerOptions = {
   login: {
-    required: "Login is required!",
+    required: <FormattedMessage id="register-login-req-error" />,
     minLength: {
       value: 3,
-      message: "Login must have at least 8 characters!",
+      message: <FormattedMessage id="register-login-len-error" />,
     },
   },
   password: {
-    required: "Password is required!",
+    required: <FormattedMessage id="register-password-req-error" />,
     minLength: {
       value: 3,
-      message: "Password must have at least 3 characters",
+      message: <FormattedMessage id="register-password-len-error" />,
     },
   },
   nickname: {
-    required: "Nickname is very required!",
+    required: <FormattedMessage id="register-nick-req-error" />,
     minLength: {
       value: 1,
-      message: "Nickname must have at least 1 character",
+      message:<FormattedMessage id="register-nick-len-error" />,
     },
   },
 };
@@ -44,14 +45,14 @@ export const RegisterPage = () => {
   };
   return (
     <div className="registr-wrapper">
-      <h1>REGISTER PAGE</h1>
+      <h1><FormattedMessage id="register-page-title" /></h1>
 
       <div className="registr-card card">
         <div className="reg-form">
           <Form onSubmit={handleSubmit(onSubmit)}>
             {error ? <div className="error-text text-center">{error}</div> : null}
             <Form.Group controlId="formLogin">
-              <Form.Label>Login:</Form.Label>
+              <Form.Label><FormattedMessage id="login" />:</Form.Label>
               <Form.Control
                 type="login"
                 name="login"
@@ -61,7 +62,7 @@ export const RegisterPage = () => {
             </Form.Group>
             {errors.login && (<p className="error-text">{errors.login.message}</p>)}
             <Form.Group controlId="formPassword">
-              <Form.Label>Password:</Form.Label>
+              <Form.Label><FormattedMessage id="password" />:</Form.Label>
               <Form.Control
                 type="password"
                 name="password"
@@ -73,7 +74,7 @@ export const RegisterPage = () => {
                 <p className="error-text">{errors.password.message}</p>
               )}
             <Form.Group>
-              <Form.Label>Your NickName:</Form.Label>
+              <Form.Label><FormattedMessage id="nickname" />:</Form.Label>
               <Form.Control
                 type="nickname"
                 name="nickname"
@@ -81,8 +82,7 @@ export const RegisterPage = () => {
                 ref={register(registerOptions.nickname)}
               ></Form.Control>
               <Form.Text className="text-muted">
-                Choose wisely! By the way, someone could already took your name,
-                but don't be sad :3
+                <FormattedMessage id="nickname-muted" />
               </Form.Text>
             </Form.Group>
             {errors.nickname && (

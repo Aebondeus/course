@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {FormattedMessage} from "react-intl";
 
 export const LastUpdated = (props) => {
   return (
@@ -7,10 +8,7 @@ export const LastUpdated = (props) => {
       <div className="card">
         <div className="card-body">
           <div className="card-title">
-            <h5>Recently updated</h5>
-          </div>
-          <div className="card-text">
-            All recently updated posts will be here
+            <h5><FormattedMessage id="last-updated" /></h5>
           </div>
           {props.posts.map((data, idx) => {
             return (
@@ -18,10 +16,17 @@ export const LastUpdated = (props) => {
                 <div className="card-body">
                   <div className="card-title post-title">{data.name}</div>
                   <div className="card-text">
-                    <div className="post-synopsis">Synopsis: {data.synopsis}</div>
-                    <div className="post-date">Updated: {data.updated}</div>
-                    <div className="post-link"><Link to={`/post/${data.id}`}>Посмотреть пост</Link></div>
-                    
+                    <div className="post-synopsis">
+                      <FormattedMessage id="synopsis" />: {data.synopsis}
+                    </div>
+                    <div className="post-date">
+                      <FormattedMessage id="updated" />: {data.updated}
+                    </div>
+                    <div className="post-link">
+                      <Link to={`/post/${data.id}`}>
+                        <FormattedMessage id="open-post" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>

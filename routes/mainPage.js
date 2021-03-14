@@ -7,10 +7,17 @@ const router = express.Router();
 
 // try to make one function that handle docsarray
 
+const getRating = (arr) =>{
+  const rating = arr.reduce((prev, cur, idx) => {
+    return prev.concat(Object.values(cur));
+  }, [])
+  return rating;
+}
 router.use("/ratedposts", (req, res) => {
   try {
     Post.find({})
       .sort({ rating: "desc" })
+      .limit(10)
       .exec((err, docs) => {
         if (err) {
           throw err;
@@ -20,9 +27,10 @@ router.use("/ratedposts", (req, res) => {
           const data = {
             name: doc.name,
             synopsis: doc.synopsis,
-            rating: doc.rating,
-            id:doc._id
+            rating: getRating(doc.rating),
+            id: doc._id,
           };
+          console.log(data);
           docsarray.push(data);
         });
         return res.status(200).json(docsarray);
@@ -37,6 +45,7 @@ router.use("/updatedposts", (req, res) => {
   try {
     Post.find({})
       .sort({ updated: -1 })
+      .limit(10)
       .exec((err, docs) => {
         if (err) {
           throw err;
@@ -47,7 +56,7 @@ router.use("/updatedposts", (req, res) => {
             name: doc.name,
             synopsis: doc.synopsis,
             updated: doc.updated.toString(),
-            id:doc._id
+            id: doc._id,
           };
           docsarray.push(data);
         });
@@ -59,6 +68,11 @@ router.use("/updatedposts", (req, res) => {
   }
 });
 
-router.use("/alltags", async (req, res) => {});
+router.use("/alltags", async (req, res) => {
+  Tag.find({}).select("label posts").exec((err, docs) => {
+    return res.status(200).json(docs);
+  });
+
+});
 
 export const mainRouter = router;

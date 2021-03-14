@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import {FormattedMessage} from "react-intl";
 export const MostRated = (props) => {
 
   const medium = (arr) => {
@@ -15,18 +15,26 @@ export const MostRated = (props) => {
       <div className="card">
         <div className="card-body">
           <div className="card-title">
-            <h5>Most rated fictions</h5>
+            <h5><FormattedMessage id="most-rated"/></h5>
           </div>
-          <div className="card-text">The most rated fictions will be here</div>
           {props.posts.map((data, idx) => {
             return (
               <div className="card" key={idx}>
                 <div className="card-body">
                   <div className="card-title post-title">{data.name}</div>
                   <div className="card-text">
-                    <div className="post-synopsis">Synopsis: {data.synopsis}</div>
-                    <div className="post-rating">Rating: {data.rating.length > 0 ? medium(data.rating) : 0}</div>
-                    <div className="post-link"><Link to={`/post/${data.id}`}>Просмотреть пост</Link></div>
+                    <div className="post-synopsis">
+                      <FormattedMessage id="synopsis" />: {data.synopsis}
+                    </div>
+                    <div className="post-rating">
+                      <FormattedMessage id="rating" />:{" "}
+                      {data.rating.length > 0 ? medium(data.rating) : 0}
+                    </div>
+                    <div className="post-link">
+                      <Link to={`/post/${data.id}`}>
+                        <FormattedMessage id="open-post" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>

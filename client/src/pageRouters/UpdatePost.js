@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { useLoad } from "../hooks/loadHook.js";
 import { authContext } from "../context/authContext";
-import { MainPart } from "../components/updatePostComponents/mainPart.js";
+import { MainPart } from "../components/updatePostComponents/updatePost.js";
 const genres = [
   "Comedy",
   "Drama",
@@ -32,6 +32,7 @@ export const UpdatePost = ({ match }) => {
   const history = useHistory();
 
   const handleForm = (event) => {
+    console.log(event.target.name, event.target.value);
     setForm({ ...form, [event.target.name]: event.target.value });
     console.log(form);
   };
@@ -61,13 +62,13 @@ export const UpdatePost = ({ match }) => {
     fetch(`/post/getpost/${match.params.postId}`)
       .then((data) => data.json())
       .then((data) => {
-        setData(data.data);
+        setData(data);
         setForm({
-          title: data.data.name,
-          synopsis: data.data.synopsis,
-          genre: data.data.genre,
+          title: data.name,
+          synopsis: data.synopsis,
+          genre: data.genre,
         });
-        console.log(data.data);
+        console.log(data);
       });
     fetch("/post/upload_tags")
       .then((res) => res.json())
@@ -79,7 +80,6 @@ export const UpdatePost = ({ match }) => {
       data={data}
       genres={genres}
       tags={tags}
-      prevTags = {data.tags}
       handleForm={handleForm}
       handleTag={handleTag}
       formSubmit={formSubmit}

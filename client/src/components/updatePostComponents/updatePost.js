@@ -49,7 +49,7 @@ export const MainPart = (props) => {
             </Form.Group>
             <Form.Group>
               <Form.Label>Tags:</Form.Label>
-              <TagsField tags={props.tags} handleTag={props.handleTag} placeholder={props.prevTags}/>
+              <TagsField tags={props.tags} handleTag={props.handleTag} placeholder={props.data.tags}/>
             </Form.Group>
             <Button variant="success" type="submit" disabled={props.load} value={props.data.postId}>
               Submit

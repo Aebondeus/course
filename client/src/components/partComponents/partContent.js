@@ -1,4 +1,5 @@
 import React from "react";
+import ReactMarkdown from "react-markdown"
 
 export const PartContent = (props) => {
     return (
@@ -7,7 +8,7 @@ export const PartContent = (props) => {
                 {props.data.name}
             </div>
             <div className="card-body">
-                {props.data.content}
+                <ReactMarkdown source={props.data.content} />
             </div>
         </div>
     )

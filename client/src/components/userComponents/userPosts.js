@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Spinner } from "react-bootstrap";
 import { authContext } from "../../context/authContext";
 import { useLoad } from "../../hooks/loadHook.js";
 
@@ -17,8 +17,6 @@ export const UserPosts = (props) => {
 
   const deletePost = async (event) => {
     event.preventDefault();
-    console.log(props.data[0].author);
-    console.log(event.target.disabled);
     await request(`/post/deletepost/`, "POST", { postId: event.target.value });
     history.push(`/user/${props.data[0].author}`);
   };
@@ -34,7 +32,7 @@ export const UserPosts = (props) => {
       </div>
       <Card>
         <Card.Body>
-          {props.data.length > 0 ? (
+          {!!props.data ? props.data.length > 0 ? (
             props.data.map((post, idx) => {
               return (
                 <Card key={idx}>
@@ -54,14 +52,14 @@ export const UserPosts = (props) => {
                     <Card.Footer>
                       <Button value={post._id}
                       variant="primary"
-                      className="change-post update-post"
+                      className="change-btn update-btn"
                       onClick={updatePost}>
                         Update post
                       </Button>
                       <Button
                         value={post._id}
                         variant="danger"
-                        className="change-post delete-post"
+                        className="change-btn delete-btn"
                         onClick={deletePost}
                       >
                         Delete post
@@ -77,7 +75,8 @@ export const UserPosts = (props) => {
                 Here could be the author posts...
               </div>
             </Card.Text>
-          )}
+          ) : <div className="loader text-center"><Spinner animation="border" role="status" /></div>}
+          {}
         </Card.Body>
       </Card>
     </div>

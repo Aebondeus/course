@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {MostRated} from "../components/mainComponents/mostRated.js";
-import {LastUpdated} from "../components/mainComponents/lastUpdated.js";
+import { MostRated } from "../components/mainComponents/mostRated.js";
+import { LastUpdated } from "../components/mainComponents/lastUpdated.js";
+import {FormattedMessage} from "react-intl";
+import { Cloud } from "../components/mainComponents/tagCloud.js";
 
-export const MainPage = ({match}) => {
+export const MainPage = ({ match }) => {
   const [lastData, setLast] = useState([]);
   const [ratedData, setRated] = useState([]);
 
@@ -26,6 +28,9 @@ export const MainPage = ({match}) => {
     getData();
   }, [match]);
 
+  const mockEvent = (event) => {
+    console.log("something");
+  };
   // main-content, extra-part - side components
   return (
     <div className="main-content">
@@ -34,24 +39,10 @@ export const MainPage = ({match}) => {
         <LastUpdated posts={lastData} />
       </div>
       <div className="extra-part">
-        <div className="ft-search">
-          <div className="card">
-            <div className="card-body">
-              <div className="card-title">Search</div>
-              <form>
-                <input></input>
-                <button style={{ marginLeft: "6px" }}>Submit</button>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div className="card" style={{ marginTop: "1rem" }}>
+        <div className="card">
           <div className="card-body">
-            <h5 className="card-title">Tag cloud</h5>
-            <h6 className="card-subtitle mb-2 text-muted">
-              Here will be tag cloud
-            </h6>
-            <p className="card-text">Tag Tag Tag Tag Tag</p>
+            <h5 className="card-title"><FormattedMessage id="tag-cloud"/></h5>
+            <Cloud />
           </div>
         </div>
       </div>

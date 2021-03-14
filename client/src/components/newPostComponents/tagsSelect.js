@@ -7,7 +7,13 @@ export const TagsField = (props) => {
       isMulti={true}
       options={props.tags}
       onChange={props.handleTag}
-      placeholder={props.placeholder ? props.placeholder.map(tag => {return `${tag.label}, `}) : "Select bastard..."}
+      placeholder={
+        !!props.placeholder
+          ? props.placeholder.map((tag) => {
+              return `${tag.label}, `;
+            })
+          : "Select bastard..."
+      }
     />
   );
 };

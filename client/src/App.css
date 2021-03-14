@@ -1,21 +1,5 @@
 @import './normalize.css';
 
-.header{
-  display: flex;
-  justify-content: space-between;
-}
-
-.header-logo{
-  display: block;
-  font-weight: 700;
-  font-size: 5rem;
-}
-
-.header-app{
-  display:block;
-  margin: auto .5rem;
-}
-
 ul > .btn{
   display: block;
 }
@@ -63,15 +47,15 @@ ul > .btn{
   content: "\274c ";
 }
 
-.change-post{
+.change-btn{
   margin-right: 1rem;
 }
 
-.delete-post{
+.delete-btn{
   color:white;
 }
 
-.posts-abscence {
+.posts-abscence, .parts-abscence {
   font-weight: 700;
   font-size: 2rem;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { MainPart } from "../components/newPostComponents/mainPart";
+import { MainPart } from "../components/newPostComponents/newPost.js";
 import { useHistory } from "react-router-dom";
 import {useLoad} from "../hooks/loadHook.js";
 import { authContext } from "../context/authContext";

@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import User from "../models/User.js";
 import Post from "../models/Post.js";
 import Tag from "../models/Tag.js";
@@ -9,6 +8,7 @@ import Comment from "../models/Comment.js";
 const router = express.Router();
 
 const medium = (arr) => {
+  console.log(arr);
   const res = arr.reduce((prev, cur) => {
     return prev + cur;
   });
@@ -151,23 +151,17 @@ router.use("/newpost", (req, res) => {
 });
 
 router.use("/newpart", async (req, res) => {
+  console.log("Create new part!")
   const { postId, part } = req.body;
-  Post.findById(postId, (err, post) => {
-    if (err) {
-      return res.status(400).json({ msg: "Post nor found" });
-    }
-    const data = new Part({
-      name: part.name,
-      date: new Date(),
-      content: part.content,
-      post: postId,
-    });
-    data.save();
-    post.parts.push(data);
-    post.save();
-    return res.status(200).json({ msg: "Part was added" });
+  const data = await new Part({
+    name: part.name,
+    date: new Date(),
+    content: part.content,
+    post: postId,
+  }).save();
+  await Post.findByIdAndUpdate(postId, {$push:{parts:data}}).exec();
+  return res.status(200).json({ msg: "Part was added" });
   });
-});
 
 router.use("/getpost/:postId", async (req, res) => {
   try {
@@ -177,13 +171,16 @@ router.use("/getpost/:postId", async (req, res) => {
       .populate("tags")
       .exec((err, doc) => {
         const data = {
+          id: doc._id,
+          author: doc.author,
           name: doc.name,
           synopsis: doc.synopsis,
           genre: doc.genre,
+          rating: !!doc.rating.length ? medium(Object.values(doc.rating)) : 0,
           tags: prettifyTags(doc.tags),
           parts: prettifyParts(doc.parts),
         };
-        return res.status(200).json({ postId, data });
+        return res.status(200).json(data);
       });
   } catch (e) {
     return res.status(500).json({ msg: "Server error in getpost" });
@@ -278,14 +275,8 @@ router.use("/deletepost", async (req, res) => {
 
 router.use("/deletepart", async (req, res) => {
   const { partId } = req.body;
-  await Part.findById(partId, (err, part) => {
-    Post.findById(part.post, (err, post) => {
-      post.parts.splice(post.parts.indexOf(part), 1);
-      post.save();
-    });
-  });
-  Part.findByIdAndDelete(partId, (err, part) => {
-    return res.status(200).json({ msg: "Part was deleted" });
+  await Part.findByIdAndDelete(partId, (err, part) => {
+    Post.findByIdAndUpdate(part.post, {$pull:{parts:partId}}).exec();
   });
 });
 
@@ -313,30 +304,12 @@ router.use("/add_comm", (req, res) => {
 });
 
 // probably will work with ajax
-router.use("/rate", (req, res) => {
-  const { postId, rate } = req.body;
-  Post.findById(postId, (err, post) => {
-    if (err) {
-      throw err;
-    }
-    if (!!rate) {
-      post.rating.push(Number(rate));
-      post.save();
-      return res.status(200).json({ msg: "You rated this post!" });
-    }
-    return res.status(200).json({ rating: medium(post.rating) });
-  });
-});
+router.use("/rate", async (req, res) => {
+  const { postId, userId, rate } = req.body;
+  await Post.findByIdAndUpdate(postId, {$set:{rating:{[userId]:rate}}}).exec();
+  return res.status(200).json({msg:"Rating added"})
+})
 
-router.use("/add_tag", (req, res) => {
-  const { label } = req.body;
-  const data = new Tag({
-    label: label,
-    value: label.toLowerCase(),
-  });
-  data.save();
-  return res.status(200).json({ msg: "Tag was added" });
-});
 
 router.use("/upload_tags", (req, res) => {
   Tag.find({}, (err, tags) => {
@@ -346,18 +319,3 @@ router.use("/upload_tags", (req, res) => {
 
 const postRouter = router;
 export default postRouter;
-
-// Comment.findByIdAndDelete(comment).exec(async (err, doc) => {
-//   let comments = null;
-//   const data = await User.findById(doc.author)
-//     .exec()
-//     .then((data) => (comments = data.comments));
-//   await comments.splice(comments.indexOf(comment));
-//   await User.findByIdAndUpdate(
-//     doc.author,
-//     { comments: comments },
-//     { new: true }
-//   )
-//     .exec()
-//     .then((data) => console.log(`Hey look at this shit ${data}`));
-// });

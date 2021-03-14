@@ -5,7 +5,7 @@ import { authContext } from "../context/authContext";
 import {Button} from "react-bootstrap";
 
 export const UserPage = ({ match }) => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
   const [comments, setComments] = useState([]);
   const [time, setTime] = useState(true);
   const context = useContext(authContext);

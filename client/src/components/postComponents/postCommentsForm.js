@@ -3,10 +3,11 @@ import { Form, Button, Toast } from "react-bootstrap";
 import { useLoad } from "../../hooks/loadHook";
 import { useForm } from "react-hook-form";
 import { authContext } from "../../context/authContext";
+import {FormattedMessage} from "react-intl";
 
 const registerOptions = {
   content: {
-    required: "This field is required!",
+    required: <FormattedMessage id="comments-form.error"/>,
   },
 };
 
@@ -33,20 +34,19 @@ export const PostCommentsForm = (props) => {
   return (
     <div className="comment-form-part">
       <div className="title-area text-center">
-        <h2 style={{ marginTop: "2rem" }}>Comments</h2>
       </div>
       <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
         <Toast.Header>
-          <strong className="mr-auto">Comment was sent!</strong>
+          <strong className="mr-auto"><FormattedMessage id="comments-form.sent.header"/></strong>
         </Toast.Header>
         <Toast.Body>
-          It will appear in some seconds... Maybe even earlier!
+          <FormattedMessage id="comments-form.sent.body"/>
         </Toast.Body>
       </Toast>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Form.Group>
           <div name="comment-area">
-            Did you like it? Did you hate it? Leave a comment here!
+            <FormattedMessage id="comments-form.sign" />
           </div>
           <Form.Control
             id="comment"
@@ -66,7 +66,7 @@ export const PostCommentsForm = (props) => {
           disabled={load}
           onClick={handleSubmit}
         >
-          Send it!
+          <FormattedMessage id="comments-form.send" />
         </Button>
       </Form>
     </div>

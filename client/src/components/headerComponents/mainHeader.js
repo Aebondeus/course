@@ -1,50 +1,34 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { AuthButton } from "./authModal";
-import { useContext } from "react";
-import { authContext } from "../../context/authContext";
-import { Button } from "react-bootstrap";
+import { Button, Navbar, Form } from "react-bootstrap";
+import {Link} from "react-router-dom";
+import {FormattedMessage} from "react-intl";
+import {AuthWrapper} from "./authWrapper.js"
+import {UiSwitch} from "./uiSwitchers.js"
+import './header.css'
+export const MainHeader = ({setLang}) => {
 
-export const MainHeader = () => {
-  const context = useContext(authContext);
   return (
-    <div className="header">
-      <div className="header-logo">
+    <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+      <Navbar.Brand className="header-logo">
         <Link to="/" style={{ color: "black", textDecoration: "none" }}>
           MORDOR
         </Link>
-      </div>
-      <div className="header-app">
-        <ul style={{ marginTop: "5px" }}>
-          <li className="btn header-lang">En/Ru</li>
-          <li className="btn header-theme">Dark/Light</li>
-          <li className="btn btn-header">
-            {context.id ? (
-              <span>
-                <Link
-                  to={`/user/${context.id}`}
-                  className="btn"
-                  style={{ transition: "none" }}
-                >
-                  {context.nickname}
-                </Link>
-                /
-                <span>
-                  <Button
-                    variant="link"
-                    onClick={context.logout}
-                    style={{ color: "black", textDecoration: "none" }}
-                  >
-                    Выйти
-                  </Button>
-                </span>
-              </span>
-            ) : (
-              <AuthButton />
-            )}
-          </li>
-        </ul>
-      </div>
-    </div>
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="controlled-header" />
+      <Navbar.Collapse id="controlled-header">
+        <Form inline>
+          <Form.Control
+            type="text"
+            className="search-tab ml-lg-2 mr-sm-2 mt-sm-2"
+          />
+          <Button variant="outline-success" className="mt-sm-2">
+           <FormattedMessage id="navbar-search"/>
+          </Button>
+        </Form>
+        <UiSwitch setLang={setLang} />
+        <div id="mock"></div>
+        <AuthWrapper />
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
