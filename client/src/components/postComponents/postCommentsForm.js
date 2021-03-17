@@ -21,7 +21,6 @@ export const PostCommentsForm = (props) => {
     try {
       data.author = context.id;
       const comment = { postId: props.data, comment: data };
-      console.log(comment);
       await request("/post/add_comm", "PUT", comment);
       e.target.reset();
       setShow(true);

@@ -1,11 +1,37 @@
-import React from "react";
+import React, {useEffect, useContext} from "react";
 import { Button, Navbar, Form } from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {FormattedMessage} from "react-intl";
 import {AuthWrapper} from "./authWrapper.js"
 import {UiSwitch} from "./uiSwitchers.js"
+import { authContext } from "../../context/authContext.js";
 import './header.css'
+
+
 export const MainHeader = ({setLang}) => {
+  const context = useContext(authContext);
+
+  useEffect(() => {
+    fetch("/oauth/login/success", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+      },
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        }
+      })
+      .then((res) => {
+        console.log(res.user);
+        context.login(res.user.jwtToken, res.user.userId, res.user.nickname);
+      });
+  }, []);
+
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="light" variant="light">

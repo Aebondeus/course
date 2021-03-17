@@ -16,6 +16,7 @@ export const useAuth = () => {
         setToken(null);
         setId(null);
         localStorage.removeItem(storage);
+        fetch('/oauth/logout');
     })
 
     useEffect(() =>{

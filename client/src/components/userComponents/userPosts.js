@@ -1,24 +1,20 @@
 import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Card, Spinner } from "react-bootstrap";
+import {FormattedMessage} from "react-intl";
 import { authContext } from "../../context/authContext";
 import { useLoad } from "../../hooks/loadHook.js";
 
-export const UserPosts = (props) => {
+export const UserPosts = ({posts}) => {
   const { request, load } = useLoad();
   const context = useContext(authContext);
-  const medium = (arr) => {
-    let data = arr.reduce((prev, cur) => {
-      return prev + cur;
-    });
-    return (data / arr.length).toFixed(1);
-  };
   const history = useHistory();
 
   const deletePost = async (event) => {
+    event.target.disabled = load;
     event.preventDefault();
     await request(`/post/deletepost/`, "POST", { postId: event.target.value });
-    history.push(`/user/${props.data[0].author}`);
+    history.push(`/user/${posts[0].author}`);
   };
 
   const updatePost = async(event) => {
@@ -26,22 +22,24 @@ export const UserPosts = (props) => {
   }
 
   return (
-    <div className="userposts-wrapper">
-      <div className="title" style={{ marginTop: ".5rem" }}>
-        <h2>User posts</h2>
-      </div>
+    <div className="userposts-wrapper" >
       <Card>
         <Card.Body>
-          {!!props.data ? props.data.length > 0 ? (
-            props.data.map((post, idx) => {
+          {!!posts ? posts.length > 0 ? (
+            posts.map((post, idx) => {
               return (
                 <Card key={idx}>
                   <Card.Body>
                     <Card.Title className="post-title">{post.name}</Card.Title>
                     <Card.Text>
-                      <div className="post-synopsis">{post.synopsis}</div>
+                      <div className="post-synopsis">
+                        <FormattedMessage id="synopsis" />: {post.synopsis}
+                      </div>
                       <div className="post-rating">
-                        {post.rating.length > 0 ? medium(post.rating) : 0}
+                        <FormattedMessage id="rating" />: {post.ratingTotal}
+                      </div>
+                      <div className="post-date">
+                        <FormattedMessage id="updated" />: {post.updated}
                       </div>
                       <div className="post-link">
                         <Link to={`/post/${post._id}`}>Просмотреть пост</Link>
@@ -50,10 +48,12 @@ export const UserPosts = (props) => {
                   </Card.Body>
                   {post.author === context.id ? (
                     <Card.Footer>
-                      <Button value={post._id}
-                      variant="primary"
-                      className="change-btn update-btn"
-                      onClick={updatePost}>
+                      <Button
+                        value={post._id}
+                        variant="primary"
+                        className="change-btn update-btn"
+                        onClick={updatePost}
+                      >
                         Update post
                       </Button>
                       <Button

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
-import { PostsResult } from "../components/searchComponents/postsResult";
+import {GenericPost} from "../components/commonComponents/mainPost.js"
 
 export const SearchByTag = ({ match }) => {
   const [posts, setPosts] = useState(null);
@@ -25,9 +25,7 @@ export const SearchByTag = ({ match }) => {
         !!posts.length ? (
           <Card>
             <Card.Body>
-              {posts.map((post) => {
-                return <PostsResult data={post} />;
-              })}
+              <GenericPost posts={posts} style={{ marginBottom: "1rem" }} />
             </Card.Body>
           </Card>
         ) : (

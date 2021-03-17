@@ -8,6 +8,7 @@ import { authContext } from "../context/authContext";
 
 export const PostPage = ({ match }) => {
   const [postData, setData] = useState(null);
+  const [raters, setRaters] = useState([]);
   const [comments, setComments] = useState(null);
   const [time, setTime] = useState([true]);
   const context = useContext(authContext);
@@ -16,7 +17,17 @@ export const PostPage = ({ match }) => {
     fetch(`/post/getpost/${match.params.postId}`)
       .then((res) => res.json())
       .then((data) => {
-        setData(data);
+        setData({
+          id:data.id,
+          name:data.name,
+          synopsis:data.synopsis,
+          genre:data.genre,
+          tags:data.tags,
+          author:data.author,
+          parts:data.parts,
+          rating: data.rating
+        });
+        setRaters(data.raters);
       });
     fetch(`/post/upload_comm/${match.params.postId}`)
       .then((res) => res.json())
@@ -46,7 +57,7 @@ export const PostPage = ({ match }) => {
       <h1>
         <FormattedMessage id="post-page" />
       </h1>
-      <PostInfo data={postData} />
+      <PostInfo data={postData} raters={raters} />
       <div className="title-area text-center">
         <h2 style={{ marginTop: "2rem" }}>
           <FormattedMessage id="content-title" />

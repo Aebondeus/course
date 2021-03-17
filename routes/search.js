@@ -1,15 +1,8 @@
 import express from "express";
-import mongoose from "mongoose";
 import Post from "../models/Post.js";
 import Tag from "../models/Tag.js";
 const router = express.Router();
 
-const medium = (arr) => {
-    const res = arr.reduce((prev, cur) => {
-      return prev + cur;
-    });
-    return (res / arr.length).toFixed(1);
-  };
 
 const prettifyPost = (post) => {
     const data = {
@@ -17,7 +10,7 @@ const prettifyPost = (post) => {
       synopsis: post.synopsis,
       id: post._id,
       genre: post.genre,
-      rating: !!post.rating.length ? medium(post.rating) : 0,
+      rating: post.ratingTotal,
       updated:post.updated
     };
     return data;

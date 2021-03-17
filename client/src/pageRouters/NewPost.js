@@ -46,7 +46,7 @@ export const NewPost = () => {
   };
   const formSubmit = async (event) => {
     event.preventDefault();
-    const data = await request("/post/newpost", "POST", {form, author:context.id, tags:chosenTags});
+    await request("/post/newpost", "POST", {form, author:context.id, tags:chosenTags});
     history.push(`/user/${context.id}`)
 
   }

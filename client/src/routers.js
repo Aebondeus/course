@@ -10,6 +10,7 @@ import { SearchByTag } from "./pageRouters/searchTag.js";
 import { UpdatePart } from "./pageRouters/UpdatePart.js";
 import { UpdatePost } from "./pageRouters/UpdatePost.js";
 import { UserPage } from "./pageRouters/UserPage.js";
+// import {Test} from "./pageRouters/Test.js"
 
 export const Routes = (token, id) => {
     return (
@@ -24,8 +25,7 @@ export const Routes = (token, id) => {
             <Route path="/createpart/:postId" component={NewPart} />
             <Route path="/updatepart/:postId/:partId" component={UpdatePart} exact />
             <Route path="/searchByTag/:tagLabel" component={SearchByTag} exact />
-            {/* <Route path="/user/:userId/comments" component ={} />
-             */}
+            {/* <Route path="/test" component={Test} exsct /> */}
             <Redirect to="/" />
         </Switch>
     )

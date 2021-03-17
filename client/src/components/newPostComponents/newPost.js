@@ -29,7 +29,7 @@ export const MainPart = (props) => {
               <div className="genres">
                 {props.genres.map((genre) => {
                   return (
-                    <Form.Check
+                    <Form.Check // change to another select
                       inline
                       type="radio"
                       label={genre}

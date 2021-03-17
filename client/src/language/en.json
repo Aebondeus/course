@@ -37,5 +37,19 @@
     "comments-form.sent.header":"Comment was sent!",
     "comments-form.sent.body":"It will appear in some seconds... Maybe even earlier!",
     "comments-title":"Comments",
-    "comments-abscence":"Wow... such empy here..."
+    "comments-abscence":"Wow... such empy here...",
+    "post-rate-success.header":"Post rated!",
+    "post-rate-success.body":"You rated this post! Thank you!",
+    "post-rate-error.header":"Already rated!",
+    "post-rate-error.body":"You've already rate this post!",
+    "user-posts.sort-title":"Sort posts by",
+    "user-posts.sort-name-asc":"by name (asc)",
+    "user-posts.sort-name-desc":"by name (desc)",
+    "user-posts.sort-date-asc":"by date (asc)",
+    "user-posts.sort-date-desc":"by date (desc)",
+    "user-posts.sort-length-asc":"by parts length (asc)",
+    "user-posts.sort-length-desc":"by parts length (desc)",
+    "user-posts.sort-rating-asc":"by rating (asc)",
+    "user-posts.sort-rating-desc":"by rating (desc)"
+
 }

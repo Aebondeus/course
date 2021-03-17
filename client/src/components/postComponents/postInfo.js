@@ -1,37 +1,69 @@
-import React from "react";
-import {Button, Spinner} from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom"; // will be used for tags
-import {FormattedMessage} from "react-intl";
+import React, { useContext, useState } from "react";
+import ReactStars from "react-stars";
+import { Button, Spinner, Toast } from "react-bootstrap";
+import { useHistory } from "react-router-dom"; // will be used for tags
+import { FormattedMessage } from "react-intl";
+import { authContext } from "../../context/authContext";
+import { useLoad } from "../../hooks/loadHook.js";
 
-export const PostInfo = (props) => {
-
+export const PostInfo = ({ data, raters }) => {
+  const [showSuccess, setSuccess] = useState(false);
+  const [showError, setError] = useState(false);
+  const { request } = useLoad();
   const history = useHistory();
+  const context = useContext(authContext);
+
   const tagSearch = (event) => {
     event.preventDefault();
-    history.push(`/searchByTag/${event.target.name}`)
-  }
+    history.push(`/searchByTag/${event.target.name}`);
+  };
 
-  if (!!props.data){
+  const styleToast = {
+    width: "250px",
+  };
+
+  const rateSent = async (event) => {
+    if (raters.includes(context.id)) {
+      setError(true);
+    } else {
+      await request("/post/rate", "PUT", {
+        postId: data.id,
+        userId: context.id,
+        rate: event,
+      });
+      setSuccess(true);
+    }
+  };
+
+  const stars = {
+    count: 5,
+    size: 24,
+    activeColor: "#ffd700",
+    value: !!data ? data.rating : 0,
+    onChange: rateSent,
+  };
+
+  if (!!data) {
     return (
       <div className="post-info">
         <div className="card">
-          <div className="card-header post-title">{props.data.name}</div>
+          <div className="card-header post-title">{data.name}</div>
           <div className="card-body">
             <div className="post-synopsis">
               <div>
-                <FormattedMessage id="synopsis" />: {props.data.synopsis}
+                <FormattedMessage id="synopsis" />: {data.synopsis}
               </div>
             </div>
             <div className="post-genre">
               <div>
-                <FormattedMessage id="genre" />: {props.data.genre}
+                <FormattedMessage id="genre" />: {data.genre}
               </div>
             </div>
             <div className="post-tags">
               <div>
                 <FormattedMessage id="tags" />:{" "}
-                {!!props.data.tags.length ? (
-                  props.data.tags.map((tag) => {
+                {!!data.tags.length ? (
+                  data.tags.map((tag) => {
                     return (
                       <Button
                         style={{ marginRight: ".4rem" }}
@@ -48,13 +80,43 @@ export const PostInfo = (props) => {
                 )}
               </div>
             </div>
-            <div><FormattedMessage id="rating"/>: {props.data.rating}</div>
+            <div>
+              <FormattedMessage id="rating" />: {data.rating}
+            </div>
+            {!!context.id ? <ReactStars {...stars} /> : null}
+            <Toast
+              onClose={() => setSuccess(false)}
+              show={showSuccess}
+              delay={3000}
+              autohide
+              style={styleToast}
+            >
+              <Toast.Header>
+                <strong><FormattedMessage id="post-rate-success.header"/></strong>
+              </Toast.Header>
+              <Toast.Body><FormattedMessage id="post-rate-success.body"/></Toast.Body>
+            </Toast>
+            <Toast
+              onClose={() => setError(false)}
+              show={showError}
+              delay={3000}
+              autohide
+              style={styleToast}
+            >
+              <Toast.Header>
+                <strong><FormattedMessage id="post-rate-error.header"/></strong>
+              </Toast.Header>
+              <Toast.Body><FormattedMessage id="post-rate-error.body"/></Toast.Body>
+            </Toast>
           </div>
         </div>
       </div>
     );
   } else {
-    return (<div className="loader text-center"><Spinner animation="border" role="status" /></div>)
+    return (
+      <div className="loader text-center">
+        <Spinner animation="border" role="status" />
+      </div>
+    );
   }
-  
 };

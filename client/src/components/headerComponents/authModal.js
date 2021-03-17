@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useLoad } from "../../hooks/loadHook.js";
 import {useContext} from "react";
 import { authContext } from "../../context/authContext.js";
+import {OauthComponent} from "./oauthComponent.js"
 
 const registerOptions = {
   login: {
@@ -21,8 +22,8 @@ export const AuthButton = () => {
   const { register, errors, handleSubmit } = useForm();
   const { load, request, error, clearError } = useLoad();
   const context = useContext(authContext);
-
   const history = useHistory();
+  
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
   const handleRegister = () => {
@@ -32,9 +33,8 @@ export const AuthButton = () => {
   const onSubmit = async (data) => {
     try {
       clearError();
-      const result = await request("/auth/login", "POST", data);
-      console.log(result.userId, result.token);
-      context.login(result.token, result.userId, result.nickname);
+      const res = await request("/auth/login", "POST", data);
+      context.login(res.token, res.userId, res.nickname);
       setShow(false);
     } catch (err) {
       console.log(err.message);
@@ -88,6 +88,7 @@ export const AuthButton = () => {
             <Button variant="link" onClick={handleRegister}>
             <FormattedMessage id="modal-register-btn"/>
             </Button>
+            <OauthComponent/>
           </Form>
         </Modal.Body>
       </Modal>

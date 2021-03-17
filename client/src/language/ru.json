@@ -37,5 +37,18 @@
     "comments-form.sent.header":"Комментарий был отправлен!",
     "comments-form.sent.body":"Он появится спустя пару секунд... Может даже раньше!",
     "comments-title":"Комментарии",
-    "comments-abscence":"Ого.. как тут пусто..."
+    "comments-abscence":"Ого.. как тут пусто...",
+    "post-rate-success.header":"Пост оценен!",
+    "post-rate-success.body":"Вы оценили пост! Спасибо!",
+    "post-rate-error.header":"Уже оценили!",
+    "post-rate-error.body":"Вы уже оценивали этот пост!",
+    "user-posts.sort-title":"Сортировать посты по",
+    "user-posts.sort-name-asc":"По названию (возр.)",
+    "user-posts.sort-name-desc":"По названию (убыв.)",
+    "user-posts.sort-date-asc":"По дате (возр.)",
+    "user-posts.sort-date-desc":"По дате (убыв.)",
+    "user-posts.sort-length-asc":"По количеству глав (возр.)",
+    "user-posts.sort-length-desc":"По количеству глав (убыв.)",
+    "user-posts.sort-rating-asc":"По рейтингу (возр.)",
+    "user-posts.sort-rating-desc":"По рейтингу (убыв.)"
 }

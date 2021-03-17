@@ -8,12 +8,25 @@ import Comment from "../models/Comment.js";
 const router = express.Router();
 
 const medium = (arr) => {
-  console.log(arr);
-  const res = arr.reduce((prev, cur) => {
+  let data = arr.reduce((prev, cur) => {
     return prev + cur;
   });
-  return (res / arr.length).toFixed(1);
+  return parseFloat((data / arr.length).toFixed(1));
 };
+
+const getRating = (arr) =>{
+  const rating = arr.reduce((prev, cur) => {
+    return prev.concat(Object.values(cur));
+  }, [])
+  return rating;
+}
+
+const getRaters = (arr) => {
+  const raters = arr.reduce((prev, cur) => {
+    return prev.concat(Object.keys(cur));
+  }, [])
+  return raters;
+}
 
 const boundPost = async (author, post) => {
   await User.findByIdAndUpdate(author, { $push: { posts: post } }).exec();
@@ -131,6 +144,7 @@ router.use("/newpost", (req, res) => {
       parts: [],
       comments: [],
       rating: [],
+      ratingTotal:0,
       updated: new Date(),
     });
 
@@ -171,12 +185,13 @@ router.use("/getpost/:postId", async (req, res) => {
       .populate("tags")
       .exec((err, doc) => {
         const data = {
-          id: doc._id,
+          id: doc.id,
           author: doc.author,
           name: doc.name,
           synopsis: doc.synopsis,
           genre: doc.genre,
-          rating: !!doc.rating.length ? medium(Object.values(doc.rating)) : 0,
+          rating:doc.ratingTotal,
+          raters: !!doc.rating.length ? getRaters(doc.rating) : [],
           tags: prettifyTags(doc.tags),
           parts: prettifyParts(doc.parts),
         };
@@ -290,23 +305,19 @@ router.use("/upload_comm/:postId", (req, res) => {
     });
 });
 
-router.use("/add_comm", (req, res) => {
+router.use("/add_comm", async (req, res) => {
   const { postId, comment } = req.body;
-  Post.findById(postId, (err, post) => {
-    if (err) {
-      throw err;
-    }
-    let data = createComment(postId, comment);
-    post.comments.push(data);
-    post.save();
-    return res.status(200).json({ msg: "Comment was added" });
+  let data = createComment(postId, comment);
+  await Post.findByIdAndUpdate(postId, {$push:{comments:data}}).exec();
+  return res.status(200).json({ msg: "Comment was added" });
   });
-});
 
-// probably will work with ajax
 router.use("/rate", async (req, res) => {
   const { postId, userId, rate } = req.body;
-  await Post.findByIdAndUpdate(postId, {$set:{rating:{[userId]:rate}}}).exec();
+  Post.findByIdAndUpdate(postId, {$push:{rating:{[userId]:rate}}}, {new:true}).exec((err, doc) => {
+    doc.ratingTotal = medium(getRating(doc.rating));
+    doc.save();
+  });
   return res.status(200).json({msg:"Rating added"})
 })
 

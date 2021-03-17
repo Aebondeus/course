@@ -5,7 +5,6 @@ import { authContext } from "../../context/authContext.js";
 import {useLoad} from "../../hooks/loadHook.js";
 
 export const Parts = ({part, data, idx}) => {
-    console.log(part, data, idx)
     const context = useContext(authContext);
     const history = useHistory();
     const {request, load} = useLoad();

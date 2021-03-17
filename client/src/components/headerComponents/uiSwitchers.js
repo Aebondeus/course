@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react"; // fro switching
+import React, { useState, useCallback } from "react"; // fro switching
 import { Nav } from "react-bootstrap";
 import Grid from "@material-ui/core/Grid";
 import Switch from "@material-ui/core/Switch";
@@ -6,12 +6,14 @@ import locales from "../../language/locales.js";
 import {FormattedMessage} from "react-intl";
 
 export const UiSwitch = ({setLang}) => {
+  const [switchState, setSwitch] = useState(localStorage.getItem("lang") === locales.EN);
   const updateLang = useCallback((event) => {
-    console.log()
     if (event.target.checked){
-      setLang(locales.EN); localStorage.setItem("lang", locales.EN)
+      setLang(locales.EN); localStorage.setItem("lang", locales.EN);
+      setSwitch(true);
     } else {
       setLang(locales.RU);
+      setSwitch(false);
       localStorage.setItem("lang", locales.RU)
     } 
   })
@@ -21,7 +23,7 @@ export const UiSwitch = ({setLang}) => {
         <Grid component="label" container alignItems="center">
           <Grid item><FormattedMessage id="navbar-lang.ru"/></Grid>
           <Grid item>
-            <Switch onChange={updateLang}/> {/* checkbox doesnt save checked try to fix it */}
+            <Switch onClick={updateLang} checked={switchState} color="default"/>
           </Grid>
           <Grid item><FormattedMessage id="navbar-lang.en"/></Grid>
         </Grid>

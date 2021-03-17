@@ -41,7 +41,7 @@ export const MainPage = ({ match }) => {
       <div className="extra-part">
         <div className="card">
           <div className="card-body">
-            <h5 className="card-title"><FormattedMessage id="tag-cloud"/></h5>
+            <h5 className="card-title text-center"><FormattedMessage id="tag-cloud"/></h5>
             <Cloud />
           </div>
         </div>
