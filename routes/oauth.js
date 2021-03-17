@@ -2,8 +2,10 @@ import express from "express";
 import passport from "passport";
 import User from "../models/User.js";
 import passportFacebook from "passport-facebook";
+import passportVkontakte from "passport-vkontakte";
 import config from "../config.js"
 
+const VkontakteStrategy = passportVkontakte.Strategy;
 const FaceBookStrategy = passportFacebook.Strategy;
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -24,6 +26,7 @@ passport.use(
       const data = User.findOrCreate({
         facebookId: profile.id,
         nickName: profile.displayName,
+        login:profile.displayName.toLowerCase()
       }).then((res) => {
         let user = {
           jwtToken: accessToken,
@@ -35,6 +38,31 @@ passport.use(
     }
   )
 );
+
+passport.use(new VkontakteStrategy(
+  {
+    clientID: config.CLIENT_ID_VK,
+    clientSecret: config.CLIENT_SECRET_VK,
+    callbackURL: "/oauth/auth/vkontakte/mordorcourse"
+  },
+  function (accessToken, refreshToken, params, profile, cb) {
+    console.log(profile, accessToken)
+    User.findOrCreate({
+      vkId: profile.id,
+      nickName: profile.displayName,
+      login: profile.displayName.toLowerCase(),
+    })
+      .then((res) => {
+        let user = {
+          jwtToken: accessToken,
+          userId: res.doc._id,
+          nickname: profile.displayName,
+        };
+        cb(null, user);
+      })
+      .catch(cb);
+  }
+));
 
 const router = express.Router();
 
@@ -65,14 +93,22 @@ router.get("/logout", (req, res) => {
   res.redirect(CLIENT_HOME_PAGE);
 })
 
-router.get('/auth/facebook',
-  passport.authenticate('facebook'));
+router.get("/auth/facebook", passport.authenticate("facebook"));
+router.get("/auth/vkontakte", passport.authenticate("vkontakte")); 
 
 router.get(
   "/auth/facebook/testapp",
   passport.authenticate("facebook", {
+    successRedirect: CLIENT_HOME_PAGE,
     failureRedirect: "/oauth/login/failed",
-    successRedirect:CLIENT_HOME_PAGE}),
-  )
+  })
+);
 
+router.get(
+  "/auth/vkontakte/mordorcourse",
+  passport.authenticate("vkontakte", {
+    successRedirect: CLIENT_HOME_PAGE,
+    failureRedirect: "/oauth/login/failed",
+  })
+);
 export const oauthRouter = router;
