@@ -5,6 +5,7 @@ const partSchema = new Schema({
     name:{type:String},
     date:{type:Date},
     content:{type:String},
+    image:{type:String, default:''},
     post:{type:Schema.Types.ObjectId, ref:'Post'},
 })
 

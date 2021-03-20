@@ -29,15 +29,15 @@ export const NewPost = () => {
   });
   const [tags, setTags] = useState([]);
   const [chosenTags, setChosen] = useState([]);
+  const [tagsValue, setValue] = useState(null);
   const {load, request} = useLoad();
 
   const handleForm = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
-    console.log(form);
   };
 
   const handleTag = (event) => {
-    console.log(event);
+    setValue(event);
     setChosen(
       event.map((e) => {
         return e.label;
@@ -65,6 +65,7 @@ export const NewPost = () => {
       handleTag={handleTag}
       formSubmit ={formSubmit}
       load={load}
+      value={tagsValue}
     />
   );
 };

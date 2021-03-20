@@ -15,6 +15,7 @@ export const useAuth = () => {
     const logout = useCallback(() => {
         setToken(null);
         setId(null);
+        setNickname(null);
         localStorage.removeItem(storage);
         fetch('/oauth/logout');
     })

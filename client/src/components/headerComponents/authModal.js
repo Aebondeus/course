@@ -9,8 +9,8 @@ import { authContext } from "../../context/authContext.js";
 import {OauthComponent} from "./oauthComponent.js"
 
 const registerOptions = {
-  login: {
-    required: <FormattedMessage id="modal-login-error"/>,
+  email: {
+    required: <FormattedMessage id="modal-email-error"/>,
   },
   password: {
     required: <FormattedMessage id="modal-password-error"/>,
@@ -55,16 +55,16 @@ export const AuthButton = () => {
         {error ? <div className="error-text text-center">{error}</div> : null}
           
           <Form onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group controlId="formLogin">
-              <Form.Label><FormattedMessage id="login"/></Form.Label>
+            <Form.Group controlId="formSignIn">
+              <Form.Label><FormattedMessage id="email"/></Form.Label>
               <Form.Control
-                type="login"
-                name="login"
-                ref={register(registerOptions.login)}
+                type="email"
+                name="email"
+                ref={register(registerOptions.email)}
               />
             </Form.Group>
-            {errors.login && (
-              <p className="error-text">{errors.login.message}</p>
+            {errors.email && (
+              <p className="error-text">{errors.email.message}</p>
             )}
             <Form.Group controlId="formPassword">
               <Form.Label><FormattedMessage id="password"/></Form.Label>
@@ -83,7 +83,7 @@ export const AuthButton = () => {
               type="submit"
               onClick={handleSubmit}
             >
-              <FormattedMessage id="modal-login-btn"/>
+              <FormattedMessage id="modal-signin-btn"/>
             </Button>
             <Button variant="link" onClick={handleRegister}>
             <FormattedMessage id="modal-register-btn"/>

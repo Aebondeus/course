@@ -5,6 +5,7 @@ import { UserPosts } from "../components/userComponents/userPosts";
 import { authContext } from "../context/authContext";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Sorter } from "../components/userComponents/postsSorter";
+import { UserInfo } from "../components/userComponents/aboutUser.js";
 
 export const UserPage = ({ match }) => {
   const [posts, setPosts] = useState(null);
@@ -24,20 +25,8 @@ export const UserPage = ({ match }) => {
   };
 
   useEffect(() => {
-    if (time) {
-      setTimeout(() => {
-        setTime(false);
-      }, 3000);
-    } else {
-      setTimeout(() => {
-        setTime(true);
-      }, 5000);
-    }
-  }, [time]);
-
-  useEffect(() => {
     getPosts();
-  }, [time, sort]);
+  }, [sort]);
 
   const newPost = () => {
     history.push("/createpost");
@@ -45,21 +34,24 @@ export const UserPage = ({ match }) => {
   return (
     <div>
       <Container>
-        <Row>
-          <Col lg={3}>
+        <Row style={{marginBottom:".5rem"}}>
+          <Col lg={5}>
             <h2>USER PAGE</h2>
             <div className="user-data">
-              {match.params.userId === context.id ? (
-                <Button variant="primary" onClick={newPost}>
-                  Create new post
-                </Button>
-              ) : null}
+              <div className="inline-edit-data">
+                <UserInfo userId={match.params.userId}/>
+              </div>
             </div>
           </Col>
         </Row>
         <Row>
           <Col>
           <h2>User posts</h2>
+          {match.params.userId === context.id ? (
+                <Button variant="primary" onClick={newPost}>
+                  Create new post
+                </Button>
+              ) : null}
           </Col>
         </Row>
         <Row>

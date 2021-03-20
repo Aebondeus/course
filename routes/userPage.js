@@ -19,6 +19,44 @@ router.use("/user_posts/:userId", (req, res) => {
   })
 })
 
+router.use("/get_data/:userId", async(req, res) => {
+  User.findById(req.params.userId, (err, doc) => {
+    if (err){
+      return res.status(200).json({msg:"User not found!"})
+    }
+    return res
+      .status(200)
+      .json({ nickName: doc.nickName, about: doc.about, regDate: doc.regDate });
+  })
+})
+
+router.use("/update_nickname", async (req, res) => {
+  const {id, nickname} = req.body;
+  console.log(req.body);
+  console.log("Try to change nickname")
+  await User.findByIdAndUpdate(
+    id,
+    { $set: { nickName: nickname} },
+    { new: true },
+    (err, doc) => {
+      console.log(doc);
+      return res.status(200).json({ msg: "Nickname was updated!" });
+    }
+  );
+})
+
+router.use("/update_about", async (req, res) => {
+  const {id, about} = req.body;
+  await User.findByIdAndUpdate(
+    id,
+    { $set: { about: about} },
+    { new: true },
+    (err, doc) => {
+      return res.status(200).json({ msg: "About was updated!" });
+    }
+  );
+})
+
 router.use("/sort", (req, res) => {
   const { sortMatch, sort } = req.body;
   matchConvert(sortMatch);

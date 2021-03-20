@@ -4,5 +4,13 @@
 
 .post-synopsis, .post-rating, .post-link {
     font-size: medium;
-} 
+}
+
+.edit-btn, .cancel-btn, .save-btn{
+    border:none;
+    background-color: #fff;
+    min-width: 20px;
+    padding:0.6rem;
+}
+
 /* remove it or change */

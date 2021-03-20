@@ -6,12 +6,12 @@ import {useHistory} from "react-router-dom";
 import {FormattedMessage} from "react-intl";
 
 const registerOptions = {
-  login: {
-    required: <FormattedMessage id="register-login-req-error" />,
-    minLength: {
-      value: 3,
-      message: <FormattedMessage id="register-login-len-error" />,
-    },
+  email: {
+    required: <FormattedMessage id="register-email-req-error" />,
+    pattern: {
+      value:/^.+@.+\w$/,
+      message:<FormattedMessage id="register-email-pattern-error" />
+    }
   },
   password: {
     required: <FormattedMessage id="register-password-req-error" />,
@@ -37,7 +37,7 @@ export const RegisterPage = () => {
   const onSubmit = async(data) => {
     try{
       clearError();
-      const result = await request("/auth/register", "POST", data);
+      await request("/auth/register", "POST", data);
       history.push('/');
     } catch (e) {
       console.log(e.message);
@@ -45,24 +45,34 @@ export const RegisterPage = () => {
   };
   return (
     <div className="registr-wrapper">
-      <h1><FormattedMessage id="register-page-title" /></h1>
+      <h1>
+        <FormattedMessage id="register-page-title" />
+      </h1>
 
       <div className="registr-card card">
         <div className="reg-form">
           <Form onSubmit={handleSubmit(onSubmit)}>
-            {error ? <div className="error-text text-center">{error}</div> : null}
-            <Form.Group controlId="formLogin">
-              <Form.Label><FormattedMessage id="login" />:</Form.Label>
+            {error ? (
+              <div className="error-text text-center">{error}</div>
+            ) : null}
+            <Form.Group controlId="formRegister">
+              <Form.Label>
+                <FormattedMessage id="email" />:
+              </Form.Label>
               <Form.Control
-                type="login"
-                name="login"
-                placeholder="Enter your login"
-                ref={register(registerOptions.login)}
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                ref={register(registerOptions.email)}
               />
             </Form.Group>
-            {errors.login && (<p className="error-text">{errors.login.message}</p>)}
+            {errors.email && (
+              <p className="error-text">{errors.email.message}</p>
+            )}
             <Form.Group controlId="formPassword">
-              <Form.Label><FormattedMessage id="password" />:</Form.Label>
+              <Form.Label>
+                <FormattedMessage id="password" />:
+              </Form.Label>
               <Form.Control
                 type="password"
                 name="password"
@@ -71,10 +81,12 @@ export const RegisterPage = () => {
               />
             </Form.Group>
             {errors.password && (
-                <p className="error-text">{errors.password.message}</p>
-              )}
+              <p className="error-text">{errors.password.message}</p>
+            )}
             <Form.Group>
-              <Form.Label><FormattedMessage id="nickname" />:</Form.Label>
+              <Form.Label>
+                <FormattedMessage id="nickname" />:
+              </Form.Label>
               <Form.Control
                 type="nickname"
                 name="nickname"
@@ -89,7 +101,7 @@ export const RegisterPage = () => {
               <p className="error-text">{errors.nickname.message}</p>
             )}
             <Button disabled={load} variant="primary" type="submit">
-              Register
+              <FormattedMessage id="modal-register-btn" />
             </Button>
           </Form>
         </div>

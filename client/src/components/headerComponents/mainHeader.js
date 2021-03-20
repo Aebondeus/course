@@ -27,8 +27,12 @@ export const MainHeader = ({setLang}) => {
         }
       })
       .then((res) => {
-        console.log(res.user);
-        context.login(res.user.jwtToken, res.user.userId, res.user.nickname);
+        if (!!res.user){
+          console.log(res.user);
+          context.login(res.user.jwtToken, res.user.userId, res.user.nickname);
+        } else {
+          console.log(res.msg)
+        }
       });
   }, []);
 

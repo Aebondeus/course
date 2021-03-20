@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Card, Button } from "react-bootstrap";
 import { TagsField } from "./tagsSelect";
-const formParts = ["Title", "Synopsis"];
+import {FormattedMessage} from "react-intl";
 
 export const MainPart = (props) => {
   return (
@@ -12,20 +12,32 @@ export const MainPart = (props) => {
         </Card.Header>
         <Card.Body>
           <Form onSubmit={props.formSubmit}>
-            {formParts.map((part) => {
-              return (
-                <Form.Group>
-                  <Form.Label>{part}:</Form.Label>
-                  <Form.Control
-                    type={part.toLowerCase()}
-                    name={part.toLowerCase()}
-                    onChange={props.handleForm}
-                  />
-                </Form.Group>
-              );
-            })}
             <Form.Group>
-              <Form.Label>Genre:</Form.Label>
+              <Form.Label>
+                <FormattedMessage id="title" />:
+              </Form.Label>
+              <Form.Control
+                as="textarea"
+                type="title"
+                name="title"
+                onChange={props.handleForm}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>
+                <FormattedMessage id="synopsis" />:
+              </Form.Label>
+              <Form.Control
+                as="textarea"
+                type="synopsis"
+                name="synopsis"
+                onChange={props.handleForm}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>
+                <FormattedMessage id="genre" />:
+              </Form.Label>
               <div className="genres">
                 {props.genres.map((genre) => {
                   return (
@@ -43,11 +55,13 @@ export const MainPart = (props) => {
               </div>
             </Form.Group>
             <Form.Group>
-              <Form.Label>Tags:</Form.Label>
-              <TagsField tags={props.tags} handleTag={props.handleTag} />
+              <Form.Label>
+                <FormattedMessage id="tags" />:
+              </Form.Label>
+              <TagsField tags={props.tags} handleTag={props.handleTag} value={props.value} />
             </Form.Group>
             <Button variant="success" type="submit" disabled={props.load}>
-              Submit
+              <FormattedMessage id="submit" />
             </Button>
           </Form>
         </Card.Body>

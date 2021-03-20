@@ -51,23 +51,21 @@ const createComment = (postId, comment) => {
 };
 
 const prettifyComment = (arr) => {
-  const result = [];
   if (!!arr) {
-    arr.forEach((doc) => {
-      result.push({
+    const result = arr.map((doc) => {
+      return {
         commentId: doc._id,
         date: doc.publishDate,
         content: doc.content,
         author: doc.author.nickName,
         authorId: doc.author._id,
-      });
+      }
     });
+    return result;
   }
-  return result;
 };
 
 const deleteComment = async (arr) => {
-  console.log(arr);
   for (const comment of arr) {
     await User.findOneAndUpdate(
       { comments: { $all: comment } },
@@ -78,28 +76,23 @@ const deleteComment = async (arr) => {
 };
 
 const prettifyParts = (arr) => {
-  const result = [];
-  arr.forEach((doc) => {
-    result.push({ name: doc.name, date: doc.date, id: doc._id });
+  const result = arr.map((doc) => {
+    return { name: doc.name, date: doc.date, id: doc._id }
   });
   return result;
 };
 
 const prettifyTags = (arr) => {
-  const result = [];
-  arr.forEach((doc) => {
-    result.push({ label: doc.label, value: doc.value, id: doc._id });
+  const result = arr.map((doc) => {
+    return { label: doc.label, value: doc.value, id: doc._id }
   });
   return result;
 };
 
 const boundTags = async (arr, post) => {
   // refactor it
-  console.log(arr, post);
-  console.log("Bound tags!");
   for (const tag of arr) {
     await Tag.find({ label: tag }, async (err, doc) => {
-      let ourTag = null;
       if (!!!doc.length) {
         await new Tag({
           label: tag,
@@ -107,9 +100,7 @@ const boundTags = async (arr, post) => {
           posts: [post],
         }).save();
       } else {
-        console.log("I am here");
-        ourTag = doc[0];
-        await Tag.findByIdAndUpdate(ourTag._id, {
+        await Tag.findByIdAndUpdate(doc[0]._id, {
           $push: { posts: post },
         }).exec();
       }
@@ -117,7 +108,6 @@ const boundTags = async (arr, post) => {
   }
   setTimeout(async () => {
     await Tag.find({ posts: { $all: post._id } }, (err, docs) => {
-      console.log(`This is our docs! ${docs}`);
       Post.findByIdAndUpdate(post, { $push: { tags: { $each: docs } } }).exec();
     });
   }, 50);
@@ -173,7 +163,7 @@ router.use("/newpart", async (req, res) => {
     content: part.content,
     post: postId,
   }).save();
-  await Post.findByIdAndUpdate(postId, {$push:{parts:data}}).exec();
+  await Post.findByIdAndUpdate(postId, { $push: { parts: data } }).exec();
   return res.status(200).json({ msg: "Part was added" });
   });
 
@@ -283,7 +273,7 @@ router.use("/deletepost", async (req, res) => {
     console.log("Last but not least");
     deleteComment(post.comments);
   });
-  Post.findByIdAndDelete(postId, (err, post) => {
+  await Post.findByIdAndDelete(postId, (err, post) => {
     return res.status(200).json({ msg: "Post was deleted" });
   });
 });

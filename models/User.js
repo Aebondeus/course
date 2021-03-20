@@ -3,15 +3,17 @@ import findOrCreate from "mongoose-findorcreate";
 const {Schema, model} = mongoose;
 
 const userSchema = new Schema({
-    login:{type:String, unique:true},
+    email:{type:String, required:true, unique:true},
     password:{type:String},
-    nickName:{type:String, required:true, unique:true},
+    nickName:{type:String, required:true},
     posts:[{type:Schema.Types.ObjectId, ref:"Post"}],
     comments:[{type:Schema.Types.ObjectId, ref:"Comment"}],
     facebookId:{type:String},
     twitterId:{type:String},
     vkId:{type:String},
-    isAdmin:{type:Boolean, required:true, default:false}
+    isAdmin:{type:Boolean, required:true, default:false},
+    about:{type:String, default:''},
+    regDate:{type:Date, default:new Date()}
 })
 userSchema.plugin(findOrCreate);
 export default model('User', userSchema)
