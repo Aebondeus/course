@@ -61,8 +61,8 @@ passport.use(
 passport.use(
   new YandexStrategy(
     {
-      clientID: config.CLIENT_ID_YA,
-      clientSecret: config.CLIENT_SECRET_YA,
+      clientID: process.env.CLIENT_ID_YA,
+      clientSecret: process.env.CLIENT_SECRET_YA,
       callbackURL: "/oauth/auth/yandex/mordorcourse",
       profileFields: ["id", "displayName", "emails"],
     },
@@ -99,8 +99,8 @@ passport.use(
 passport.use(
   new VkontakteStrategy(
     {
-      clientID: config.CLIENT_ID_VK,
-      clientSecret: config.CLIENT_SECRET_VK,
+      clientID: process.env.CLIENT_ID_VK,
+      clientSecret: process.env.CLIENT_SECRET_VK,
       callbackURL: "/oauth/auth/vkontakte/mordorcourse",
       profileFields: ["id", "displayName", "emails"],
     },
@@ -137,8 +137,8 @@ passport.use(
 passport.use(
   new GoogleStrategy(
     {
-      clientID: config.CLIENT_ID_GOOGLE,
-      clientSecret: config.CLIENT_SECRET_GOOGLE,
+      clientID: process.env.CLIENT_ID_GOOGLE,
+      clientSecret: process.env.CLIENT_SECRET_GOOGLE,
       callbackURL: "/oauth/auth/google/mordorcourse",
       profileFields: ["id", "displayName", "emails"],
     },
@@ -174,7 +174,7 @@ passport.use(
 
 const router = express.Router();
 
-const CLIENT_HOME_PAGE = "http://localhost:3000/";
+const CLIENT_HOME_PAGE = process.env.CLIENT_HOME_PAGE || "http://localhost:3000/";
 
 router.get("/login/success", (req, res) => {
   if (req.user) {

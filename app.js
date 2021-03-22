@@ -17,6 +17,7 @@ import cors from "cors";
 const app = express();
 const port = process.env.PORT || 5000;
 const dbUri = process.env.MONGODB_URI || config.dbUri;
+const cookie = process.env.COOKIE_KEY || config.COOKIE_KEY;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -25,7 +26,7 @@ app.use(express.json({ extended: true, limit: "50mb" }));
 app.use( //
   cookieSession({
     name: "session",
-    keys: [config.COOKIE_KEY],
+    keys: [cookie],
     maxAge: 24 * 60 * 60 * 100
   })
 );
@@ -60,3 +61,10 @@ const start = async () => {
   }
 };
 start();
+
+if (process.env.NODE_ENV === "production"){
+  app.use(express.static(path.join(__dirname, "frontend", "build")));
+  app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+  })
+}
