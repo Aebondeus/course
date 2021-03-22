@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { Button } from "react-bootstrap"; // change all class cards on react-bootstrap components
 import { authContext } from "../../context/authContext.js";
 import { Parts } from "./parts.js";
+import { FormattedMessage } from "react-intl";
 
 export const PostParts = ({ data }) => {
   const context = useContext(authContext);
@@ -18,7 +19,7 @@ export const PostParts = ({ data }) => {
         {context.id === data.author ? (
           <div className="add-part">
             <Button value={data.id} onClick={partAddHandler}>
-              Add new part
+              <FormattedMessage id="new-part" />
             </Button>
           </div>
         ) : null}

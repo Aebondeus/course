@@ -1,16 +1,22 @@
 import React from "react";
 import { Card, Form, Button } from "react-bootstrap";
+import {FormattedMessage} from "react-intl";
+import { ImgDrop } from "../commonComponents/partDropzone.js";
 import { PartEditor } from "../commonComponents/partEditor.js";
 
 export const PartUpdate = (props) => {
   console.log(props);
   return (
     <Card>
-      <Card.Header>Update part of the post:</Card.Header>
+      <Card.Header>
+        <FormattedMessage id="update-part.title" />:
+      </Card.Header>
       <Card.Body>
-        <Form onSubmit={props.onSubmit}>
+        <Form onSubmit={props.handleSubmit}>
           <Form.Group>
-            <Form.Label>Title:</Form.Label>
+            <Form.Label>
+              <FormattedMessage id="part-title" />:
+            </Form.Label>
             <Form.Control
               name="title"
               type="title"
@@ -19,7 +25,10 @@ export const PartUpdate = (props) => {
             ></Form.Control>
           </Form.Group>
           <Form.Group>
-            <Form.Label>Content:</Form.Label>
+            <ImgDrop handleFileInput={props.handleFileInput} updated={true}/>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label></Form.Label>
             <PartEditor
               content={props.content}
               setContent={props.setContent}
@@ -27,9 +36,8 @@ export const PartUpdate = (props) => {
               setSelectedTab={props.setSelectedTab}
             />
           </Form.Group>
-
           <Button variant="success" type="submit" disabled={props.load}>
-            Submit
+            <FormattedMessage id="submit" />
           </Button>
         </Form>
       </Card.Body>

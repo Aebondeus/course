@@ -3,10 +3,15 @@ import passport from "passport";
 import User from "../models/User.js";
 import passportFacebook from "passport-facebook";
 import passportVkontakte from "passport-vkontakte";
+import passportYandex from "passport-yandex";
+import passportGoogle from "passport-google-oauth"
 import config from "../config.js";
 
 const VkontakteStrategy = passportVkontakte.Strategy;
 const FaceBookStrategy = passportFacebook.Strategy;
+const YandexStrategy = passportYandex.Strategy;
+const GoogleStrategy = passportGoogle.OAuth2Strategy;
+
 passport.serializeUser((user, cb) => {
   cb(null, user);
 });
@@ -54,6 +59,44 @@ passport.use(
 );
 
 passport.use(
+  new YandexStrategy(
+    {
+      clientID: config.CLIENT_ID_YA,
+      clientSecret: config.CLIENT_SECRET_YA,
+      callbackURL: "/oauth/auth/yandex/mordorcourse",
+      profileFields: ["id", "displayName", "emails"],
+    },
+    async (accessToken, refreshToken, profile, cb) => {
+      console.log(profile, accessToken); // delete it
+      let user = null;
+      const data = await User.findOne({
+        email: profile.emails[0].value,
+      }).exec();
+      if (!data) {
+        const newUser = await new User({
+          nickName: profile.displayName,
+          email: profile.emails[0].value,
+          yandexId: profile.id,
+        }).save();
+        user = {
+          jwtToken: accessToken,
+          userId: newUser._id,
+          nickname: newUser.nickName,
+        };
+      } else {
+        await data.update({ $set: { yandexId: profile.id } }).exec();
+        user = {
+          jwtToken: accessToken,
+          userId: data._id,
+          nickname: data.nickName,
+        };
+      }
+      cb(null, user);
+    }
+  )
+);
+
+passport.use(
   new VkontakteStrategy(
     {
       clientID: config.CLIENT_ID_VK,
@@ -80,6 +123,44 @@ passport.use(
         };
       } else {
         await data.update({ $set: { vkId: profile.id } }).exec();
+        user = {
+          jwtToken: accessToken,
+          userId: data._id,
+          nickname: data.nickName,
+        };
+      }
+      cb(null, user);
+    }
+  )
+);
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: config.CLIENT_ID_GOOGLE,
+      clientSecret: config.CLIENT_SECRET_GOOGLE,
+      callbackURL: "/oauth/auth/google/mordorcourse",
+      profileFields: ["id", "displayName", "emails"],
+    },
+    async (accessToken, refreshToken, profile, cb) => {
+      console.log(profile, accessToken); // delete it
+      let user = null;
+      const data = await User.findOne({
+        email: profile.emails[0].value,
+      }).exec();
+      if (!data) {
+        const newUser = await new User({
+          nickName: profile.displayName,
+          email: profile.emails[0].value,
+          googleId: profile.id,
+        }).save();
+        user = {
+          jwtToken: accessToken,
+          userId: newUser._id,
+          nickname: newUser.nickName,
+        };
+      } else {
+        await data.update({ $set: { googleId: profile.id } }).exec();
         user = {
           jwtToken: accessToken,
           userId: data._id,
@@ -135,6 +216,15 @@ router.get(
   passport.authenticate("vkontakte", { scope: ["email"] })
 );
 
+router.get("/auth/yandex", passport.authenticate("yandex"));
+
+router.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["https://www.googleapis.com/auth/plus.login", "email"],
+  })
+);
+
 router.get(
   "/auth/facebook/testapp",
   passport.authenticate("facebook", {
@@ -144,8 +234,24 @@ router.get(
 );
 
 router.get(
+  "/auth/yandex/mordorcourse",
+  passport.authenticate("yandex", {
+    successRedirect: CLIENT_HOME_PAGE,
+    failureRedirect: "/oauth/login/failed",
+  })
+);
+
+router.get(
   "/auth/vkontakte/mordorcourse",
   passport.authenticate("vkontakte", {
+    successRedirect: CLIENT_HOME_PAGE,
+    failureRedirect: "/oauth/login/failed",
+  })
+);
+
+router.get(
+  "/auth/google/mordorcourse",
+  passport.authenticate("google", {
     successRedirect: CLIENT_HOME_PAGE,
     failureRedirect: "/oauth/login/failed",
   })

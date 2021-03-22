@@ -56,7 +56,7 @@ export const UserPosts = ({ posts }) => {
                           className="change-btn update-btn"
                           onClick={updatePost}
                         >
-                          Update post
+                          <FormattedMessage id="update-post" />
                         </Button>
                         <Button
                           value={post._id}
@@ -65,7 +65,7 @@ export const UserPosts = ({ posts }) => {
                           onClick={deletePost}
                           disabled={load}
                         >
-                          Delete post
+                          <FormattedMessage id="delete-post" />
                         </Button>
                       </Card.Footer>
                     ) : null}

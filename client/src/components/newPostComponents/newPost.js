@@ -1,14 +1,15 @@
 import React from "react";
 import { Form, Card, Button } from "react-bootstrap";
-import { TagsField } from "./tagsSelect";
+import { TagsField } from "../commonComponents/tagsSelect";
 import {FormattedMessage} from "react-intl";
+import { GenreField } from "../commonComponents/genresSelect";
 
 export const MainPart = (props) => {
   return (
     <div className="new-post-wrapper">
       <Card style={{ marginLeft: "5rem", marginRight: "5rem" }}>
         <Card.Header>
-          <span className="post-title">Create new post:</span>
+          <span className="post-title"><FormattedMessage id="new-post"/>:</span>
         </Card.Header>
         <Card.Body>
           <Form onSubmit={props.formSubmit}>
@@ -38,21 +39,7 @@ export const MainPart = (props) => {
               <Form.Label>
                 <FormattedMessage id="genre" />:
               </Form.Label>
-              <div className="genres">
-                {props.genres.map((genre) => {
-                  return (
-                    <Form.Check // change to another select
-                      inline
-                      type="radio"
-                      label={genre}
-                      name="genre"
-                      id={genre}
-                      value={genre}
-                      onChange={props.handleForm}
-                    />
-                  );
-                })}
-              </div>
+              <GenreField genres={props.genres} handleGenre={props.handleGenre}/>
             </Form.Group>
             <Form.Group>
               <Form.Label>

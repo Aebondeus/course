@@ -29,7 +29,7 @@ export const Sorter = ({selectHandler}) => {
       <Card.Body>
         <Form onSubmit={sortHandler} >
           <Form.Group>
-            <Select options={options} onChange={selectHandler}/>
+            <Select options={options} onChange={selectHandler} defaultValue={options[0]}/>
           </Form.Group>
         </Form>
       </Card.Body>

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useHistory} from "react-router-dom";
 import { Button } from "react-bootstrap";
+import {FormattedMessage} from "react-intl";
 import { authContext } from "../../context/authContext.js";
 import {useLoad} from "../../hooks/loadHook.js";
 
@@ -38,7 +39,7 @@ export const Parts = ({part, data, idx}) => {
                 value={part.id}
                 onClick={updateHandler}
               >
-                Update part
+                <FormattedMessage id="update-part" />
               </Button>
               <Button
                 className="change-btn delete-btn"
@@ -47,7 +48,7 @@ export const Parts = ({part, data, idx}) => {
                 onClick={deleteHandler}
                 disabled={load}
               >
-                Delete part
+                <FormattedMessage id="delete-part" />
               </Button>
             </div>
           ) : null}

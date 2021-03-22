@@ -1,9 +1,11 @@
 import express from "express";
 import User from "../models/User.js";
+import Genre from "../models/Genre.js";
 import Post from "../models/Post.js";
 import Tag from "../models/Tag.js";
 import Part from "../models/Part.js";
 import Comment from "../models/Comment.js";
+import cloud from "../utils/cloudinary.js"
 
 const router = express.Router();
 
@@ -14,19 +16,19 @@ const medium = (arr) => {
   return parseFloat((data / arr.length).toFixed(1));
 };
 
-const getRating = (arr) =>{
+const getRating = (arr) => {
   const rating = arr.reduce((prev, cur) => {
     return prev.concat(Object.values(cur));
-  }, [])
+  }, []);
   return rating;
-}
+};
 
 const getRaters = (arr) => {
   const raters = arr.reduce((prev, cur) => {
     return prev.concat(Object.keys(cur));
-  }, [])
+  }, []);
   return raters;
-}
+};
 
 const boundPost = async (author, post) => {
   await User.findByIdAndUpdate(author, { $push: { posts: post } }).exec();
@@ -59,7 +61,7 @@ const prettifyComment = (arr) => {
         content: doc.content,
         author: doc.author.nickName,
         authorId: doc.author._id,
-      }
+      };
     });
     return result;
   }
@@ -77,14 +79,14 @@ const deleteComment = async (arr) => {
 
 const prettifyParts = (arr) => {
   const result = arr.map((doc) => {
-    return { name: doc.name, date: doc.date, id: doc._id }
+    return { name: doc.name, date: doc.date, id: doc._id };
   });
   return result;
 };
 
 const prettifyTags = (arr) => {
   const result = arr.map((doc) => {
-    return { label: doc.label, value: doc.value, id: doc._id }
+    return { label: doc.label, value: doc.value, id: doc._id };
   });
   return result;
 };
@@ -121,6 +123,21 @@ const unboundTag = (tags, post) => {
   }
 };
 
+const handleImage = async (imgLink) => {
+  const uploadResponse = await cloud.uploader.upload(imgLink, {
+    upload_preset:"ml_default"
+  })
+  return uploadResponse.public_id;
+}
+
+const destroyImage = async (imgLink) => {
+  console.log("Truly destroing image")
+  console.log(imgLink);
+  await cloud.uploader.destroy(imgLink, (err, res)=>{
+    console.log(err, res);
+  });
+}
+
 router.use("/newpost", (req, res) => {
   try {
     console.log(req.body);
@@ -134,7 +151,7 @@ router.use("/newpost", (req, res) => {
       parts: [],
       comments: [],
       rating: [],
-      ratingTotal:0,
+      ratingTotal: 0,
       updated: new Date(),
     });
 
@@ -144,7 +161,6 @@ router.use("/newpost", (req, res) => {
       }
       boundTags(tags, post);
       boundPost(author, post);
-
       return res.status(200).json({ msg: "We did it" });
     });
   } catch (e) {
@@ -155,17 +171,23 @@ router.use("/newpost", (req, res) => {
 });
 
 router.use("/newpart", async (req, res) => {
-  console.log("Create new part!")
+  console.log("Create new part!");
   const { postId, part } = req.body;
+  let imgLink = "";
+  if (!!part.image){
+    imgLink = await handleImage(part.image);
+  }
+  console.log(imgLink)
   const data = await new Part({
     name: part.name,
     date: new Date(),
     content: part.content,
     post: postId,
+    image:imgLink
   }).save();
   await Post.findByIdAndUpdate(postId, { $push: { parts: data } }).exec();
   return res.status(200).json({ msg: "Part was added" });
-  });
+});
 
 router.use("/getpost/:postId", async (req, res) => {
   try {
@@ -180,7 +202,7 @@ router.use("/getpost/:postId", async (req, res) => {
           name: doc.name,
           synopsis: doc.synopsis,
           genre: doc.genre,
-          rating:doc.ratingTotal,
+          rating: doc.ratingTotal,
           raters: !!doc.rating.length ? getRaters(doc.rating) : [],
           tags: prettifyTags(doc.tags),
           parts: prettifyParts(doc.parts),
@@ -241,14 +263,21 @@ router.use("/amendpost", async (req, res) => {
   );
 });
 
-router.use("/amendpart", (req, res) => {
-  const { partId, data } = req.body;
-  Part.findByIdAndUpdate(
+router.use("/amendpart", async (req, res) => {
+  const { partId, data, prevImg } = req.body;
+  console.log(partId);
+  if (!!prevImg){
+    console.log("Destroy image")
+    destroyImage(prevImg);
+    data.image = await handleImage(data.image)
+  }
+  await Part.findByIdAndUpdate(
     partId,
     {
       name: data.name,
       date: new Date(),
       content: data.content,
+      image:data.image
     },
     { new: true },
     (err, part) => {
@@ -280,9 +309,11 @@ router.use("/deletepost", async (req, res) => {
 
 router.use("/deletepart", async (req, res) => {
   const { partId } = req.body;
-  await Part.findByIdAndDelete(partId, (err, part) => {
-    Post.findByIdAndUpdate(part.post, {$pull:{parts:partId}}).exec();
+  await Part.findById(partId, (err, part) => {
+    Post.findByIdAndUpdate(part.post, { $pull: { parts: partId } }).exec();
+    destroyImage(part.image);
   });
+  await Part.findByIdAndDelete(partId).exec();
 });
 
 router.use("/upload_comm/:postId", (req, res) => {
@@ -298,23 +329,41 @@ router.use("/upload_comm/:postId", (req, res) => {
 router.use("/add_comm", async (req, res) => {
   const { postId, comment } = req.body;
   let data = createComment(postId, comment);
-  await Post.findByIdAndUpdate(postId, {$push:{comments:data}}).exec();
+  await Post.findByIdAndUpdate(postId, { $push: { comments: data } }).exec();
   return res.status(200).json({ msg: "Comment was added" });
-  });
+});
 
 router.use("/rate", async (req, res) => {
   const { postId, userId, rate } = req.body;
-  Post.findByIdAndUpdate(postId, {$push:{rating:{[userId]:rate}}}, {new:true}).exec((err, doc) => {
+  Post.findByIdAndUpdate(
+    postId,
+    { $push: { rating: { [userId]: rate } } },
+    { new: true }
+  ).exec((err, doc) => {
     doc.ratingTotal = medium(getRating(doc.rating));
     doc.save();
   });
-  return res.status(200).json({msg:"Rating added"})
-})
-
+  return res.status(200).json({ msg: "Rating added" });
+});
 
 router.use("/upload_tags", (req, res) => {
   Tag.find({}, (err, tags) => {
     return res.status(200).json(tags);
+  });
+});
+
+router.use("/add_genre", async (req, res) => {
+  const { label } = req.body;
+  await new Genre({
+    label: label,
+    value: label.toLowerCase(),
+  }).save();
+  return res.status(200).json({ msg: "Genre was added" });
+});
+
+router.use("/upload_genres", (req, res) => {
+  Genre.find({}, (err, genres) => {
+    return res.status(200).json(genres);
   });
 });
 

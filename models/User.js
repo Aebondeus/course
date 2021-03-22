@@ -11,6 +11,8 @@ const userSchema = new Schema({
     facebookId:{type:String},
     twitterId:{type:String},
     vkId:{type:String},
+    yandexId:{type:String},
+    googleId:{type:String},
     isAdmin:{type:Boolean, required:true, default:false},
     about:{type:String, default:''},
     regDate:{type:Date, default:new Date()}

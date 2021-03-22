@@ -6,6 +6,7 @@ import { authContext } from "../context/authContext";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Sorter } from "../components/userComponents/postsSorter";
 import { UserInfo } from "../components/userComponents/aboutUser.js";
+import { FormattedMessage } from "react-intl";
 
 export const UserPage = ({ match }) => {
   const [posts, setPosts] = useState(null);
@@ -49,7 +50,7 @@ export const UserPage = ({ match }) => {
           <h2>User posts</h2>
           {match.params.userId === context.id ? (
                 <Button variant="primary" onClick={newPost}>
-                  Create new post
+                  <FormattedMessage id="new-post" />
                 </Button>
               ) : null}
           </Col>

@@ -20,7 +20,7 @@ const dbUri = process.env.MONGODB_URI || config.dbUri;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-app.use(express.json({ extended: true }));
+app.use(express.json({ extended: true, limit: "50mb" }));
 
 app.use( //
   cookieSession({

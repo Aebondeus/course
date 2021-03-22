@@ -45,7 +45,7 @@ export const Cloud = () => {
           role="status"
           className="text-center"
           variant="primary"
-        ></Spinner>
+        />
       )}
     </div>
   );

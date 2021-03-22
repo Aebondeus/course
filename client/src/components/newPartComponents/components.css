@@ -1,0 +1,12 @@
+.dropzone{
+    border: 1px solid #ced4da;
+    color: gray;
+}
+
+.dnd-placeholder{
+    border: 1px dashed #ced4da;
+    background-color: rgba(248, 243, 250, 0.87);
+    margin:.5rem;
+    padding: 1.5rem;
+    text-align: center;
+}

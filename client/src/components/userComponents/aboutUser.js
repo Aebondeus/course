@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Card, Container, Spinner } from "react-bootstrap";
+import {FormattedMessage} from "react-intl";
 import EdiText from "react-editext";
 import { authContext } from "../../context/authContext.js";
 import { useLoad } from "../../hooks/loadHook.js";
@@ -38,11 +39,11 @@ export const UserInfo = ({ userId }) => {
 
   return !!info ? (
     <Card>
-      <Card.Header>About user: </Card.Header>
+      <Card.Header><FormattedMessage id="user-info.title"/>: </Card.Header>
       <Card.Body>
         <Container>
           <div className="user-name">
-            <strong>User</strong>:{" "}
+            <strong><FormattedMessage id="user-info.nickname"/></strong>:{" "}
           </div>
           {context.id === userId ? (
             <EdiText
@@ -60,7 +61,7 @@ export const UserInfo = ({ userId }) => {
             <span>{info.nickName}</span>
           )}
           <div className="user-about">
-            <strong>About</strong>:{" "}
+            <strong><FormattedMessage id="user-info.about"/></strong>:{" "}
           </div>
           {context.id === userId ? (
             <EdiText
@@ -78,7 +79,7 @@ export const UserInfo = ({ userId }) => {
             <span>{!!info.about ? info.about : "Nothing here yet!"}</span>
           )}
           <div className="user-since">
-            <strong>With us since</strong>:
+            <strong><FormattedMessage id="user-info.regdate"/></strong>:
           </div>
           <span>{dateTimeFormat.format(Date.parse(info.regDate))}</span>
         </Container>
