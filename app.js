@@ -35,7 +35,7 @@ app.use(passport.initialize());//
 app.use(passport.session());//
 
 app.use(cors({//
-  origin:"http://localhost:3000/",
+  origin:"mordorcourse.herokuapp.com",
   methods:"GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials:true
 }))
@@ -63,8 +63,8 @@ const start = async () => {
 start();
 
 if (process.env.NODE_ENV === "production"){
-  app.use(express.static(path.join(__dirname, "frontend", "build")));
+  app.use(express.static(path.join(__dirname, "client", "build")));
   app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
   })
 }
