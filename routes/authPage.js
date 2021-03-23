@@ -1,15 +1,15 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
-import config from "../config.js";
 import jwt from "jsonwebtoken";
 const router = express.Router();
-
+const forToken = "DOITSUNOKAGAKUWASEKAIICHI"
+const salt = 15;
 router.use("/register", async (req, res) => {
   try {
     const { email, password, nickname } = req.body;
     console.log(req.body);
-    const pass = bcrypt.hashSync(password, config.salt);
+    const pass = bcrypt.hashSync(password, salt);
     const user = new User({
       email:email.toLowerCase(),
       password: pass,
@@ -50,7 +50,7 @@ router.use("/login", async (req, res) => {
       }
       const id = user._id;
       const nickname = user.nickName;
-      const token = jwt.sign({ email }, config.forToken, {
+      const token = jwt.sign({ email }, forToken, {
         expiresIn: "1h",
       });
       return res
