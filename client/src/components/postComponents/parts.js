@@ -4,6 +4,8 @@ import { Button } from "react-bootstrap";
 import {FormattedMessage} from "react-intl";
 import { authContext } from "../../context/authContext.js";
 import {useLoad} from "../../hooks/loadHook.js";
+const dateOption = { year: "numeric", month: "numeric", day: "numeric" };
+const dateTimeFormat = new Intl.DateTimeFormat("ru-Ru", dateOption);
 
 export const Parts = ({part, data, idx}) => {
     const context = useContext(authContext);
@@ -28,7 +30,7 @@ export const Parts = ({part, data, idx}) => {
           >
             <div className="card-body">
               <strong>{part.name}</strong>
-              <div>{part.date}</div>
+              <div>{dateTimeFormat.format(Date.parse(part.date))}</div>
             </div>
           </Link>
           {context.id === data.author ? (

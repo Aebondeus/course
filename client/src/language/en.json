@@ -3,6 +3,8 @@
     "navbar-lang.en":"Eng",
     "navbar-search":"Search",
     "navbar-auth":"Sign In",
+    "navbar-logout":"Log out",
+    "footer-sign":"Course project: Mordor - the land of cursed future. All rights not reserved!",
     "email":"Email",
     "password":"Password",
     "nickname":"Nickname",
@@ -44,7 +46,7 @@
     "post-rate-success.body":"You rated this post! Thank you!",
     "post-rate-error.header":"Already rated!",
     "post-rate-error.body":"You've already rate this post!",
-    "user-info.title":"User profile",
+    "user-info.title":"Profile",
     "user-info.nickname":"User",
     "user-info.about":"About myself",
     "user-info.regdate":"With us since",
@@ -63,6 +65,7 @@
     "select-genre":"Select genre...",
     "select-tags":"Select tags...",
     "new-part":"Create new part",
+    "part-abscence":"The author will add chapters soon!",
     "update-part":"Update part",
     "delete-part":"Delete part",
     "new-part.title":"Create new part of the post",
@@ -70,5 +73,11 @@
     "part-title":"Part title",
     "dnd-title":"Drag 'n' drop some files here, or click to select files",
     "dnd-p":"Only *.jpeg and *.png images will be accepted",
-    "dnd-update":"If you leave this field empty, your previous image will be save"
+    "dnd-update":"If you leave this field empty, your previous image will be save",
+    "search-result-tag":"Search results for the tag",
+    "not-found-1":"Uh oh!",
+    "not-found-2":"We dont have anything on your request!",
+    "not-found-3":"I dont even know, what should i do...",
+    "not-found-4":"Try to search something else!",
+    "not-found-5":"Good luck!"
 }

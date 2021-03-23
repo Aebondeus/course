@@ -20,7 +20,7 @@ passport.deserializeUser((user, cb) => {
   cb(null, user);
 });
 
-passport.use(
+passport.use( // probably will be deleted
   new FaceBookStrategy(
     {
       clientID: config.CLIENT_ID_FB,
@@ -61,8 +61,8 @@ passport.use(
 passport.use(
   new YandexStrategy(
     {
-      clientID: process.env.CLIENT_ID_YA,
-      clientSecret: process.env.CLIENT_SECRET_YA,
+      clientID: process.env.CLIENT_ID_YA || config.CLIENT_ID_YA,
+      clientSecret: process.env.CLIENT_SECRET_YA || config.CLIENT_SECRET_YA,
       callbackURL: "/oauth/auth/yandex/mordorcourse",
       profileFields: ["id", "displayName", "emails"],
     },
@@ -99,8 +99,8 @@ passport.use(
 passport.use(
   new VkontakteStrategy(
     {
-      clientID: process.env.CLIENT_ID_VK,
-      clientSecret: process.env.CLIENT_SECRET_VK,
+      clientID: process.env.CLIENT_ID_VK || config.CLIENT_ID_VK, // if already deployed - on dev wont working
+      clientSecret: process.env.CLIENT_SECRET_VK || config.CLIENT_SECRET_VK,
       callbackURL: "/oauth/auth/vkontakte/mordorcourse",
       profileFields: ["id", "displayName", "emails"],
     },
@@ -137,8 +137,8 @@ passport.use(
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.CLIENT_ID_GOOGLE,
-      clientSecret: process.env.CLIENT_SECRET_GOOGLE,
+      clientID: process.env.CLIENT_ID_GOOGLE || config.CLIENT_ID_GOOGLE,
+      clientSecret: process.env.CLIENT_SECRET_GOOGLE || config.CLIENT_SECRET_GOOGLE,
       callbackURL: "/oauth/auth/google/mordorcourse",
       profileFields: ["id", "displayName", "emails"],
     },

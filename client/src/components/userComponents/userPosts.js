@@ -4,6 +4,8 @@ import { Button, Card, Spinner } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
 import { authContext } from "../../context/authContext";
 import { useLoad } from "../../hooks/loadHook.js";
+const dateOption = { year: "numeric", month: "numeric", day: "numeric" };
+const dateTimeFormat = new Intl.DateTimeFormat("ru-Ru", dateOption);
 
 export const UserPosts = ({ posts }) => {
   const { request, load } = useLoad();
@@ -22,7 +24,7 @@ export const UserPosts = ({ posts }) => {
 
   return (
     <div className="userposts-wrapper">
-      <Card>
+      <Card className="card-out">
         <Card.Body>
           {!!posts ? (
             posts.length > 0 ? (
@@ -41,7 +43,8 @@ export const UserPosts = ({ posts }) => {
                           <FormattedMessage id="rating" />: {post.ratingTotal}
                         </div>
                         <div className="post-date">
-                          <FormattedMessage id="updated" />: {post.updated}
+                          <FormattedMessage id="updated" />:{" "}
+                          {dateTimeFormat.format(Date.parse(post.updated))}
                         </div>
                         <div className="post-link">
                           <Link to={`/post/${post._id}`}>Просмотреть пост</Link>
@@ -74,7 +77,7 @@ export const UserPosts = ({ posts }) => {
               })
             ) : (
               <Card.Text>
-                <div className="posts-abscence text-center">
+                <div className="posts-abscence">
                   Here could be the author posts...
                 </div>
               </Card.Text>
