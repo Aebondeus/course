@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useLoad } from "../hooks/loadHook.js";
 import { useHistory } from "react-router-dom";
 import { UserPosts } from "../components/userComponents/userPosts";
 import { authContext } from "../context/authContext";
@@ -7,11 +6,12 @@ import { Row, Col, Button } from "react-bootstrap";
 import { Sorter } from "../components/userComponents/postsSorter";
 import { UserInfo } from "../components/userComponents/aboutUser.js";
 import { FormattedMessage } from "react-intl";
-import "../styles/userpage.css";
 import { PageNotFound } from "../components/notFound.js";
+import "../styles/userpage.css";
 
 export const UserPage = ({ match }) => {
   const [error, setError] = useState(false);
+  const [del, setDel] = useState(false);
   const [posts, setPosts] = useState(null);
   const [sort, setSort] = useState({name:-1})
   const context = useContext(authContext);
@@ -20,7 +20,10 @@ export const UserPage = ({ match }) => {
   const getPosts = async () => {
     await fetch("/user/sort", {
       method: "PUT",
-      body: JSON.stringify({ sortMatch: { author: match.params.userId }, sort: sort }),
+      body: JSON.stringify({
+        sortMatch: { author: match.params.userId },
+        sort: sort,
+      }),
       headers: { "Content-Type": "application/json" },
     })
       .then((res) => {
@@ -39,7 +42,7 @@ export const UserPage = ({ match }) => {
 
   useEffect(() => {
     getPosts();
-  }, [sort]);
+  }, [del, sort]);
 
   const newPost = () => {
     history.push("/createpost");
@@ -49,7 +52,7 @@ export const UserPage = ({ match }) => {
       <div className="user-data" style={{ marginBottom: "2rem" }}>
         <UserInfo userId={match.params.userId} />
       </div>
-      <Row>
+      <Row className="user-posts-title">
         <Col lg={8} style={{ marginBottom: "1rem" }}>
           <div className="post-title" style={{ marginBottom: "1rem" }}>
             <FormattedMessage id="user-posts.title" />:
@@ -61,9 +64,9 @@ export const UserPage = ({ match }) => {
           ) : null}
         </Col>
       </Row>
-      <Row>
+      <Row className="user-posts-content">
         <Col lg={8} md={8} sm={12} className="user-posts">
-          <UserPosts posts={posts} />
+          <UserPosts posts={posts} del={del} setDel={setDel}/>
         </Col>
         <Col lg={4} md={4} sm={12} className="posts-sorter">
           <Sorter selectHandler={selectHandler} />

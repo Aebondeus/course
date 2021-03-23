@@ -10,7 +10,6 @@ import ru from "./language/ru.json";
 import en from "./language/en.json";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import "./components/components.css";
 import { MainFooter } from "./components/footerComponents/mainFooter";
 
 function App() {
