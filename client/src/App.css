@@ -66,15 +66,16 @@
   content: "\274c ";
 }
 
-.change-btn, .delete-btn{
+.change-btn{
   padding: 5px;
   width:130px;
-}
-.change-btn{
   margin-right: 1rem;
   margin-bottom: .5rem;
 }
 
+.post-title {
+  font-size: 35px;
+}
 
 .posts-abscence, .parts-abscence, .comments-abscence {
   text-align: center;

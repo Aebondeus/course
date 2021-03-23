@@ -1,0 +1,35 @@
+.user-data{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-title{
+    font-weight: 400;
+}
+
+.text-editor{
+    height:auto;
+    width: auto;
+    overflow-wrap:anywhere;
+}
+.userposts-wrapper{
+    display: grid;
+}
+
+@media (max-width: 770px){
+    .user-posts{
+        order:2;
+    }
+    .posts-sorter{
+        margin-bottom: 1rem;
+        order:1;
+    }
+}
+
+.edit-btn, .cancel-btn, .save-btn{
+    border:none;
+    background-color: #fff;
+    min-width: 20px;
+    padding:0.6rem;
+}

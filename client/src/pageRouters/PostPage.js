@@ -6,9 +6,11 @@ import { PostCommentsForm } from "../components/postComponents/postCommentsForm.
 import { Comments } from "../components/postComponents/commentsPost";
 import { authContext } from "../context/authContext";
 import "../styles/post.css";
+import { PageNotFound } from "../components/notFound";
 
 export const PostPage = ({ match }) => {
   const [postData, setData] = useState(null);
+  const [error, setError] = useState(false);
   const [raters, setRaters] = useState([]);
   const [comments, setComments] = useState(null);
   const [time, setTime] = useState([true]);
@@ -16,20 +18,27 @@ export const PostPage = ({ match }) => {
 
   const getPost = () => {
     fetch(`/post/getpost/${match.params.postId}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        }
+        throw Error;
+      })
       .then((data) => {
+        console.log(data);
         setData({
-          id:data.id,
-          name:data.name,
-          synopsis:data.synopsis,
-          genre:data.genre,
-          tags:data.tags,
-          author:data.author,
-          parts:data.parts,
-          rating: data.rating
+          id: data.id,
+          name: data.name,
+          synopsis: data.synopsis,
+          genre: data.genre,
+          tags: data.tags,
+          author: data.author,
+          parts: data.parts,
+          rating: data.rating,
         });
         setRaters(data.raters);
-      });
+      })
+      .catch(() => setError(true));
     fetch(`/post/upload_comm/${match.params.postId}`)
       .then((res) => res.json())
       .then((data) => {
@@ -53,7 +62,7 @@ export const PostPage = ({ match }) => {
     getPost();
   }, [time]);
 
-  return (
+  return !error ? (
     <div>
       <PostInfo data={postData} raters={raters} />
       <div className="title-area text-center">
@@ -62,7 +71,7 @@ export const PostPage = ({ match }) => {
         </h2>
       </div>
       <PostParts data={postData} />
-      <div className="comments-title text-center" style={{margin:"2rem 0"}}>
+      <div className="comments-title text-center" style={{ margin: "2rem 0" }}>
         <h2>
           <FormattedMessage id="comments" />
         </h2>
@@ -72,5 +81,7 @@ export const PostPage = ({ match }) => {
         <Comments data={comments} />
       </div>
     </div>
+  ) : (
+    <div className="posts-abscence"><PageNotFound /></div>
   );
 };

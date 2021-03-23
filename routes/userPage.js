@@ -26,7 +26,7 @@ router.use("/get_data/:userId", async(req, res) => {
     }
     return res
       .status(200)
-      .json({ nickName: doc.nickName, about: doc.about, regDate: doc.regDate });
+      .json({ nickName: doc.nickName, about: doc.about, regDate: doc.regDate, email:doc.email });
   })
 })
 
@@ -58,30 +58,36 @@ router.use("/update_about", async (req, res) => {
 })
 
 router.use("/sort", (req, res) => {
-  const { sortMatch, sort } = req.body;
-  matchConvert(sortMatch);
-  Post.aggregate(
-    [
-      { $match: sortMatch},
-      {
-        $project: {
-          name: 1,
-          synopsis: 1,
-          genre: 1,
-          author: 1,
-          tags: 1,
-          parts: 1,
-          ratingTotal:1,
-          updated:1,
-          length: { $size: "$parts" },
+  try{
+    const { sortMatch, sort } = req.body;
+    console.log(req.body);
+    matchConvert(sortMatch);
+    Post.aggregate(
+      [
+        { $match: sortMatch },
+        {
+          $project: {
+            name: 1,
+            synopsis: 1,
+            genre: 1,
+            author: 1,
+            tags: 1,
+            parts: 1,
+            ratingTotal: 1,
+            updated: 1,
+            length: { $size: "$parts" },
+          },
         },
-      },
-      { $sort: Object.keys(sort).length > 0 ? sort : defaultSort },
-    ],
-    (err, results) => {
-      return res.status(200).json(results);
-    }
-  );
+        { $sort: Object.keys(sort).length > 0 ? sort : defaultSort },
+      ],
+      (err, results) => {
+        return res.status(200).json(results);
+      }
+    );
+  } catch (e){
+    console.log("Error");
+    return res.status(400).json({msg:"Not found!"})
+  }
 });
 
 export const userRouter = router;

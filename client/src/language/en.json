@@ -50,6 +50,7 @@
     "user-info.nickname":"User",
     "user-info.about":"About myself",
     "user-info.regdate":"With us since",
+    "user-posts.title":"User posts",
     "user-posts.sort-title":"Sort posts by",
     "user-posts.sort-name-asc":"by name (asc)",
     "user-posts.sort-name-desc":"by name (desc)",
