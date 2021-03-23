@@ -7,7 +7,7 @@ import { useLoad } from "../../hooks/loadHook.js";
 const dateOption = { year: "numeric", month: "numeric", day: "numeric" };
 const dateTimeFormat = new Intl.DateTimeFormat("ru-Ru", dateOption);
 
-export const UserPosts = ({ posts }) => {
+export const UserPosts = ({ posts, del, setDel }) => {
   const { request, load } = useLoad();
   const context = useContext(authContext);
   const history = useHistory();
@@ -15,7 +15,7 @@ export const UserPosts = ({ posts }) => {
   const deletePost = async (event) => {
     event.preventDefault();
     await request(`/post/deletepost/`, "POST", { postId: event.target.value });
-    history.push(`/user/${posts[0].author}`);
+    setDel(!del);
   };
 
   const updatePost = async (event) => {

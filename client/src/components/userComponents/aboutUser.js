@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Card, Container, Spinner } from "react-bootstrap";
+import { Card, Spinner } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
 import EdiText from "react-editext";
 import { authContext } from "../../context/authContext.js";
@@ -22,7 +22,7 @@ export const UserInfo = ({ userId }) => {
         });
       setChange(false);
     }
-  }, [isChange]);
+  }, [isChange, userId]);
 
   const nicknameEdit = async (event) => {
     let body = { id: userId, nickname: event };
@@ -39,7 +39,7 @@ export const UserInfo = ({ userId }) => {
 
   return !!info ? (
     <Card style={{ border: "none" }}>
-      <Card.Header className="post-title" style={{ backgroundColor: "#fff" }}>
+      <Card.Header className="post-title" style={{ backgroundColor: "#fff", paddingLeft:"0" }}>
         <FormattedMessage id="user-info.title" />:{" "}
       </Card.Header>
       <Card.Body>

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link, useHistory} from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import {FormattedMessage} from "react-intl";
 import { authContext } from "../../context/authContext.js";
 import {useLoad} from "../../hooks/loadHook.js";
@@ -23,18 +23,18 @@ export const Parts = ({part, data, idx}) => {
     }
     return (
       <div className="post-parts" key={idx} style={{ marginTop: "1rem" }}>
-        <div className="card">
+        <Card className="part-card">
           <Link
             to={`/post/${data.id}/${part.id}`}
             style={{ color: "black", textDecoration: "none" }}
           >
-            <div className="card-body">
+            <Card.Body>
               <strong>{part.name}</strong>
               <div>{dateTimeFormat.format(Date.parse(part.date))}</div>
-            </div>
+            </Card.Body>
           </Link>
           {context.id === data.author ? (
-            <div className="card-footer">
+            <Card.Footer>
               <Button
                 className="change-btn update-btn"
                 variant="primary"
@@ -52,9 +52,9 @@ export const Parts = ({part, data, idx}) => {
               >
                 <FormattedMessage id="delete-part" />
               </Button>
-            </div>
+            </Card.Footer>
           ) : null}
-        </div>
+        </Card>
       </div>
     );
 }

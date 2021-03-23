@@ -46,8 +46,13 @@ export const PostInfo = ({ data, raters }) => {
   if (!!data) {
     return (
       <div className="post-info">
-        <div className="card">
-          <div className="card-header post-title">{data.name}</div>
+        <div className="card" style={{border:"none"}}>
+          <div
+            className="card-header post-title"
+            style={{ paddingLeft: "0", backgroundColor: "#fff" }}
+          >
+            {data.name}
+          </div>
           <div className="card-body">
             <div className="post-synopsis">
               <div>
@@ -66,25 +71,25 @@ export const PostInfo = ({ data, raters }) => {
               </div>
             </div>
             <div className="post-tags">
-                <strong>
-                  <FormattedMessage id="tags" />:
-                </strong>{" "}
-                {!!data.tags.length ? (
-                  data.tags.map((tag) => {
-                    return (
-                      <Button
-                        className="tag"
-                        value={tag.id}
-                        name={tag.label}
-                        onClick={tagSearch}
-                      >
-                        {tag.label}
-                      </Button>
-                    );
-                  })
-                ) : (
-                  <FormattedMessage id="tags-abscence" />
-                )}
+              <strong>
+                <FormattedMessage id="tags" />:
+              </strong>{" "}
+              {!!data.tags.length ? (
+                data.tags.map((tag) => {
+                  return (
+                    <Button
+                      className="tag"
+                      value={tag.id}
+                      name={tag.label}
+                      onClick={tagSearch}
+                    >
+                      {tag.label}
+                    </Button>
+                  );
+                })
+              ) : (
+                <FormattedMessage id="tags-abscence" />
+              )}
             </div>
             <div>
               <strong>

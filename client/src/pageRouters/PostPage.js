@@ -5,8 +5,8 @@ import { PostParts } from "../components/postComponents/postPartsWrapper";
 import { PostCommentsForm } from "../components/postComponents/postCommentsForm.js";
 import { Comments } from "../components/postComponents/commentsPost";
 import { authContext } from "../context/authContext";
-import "../styles/post.css";
 import { PageNotFound } from "../components/notFound";
+import "../styles/post.css";
 
 export const PostPage = ({ match }) => {
   const [postData, setData] = useState(null);
