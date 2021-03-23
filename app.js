@@ -2,7 +2,6 @@ import express from "express";
 import mongoose from "mongoose";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
-import config from "./config.js";
 import postRouter from "./routes/postPage.js";
 import { mainRouter } from "./routes/mainPage.js";
 import { authRouter } from "./routes/authPage.js";
@@ -16,8 +15,8 @@ import cors from "cors";
 
 const app = express();
 const port = process.env.PORT || 5000;
-const dbUri = process.env.MONGODB_URI || config.dbUri;
-const cookie = process.env.COOKIE_KEY || config.COOKIE_KEY;
+const dbUri = process.env.MONGODB_URI;
+const cookie = process.env.COOKIE_KEY;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
