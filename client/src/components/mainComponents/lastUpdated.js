@@ -1,19 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import {FormattedMessage} from "react-intl";
+import {Card} from "react-bootstrap";
 import { GenericPost } from "../commonComponents/mainPost";
 
 export const LastUpdated = ({posts}) => {
   return (
     <div className="updated-fictions">
-      <div className="card">
-        <div className="card-body">
-          <div className="card-title">
-            <h5><FormattedMessage id="last-updated" /></h5>
-          </div>
+      <Card className="card-out">
+        <Card.Body>
+          <Card.Title>
+            <FormattedMessage id="last-updated" />
+          </Card.Title>
           <GenericPost posts={posts} />
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
     </div>
   );
 };

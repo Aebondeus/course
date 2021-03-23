@@ -11,7 +11,6 @@ import { FormattedMessage } from "react-intl";
 export const UserPage = ({ match }) => {
   const [posts, setPosts] = useState(null);
   const [sort, setSort] = useState({name:-1})
-  const [time, setTime] = useState(true);
   const context = useContext(authContext);
   const {request} = useLoad();
   const history = useHistory();
@@ -33,7 +32,6 @@ export const UserPage = ({ match }) => {
     history.push("/createpost");
   };
   return (
-    <div>
       <Container>
         <Row style={{marginBottom:".5rem"}}>
           <Col lg={5}>
@@ -64,6 +62,5 @@ export const UserPage = ({ match }) => {
           </Col>
         </Row>
       </Container>
-    </div>
   );
 };

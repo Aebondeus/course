@@ -29,7 +29,7 @@ export const PostParts = ({ data }) => {
           })
         ) : (
           <div className="parts-abscence text-center">
-            Here will be parts of the post!
+            <FormattedMessage id="part-abscence" />
           </div>
         )}
       </div>

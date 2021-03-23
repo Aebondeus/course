@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Button, Nav } from "react-bootstrap";
 import { authContext } from "../../context/authContext";
 import { AuthButton } from "./authModal";
+import {FormattedMessage} from "react-intl";
 
 export const AuthWrapper = () => {
   const context = useContext(authContext);
@@ -30,7 +31,7 @@ export const AuthWrapper = () => {
               id="logout"
               variant="outline-primary"
             >
-              Выйти
+              <FormattedMessage id="navbar-logout"/>
             </Button>
           </div>
         ) : (

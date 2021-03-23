@@ -1,0 +1,36 @@
+.post-synopsis, .post-genre, .post-tags{
+    margin-bottom: .5rem;
+}
+
+.btn-primary.tag{
+    padding:1px 8px;
+    margin-right: .4rem;
+    margin-bottom: .4rem;
+    background-color: rgba(231, 213, 213, 0.973);
+    color:black;
+    border: none;
+}
+
+.btn-primary.tag:hover{
+    background-color: rgba(214, 176, 176, 0.973);
+    color:black;
+}
+
+.btn-primary.tag:not(:disabled):not(.disabled):active{
+    color:black;
+    background-color: rgba(199, 156, 156, 0.973);    
+}
+.btn-primary.tag:focus{
+    color:black;
+    background-color: rgba(199, 156, 156, 0.973);
+    box-shadow: 0 0 0 .2rem rgba(214, 176, 176, 0.726);
+}
+@media (max-width:340px){
+    .post-tags{
+        display: grid;
+        grid-template-columns: 50%;
+    }
+    .tag{
+        margin-top: 3px;
+    }
+}

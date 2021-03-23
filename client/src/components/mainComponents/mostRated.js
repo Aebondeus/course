@@ -4,8 +4,7 @@ import {GenericPost} from "../commonComponents/mainPost.js"
 export const MostRated = ({posts}) => {
 
   return (
-    <div className="popular-fictions">
-      <div className="card">
+      <div className="card card-out">
         <div className="card-body">
           <div className="card-title">
             <h5><FormattedMessage id="most-rated"/></h5>
@@ -13,6 +12,5 @@ export const MostRated = ({posts}) => {
           <GenericPost posts={posts} />
         </div>
       </div>
-    </div>
   );
 };

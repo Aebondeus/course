@@ -5,6 +5,7 @@ import { PostParts } from "../components/postComponents/postPartsWrapper";
 import { PostCommentsForm } from "../components/postComponents/postCommentsForm.js";
 import { Comments } from "../components/postComponents/commentsPost";
 import { authContext } from "../context/authContext";
+import "../styles/post.css";
 
 export const PostPage = ({ match }) => {
   const [postData, setData] = useState(null);
@@ -54,23 +55,20 @@ export const PostPage = ({ match }) => {
 
   return (
     <div>
-      <h1>
-        <FormattedMessage id="post-page" />
-      </h1>
       <PostInfo data={postData} raters={raters} />
       <div className="title-area text-center">
-        <h2 style={{ marginTop: "2rem" }}>
+        <h2 style={{ margin: "2rem 0" }}>
           <FormattedMessage id="content-title" />
         </h2>
       </div>
       <PostParts data={postData} />
-      <div className="comments-title text-center" style={{marginTop:"2rem"}}>
+      <div className="comments-title text-center" style={{margin:"2rem 0"}}>
         <h2>
           <FormattedMessage id="comments" />
         </h2>
       </div>
       {context.token ? <PostCommentsForm data={match.params.postId} /> : null}
-      <div className="comment-part" style={{ marginTop: "2rem" }}>
+      <div className="comment-part" style={{ marginTop: "1rem" }}>
         <Comments data={comments} />
       </div>
     </div>

@@ -1,32 +1,51 @@
 @import './normalize.css';
 
-ul > .btn{
-  display: block;
-}
-
 .card-body > .card {
   margin-top: 1rem;
 }
-.main-content{
-  margin-top: 1rem;
+.whole-app{
+  padding-bottom: auto;
 }
 
-.all-fictions{
-  float: left;
+#footer{
+  margin-top: 160px;
+  position: absolute;
+  bottom: -1;
+  left:0;
+  right:0;
+  top:-1;
 }
 
-.all-fictions > * {
-  margin: 2rem 0;
-  width:750px;
+.all-components{
+  margin-top: 2rem;
 }
 
-.extra-part{
-  float: right;
-  width:300px;
+.first-half{
+  display: flex;
+  flex-direction: row;
 }
 
-.extra-part > * {
-  margin: 2rem 0;
+.second-half{
+  display:flex;
+  flex-direction: row;
+}
+
+@media (max-width:992px){
+  .first-half{
+    flex-direction: column;
+  }
+
+  .rated-fictions{
+    order: 2;
+  }
+
+  .tag-cloud{
+    order:1;
+  }
+}
+
+.card-out{
+  border:none;
 }
 
 .registr-card{
@@ -47,15 +66,31 @@ ul > .btn{
   content: "\274c ";
 }
 
+.change-btn, .delete-btn{
+  padding: 5px;
+  width:130px;
+}
 .change-btn{
   margin-right: 1rem;
+  margin-bottom: .5rem;
 }
 
-.delete-btn{
-  color:white;
-}
 
-.posts-abscence, .parts-abscence {
+.posts-abscence, .parts-abscence, .comments-abscence {
+  text-align: center;
   font-weight: 700;
   font-size: 2rem;
+}
+
+#status-code{
+  font-size: 5rem;
+}
+
+#search-result{
+  font-weight: 700;
+  font-size: 2rem;
+}
+.posts-abscence{
+  padding:20px;
+  margin:20px 0;
 }

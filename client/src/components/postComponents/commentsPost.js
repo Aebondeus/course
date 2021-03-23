@@ -2,6 +2,16 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import { Link } from "react-router-dom";
 import { Card, Spinner } from "react-bootstrap";
+import { FormattedMessage } from "react-intl";
+const dateOption = {
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  second: "numeric",
+};
+const dateTimeFormat = new Intl.DateTimeFormat("ru-Ru", dateOption);
 
 export const Comments = (props) => {
   return !!props.data ? (
@@ -18,14 +28,14 @@ export const Comments = (props) => {
                   className="comment-content"
                   source={comment.content}
                 />
-                <div className="comment-date">{comment.date}</div>
+                <div className="comment-date">{dateTimeFormat.format(Date.parse(comment.date))}</div>
               </Card.Body>
             </Card>
           </div>
         );
       })
     ) : (
-      <div className="comment-empty">Wow... such empty here...</div>
+      <div className="comments-abscence"><FormattedMessage id="comments-abscence"/></div>
     )
   ) : (
     <div className="loader text-center">

@@ -51,22 +51,29 @@ export const PostInfo = ({ data, raters }) => {
           <div className="card-body">
             <div className="post-synopsis">
               <div>
-                <FormattedMessage id="synopsis" />: {data.synopsis}
+                <strong>
+                  <FormattedMessage id="synopsis" />:{" "}
+                </strong>
+                {data.synopsis}
               </div>
             </div>
             <div className="post-genre">
               <div>
-                <FormattedMessage id="genre" />: {data.genre}
+                <strong>
+                  <FormattedMessage id="genre" />:{" "}
+                </strong>
+                {data.genre}
               </div>
             </div>
             <div className="post-tags">
-              <div>
-                <FormattedMessage id="tags" />:{" "}
+                <strong>
+                  <FormattedMessage id="tags" />:
+                </strong>{" "}
                 {!!data.tags.length ? (
                   data.tags.map((tag) => {
                     return (
                       <Button
-                        style={{ marginRight: ".4rem" }}
+                        className="tag"
                         value={tag.id}
                         name={tag.label}
                         onClick={tagSearch}
@@ -78,10 +85,12 @@ export const PostInfo = ({ data, raters }) => {
                 ) : (
                   <FormattedMessage id="tags-abscence" />
                 )}
-              </div>
             </div>
             <div>
-              <FormattedMessage id="rating" />: {data.rating}
+              <strong>
+                <FormattedMessage id="rating" />:{" "}
+              </strong>
+              {data.rating}
             </div>
             {!!context.id ? <ReactStars {...stars} /> : null}
             <Toast
@@ -92,9 +101,13 @@ export const PostInfo = ({ data, raters }) => {
               style={styleToast}
             >
               <Toast.Header>
-                <strong><FormattedMessage id="post-rate-success.header"/></strong>
+                <strong>
+                  <FormattedMessage id="post-rate-success.header" />
+                </strong>
               </Toast.Header>
-              <Toast.Body><FormattedMessage id="post-rate-success.body"/></Toast.Body>
+              <Toast.Body>
+                <FormattedMessage id="post-rate-success.body" />
+              </Toast.Body>
             </Toast>
             <Toast
               onClose={() => setError(false)}
@@ -104,9 +117,13 @@ export const PostInfo = ({ data, raters }) => {
               style={styleToast}
             >
               <Toast.Header>
-                <strong><FormattedMessage id="post-rate-error.header"/></strong>
+                <strong>
+                  <FormattedMessage id="post-rate-error.header" />
+                </strong>
               </Toast.Header>
-              <Toast.Body><FormattedMessage id="post-rate-error.body"/></Toast.Body>
+              <Toast.Body>
+                <FormattedMessage id="post-rate-error.body" />
+              </Toast.Body>
             </Toast>
           </div>
         </div>
