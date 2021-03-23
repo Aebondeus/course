@@ -196,6 +196,9 @@ router.use("/getpost/:postId", async (req, res) => {
       .populate("parts")
       .populate("tags")
       .exec((err, doc) => {
+        if (err) {
+          return res.status(404).json({msg:"Not Found"});
+        }
         const data = {
           id: doc.id,
           author: doc.author,
@@ -219,13 +222,16 @@ router.use("/getpart/:postId/:partId", async (req, res) => {
     const partId = req.params.partId;
     Post.findById(req.params.postId, (err, docs) => {
       if (err) {
+        console.log("Error - post not found")
         return res.status(400).json({ msg: "Post not found" });
       }
       if (!!docs && !!!docs.parts.includes(partId)) {
+        console.log("Error - part not found")
         return res.status(404).json({ msg: "Part not found" });
       }
       Part.findById(partId, (err, part) => {
         if (err) {
+          console.log("Strange error")
           return res.status(404).json({ msg: "Part not found" });
         }
         return res.status(200).json({ part, parts: docs.parts });
