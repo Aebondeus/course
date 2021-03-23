@@ -22,8 +22,8 @@ passport.deserializeUser((user, cb) => {
 passport.use( // probably will be deleted
   new FaceBookStrategy(
     {
-      clientID: "",
-      clientSecret: "",
+      clientID: process.env.CLIENT_ID_FB,
+      clientSecret: process.env.CLIENT_SECRET_FB,
       callbackURL: "/oauth/auth/facebook/testapp",
       profileFields: ["id", "displayName", "emails"],
     },
