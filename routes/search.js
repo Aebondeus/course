@@ -1,8 +1,6 @@
 import express from "express";
-import Post from "../models/Post.js";
 import Tag from "../models/Tag.js";
 const router = express.Router();
-
 
 const prettifyPost = (post) => {
     const data = {

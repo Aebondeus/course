@@ -1,5 +1,9 @@
 @import './normalize.css';
 
+body{
+  background-color: #f8f9fa;
+}
+
 .card-body > .card {
   margin-top: 1rem;
 }
@@ -7,8 +11,16 @@
   padding-bottom: auto;
 }
 
+.whole-app > .container{
+  background-color: #fff;
+  box-shadow: 0 0 10px 1px black;
+  padding-top: 20px;
+  padding-bottom: 100px;
+  margin-top: 2rem;
+  margin-bottom: 60px;
+}
+
 #footer{
-  margin-top: 160px;
   position: absolute;
   bottom: -1;
   left:0;
@@ -66,12 +78,42 @@
   content: "\274c ";
 }
 
-.change-btn{
-  padding: 5px;
-  width:130px;
-  margin-right: 1rem;
-  margin-bottom: .5rem;
+.change-btn.update-btn{
+  color:black;
 }
+
+.change-btn.delete-btn{
+  color:red;
+}
+
+.change-btn.update-btn:hover, .change-btn.delete-btn:hover{
+  font-weight: 700;
+  text-decoration: none;
+  transition: all .05s ease-in-out;
+}
+
+.change-btn.update-btn::not(:disabled):not(.disabled):active, .change-btn.delete-btn::not(:disabled):not(.disabled):active{
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  box-shadow: 0;
+}
+
+.change-btn.update-btn:focus, .change-btn.delete-btn:focus{
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  box-shadow: none;
+}
+
+.change-btn.update-btn:hover, .change-btn.update-btn:focus, .change-btn.update-btn::not(:disabled):not(.disabled):active{
+  color:black;
+}
+
+.change-btn.delete-btn:hover, .change-btn.delete-btn:focus, .change-btn.delete-btn::not(:disabled):not(.disabled):active{
+  color:red;
+}
+
 
 .post-title {
   font-size: 35px;

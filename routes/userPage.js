@@ -32,14 +32,11 @@ router.use("/get_data/:userId", async(req, res) => {
 
 router.use("/update_nickname", async (req, res) => {
   const {id, nickname} = req.body;
-  console.log(req.body);
-  console.log("Try to change nickname")
   await User.findByIdAndUpdate(
     id,
     { $set: { nickName: nickname} },
     { new: true },
     (err, doc) => {
-      console.log(doc);
       return res.status(200).json({ msg: "Nickname was updated!" });
     }
   );
@@ -60,7 +57,6 @@ router.use("/update_about", async (req, res) => {
 router.use("/sort", (req, res) => {
   try{
     const { sortMatch, sort } = req.body;
-    console.log(req.body);
     matchConvert(sortMatch);
     Post.aggregate(
       [

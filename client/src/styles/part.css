@@ -1,0 +1,8 @@
+.part-img{
+    display: flex;
+    justify-content: center;
+}
+.cloud-img{
+    width:50%;
+    height:50%;
+}

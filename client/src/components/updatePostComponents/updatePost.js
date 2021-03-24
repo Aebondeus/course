@@ -5,11 +5,20 @@ import { FormattedMessage } from "react-intl";
 import { GenreField } from "../commonComponents/genresSelect";
 
 export const MainPart = (props) => {
-  return !!props.data ? (
+  if (!props.data) {
+    return (
+      <div>
+        <Spinner animation="border" role="status" className="text-center" />
+      </div>
+    );
+  }
+  return (
     <div className="update-post-wrapper">
       <Card style={{ marginLeft: "5rem", marginRight: "5rem" }}>
         <Card.Header>
-          <span className="post-title"><FormattedMessage id="update-post"/>:</span>
+          <span className="post-title">
+            <FormattedMessage id="update-post" />:
+          </span>
         </Card.Header>
         <Card.Body>
           <Form onSubmit={props.formSubmit}>
@@ -69,10 +78,6 @@ export const MainPart = (props) => {
           </Form>
         </Card.Body>
       </Card>
-    </div>
-  ) : (
-    <div>
-      <Spinner animation="border" role="status" className="text-center" />
     </div>
   );
 };

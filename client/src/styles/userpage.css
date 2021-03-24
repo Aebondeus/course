@@ -13,9 +13,6 @@
     width: auto;
     overflow-wrap:anywhere;
 }
-.userposts-wrapper{
-    display: grid;
-}
 
 @media (max-width: 770px){
     .user-posts{
@@ -32,4 +29,8 @@
     background-color: #fff;
     min-width: 20px;
     padding:0.6rem;
+}
+
+.card-footer{
+    padding-left: .65rem;
 }

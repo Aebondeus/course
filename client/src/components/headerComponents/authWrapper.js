@@ -3,14 +3,15 @@ import { useHistory } from "react-router-dom";
 import { Button, Nav } from "react-bootstrap";
 import { authContext } from "../../context/authContext";
 import { AuthButton } from "./authModal";
-import {FormattedMessage} from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 export const AuthWrapper = () => {
   const context = useContext(authContext);
   const history = useHistory();
 
   const userHandler = (event) => {
-    history.push(`/user/${event.target.value}`);
+    const userId = event.target.value;
+    history.push(`/user/${userId}`);
   };
 
   return (
@@ -31,7 +32,7 @@ export const AuthWrapper = () => {
               id="logout"
               variant="outline-primary"
             >
-              <FormattedMessage id="navbar-logout"/>
+              <FormattedMessage id="navbar-logout" />
             </Button>
           </div>
         ) : (

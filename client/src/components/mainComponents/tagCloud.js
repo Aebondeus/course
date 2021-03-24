@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import randomColor from "randomcolor";
-import {Spinner} from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { TagCloud } from "react-tagcloud";
 
+const color = {
+  luminosity: "dark",
+  format: "rgba",
+  alpha: 1,
+};
+
 export const Cloud = () => {
   const [tags, setTags] = useState([]);
-  const [color, setColor] = useState({
-    luminosity: 'dark',
-    format: 'rgba',
-    alpha:1
- })
   const history = useHistory();
 
   useEffect(() => {
@@ -18,35 +18,41 @@ export const Cloud = () => {
       .then((res) => res.json())
       .then((res) => {
         setTags(
-          res.map((tag) => {
-            return { value: tag.label, count: tag.posts.length };
-          })
+          res.reduce((tagArr, tag) => {
+            if (!!tag.posts.length) {
+              tagArr.push({ value: tag.label, count: tag.posts.length });
+            }
+            return tagArr;
+          }, [])
         );
       });
   }, []);
 
   const tagHandler = (event) => {
-    history.push(`/searchByTag/${event.value}`);
+    const tag = event.value;
+    history.push(`/searchByTag/${tag}`);
   };
 
-  return (
-    <div className="tag-cloud-wrapper text-center">
-      {!!tags.length ? (
-        <TagCloud
-          minSize={10}
-          maxSize={30}
-          tags={tags}
-          onClick={tagHandler}
-          colorOptions={color}
-        />
-      ) : (
+  if (!tags.length){
+    return (
+      <div className="text-center">
         <Spinner
           animation="border"
           role="status"
-          className="text-center"
-          variant="primary"
+          variant="dark"
         />
-      )}
+      </div>
+    );
+  }
+  return (
+    <div className="tag-cloud-wrapper text-center">
+      <TagCloud
+        minSize={10}
+        maxSize={30}
+        tags={tags}
+        onClick={tagHandler}
+        colorOptions={color}
+      />
     </div>
   );
 };

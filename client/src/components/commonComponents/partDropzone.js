@@ -77,13 +77,13 @@ export const ImgDrop = (props) => {
             <em>
               (<FormattedMessage id="dnd-p" />)
             </em>
-            {!!props.updated ? (
+            {!!props.updated && (
               <div>
                 <em>
-                  (<FormattedMessage id="dnd-update"/>)
+                  (<FormattedMessage id="dnd-update" />)
                 </em>
               </div>
-            ) : null}
+            )}
           </div>
         </div>
       </div>

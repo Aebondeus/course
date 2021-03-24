@@ -35,7 +35,6 @@ const boundPost = async (author, post) => {
 };
 
 const unboundPost = (userId, post) => {
-  console.log("Unbound post from user");
   User.findByIdAndUpdate(userId, { $pull: { posts: post } }).exec();
 };
 
@@ -131,8 +130,6 @@ const handleImage = async (imgLink) => {
 }
 
 const destroyImage = async (imgLink) => {
-  console.log("Truly destroing image")
-  console.log(imgLink);
   await cloud.uploader.destroy(imgLink, (err, res)=>{
     console.log(err, res);
   });
@@ -140,7 +137,6 @@ const destroyImage = async (imgLink) => {
 
 router.use("/newpost", (req, res) => {
   try {
-    console.log(req.body);
     const { form, author, tags } = req.body;
     const post = new Post({
       name: form.title,
@@ -171,13 +167,11 @@ router.use("/newpost", (req, res) => {
 });
 
 router.use("/newpart", async (req, res) => {
-  console.log("Create new part!");
   const { postId, part } = req.body;
   let imgLink = "";
   if (!!part.image){
     imgLink = await handleImage(part.image);
   }
-  console.log(imgLink)
   const data = await new Part({
     name: part.name,
     date: new Date(),
@@ -230,10 +224,6 @@ router.use("/getpart/:postId/:partId", async (req, res) => {
         return res.status(404).json({ msg: "Part not found" });
       }
       Part.findById(partId, (err, part) => {
-        if (err) {
-          console.log("Strange error")
-          return res.status(404).json({ msg: "Part not found" });
-        }
         return res.status(200).json({ part, parts: docs.parts });
       });
     });
@@ -245,7 +235,6 @@ router.use("/getpart/:postId/:partId", async (req, res) => {
 router.use("/amendpost", async (req, res) => {
   const { postId, form, tags } = req.body;
   await Post.findById(postId, (err, doc) => {
-    console.log(doc);
     unboundTag(doc.tags, doc._id);
   });
   Post.findByIdAndUpdate(
@@ -271,9 +260,7 @@ router.use("/amendpost", async (req, res) => {
 
 router.use("/amendpart", async (req, res) => {
   const { partId, data, prevImg } = req.body;
-  console.log(partId);
   if (!!prevImg){
-    console.log("Destroy image")
     destroyImage(prevImg);
     data.image = await handleImage(data.image)
   }
@@ -301,11 +288,8 @@ router.use("/deletepost", async (req, res) => {
     post.parts.forEach((part) => {
       Part.findByIdAndDelete(part).exec();
     });
-    console.log("first");
-    unboundPost(post.author, post._id);
-    console.log("second");
+    unboundPost(post.author, post._id);;
     unboundTag(post.tags, post._id);
-    console.log("Last but not least");
     deleteComment(post.comments);
   });
   await Post.findByIdAndDelete(postId, (err, post) => {

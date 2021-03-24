@@ -1,16 +1,24 @@
 import React from "react";
-import {FormattedMessage} from "react-intl";
-import {GenericPost} from "../commonComponents/mainPost.js"
-export const MostRated = ({posts}) => {
+import { FormattedMessage } from "react-intl";
+import { Card, Spinner } from "react-bootstrap";
+import { GenericPost } from "../commonComponents/mainPost.js";
 
-  return (
-      <div className="card card-out">
-        <div className="card-body">
-          <div className="card-title">
-            <h5><FormattedMessage id="most-rated"/></h5>
-          </div>
-          <GenericPost posts={posts} />
-        </div>
+export const MostRated = ({ posts }) => {
+  if (!posts){
+    return (
+      <div className="text-center">
+        <Spinner animation="border" role="status" variant="dark" />
       </div>
+    );
+  }
+  return (
+    <Card className="card-out">
+      <Card.Body>
+        <Card.Title>
+          <FormattedMessage id="most-rated" />
+        </Card.Title>
+        <GenericPost posts={posts} />
+      </Card.Body>
+    </Card>
   );
 };

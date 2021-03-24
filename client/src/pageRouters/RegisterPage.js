@@ -2,16 +2,16 @@ import React from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useLoad } from "../hooks/loadHook";
-import {useHistory} from "react-router-dom";
-import {FormattedMessage} from "react-intl";
+import { useHistory } from "react-router-dom";
+import { FormattedMessage } from "react-intl";
 
 const registerOptions = {
   email: {
     required: <FormattedMessage id="register-email-req-error" />,
     pattern: {
-      value:/^.+@.+\w$/,
-      message:<FormattedMessage id="register-email-pattern-error" />
-    }
+      value: /^.+@.+\w$/,
+      message: <FormattedMessage id="register-email-pattern-error" />,
+    },
   },
   password: {
     required: <FormattedMessage id="register-password-req-error" />,
@@ -24,21 +24,21 @@ const registerOptions = {
     required: <FormattedMessage id="register-nick-req-error" />,
     minLength: {
       value: 1,
-      message:<FormattedMessage id="register-nick-len-error" />,
+      message: <FormattedMessage id="register-nick-len-error" />,
     },
   },
 };
 
 export const RegisterPage = () => {
   const { register, errors, handleSubmit } = useForm();
-  const {load, request, error, clearError} = useLoad();
+  const { load, request, error, clearError } = useLoad();
   const history = useHistory();
 
-  const onSubmit = async(data) => {
-    try{
+  const onSubmit = async (data) => {
+    try {
       clearError();
       await request("/auth/register", "POST", data);
-      history.push('/');
+      history.push("/");
     } catch (e) {
       console.log(e.message);
     }

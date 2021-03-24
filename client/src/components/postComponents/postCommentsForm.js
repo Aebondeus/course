@@ -1,13 +1,13 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { Form, Button, Toast } from "react-bootstrap";
 import { useLoad } from "../../hooks/loadHook";
 import { useForm } from "react-hook-form";
 import { authContext } from "../../context/authContext";
-import {FormattedMessage} from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 const registerOptions = {
   content: {
-    required: <FormattedMessage id="comments-form.error"/>,
+    required: <FormattedMessage id="comments-form.error" />,
   },
 };
 
@@ -32,14 +32,15 @@ export const PostCommentsForm = (props) => {
 
   return (
     <div className="comment-form-part">
-      <div className="title-area text-center">
-      </div>
+      <div className="title-area text-center"></div>
       <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
         <Toast.Header>
-          <strong className="mr-auto"><FormattedMessage id="comments-form.sent.header"/></strong>
+          <strong className="mr-auto">
+            <FormattedMessage id="comments-form.sent.header" />
+          </strong>
         </Toast.Header>
         <Toast.Body>
-          <FormattedMessage id="comments-form.sent.body"/>
+          <FormattedMessage id="comments-form.sent.body" />
         </Toast.Body>
       </Toast>
       <Form onSubmit={handleSubmit(onSubmit)}>

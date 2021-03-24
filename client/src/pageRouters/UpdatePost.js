@@ -5,6 +5,7 @@ import { authContext } from "../context/authContext";
 import { MainPart } from "../components/updatePostComponents/updatePost.js";
 
 export const UpdatePost = ({ match }) => {
+  const postId = match.params.postId;
   const [data, setData] = useState(null);
   const [tags, setTags] = useState([]);
   const [genres, setGenres] = useState(null);
@@ -15,7 +16,6 @@ export const UpdatePost = ({ match }) => {
   const history = useHistory();
 
   const handleForm = (event) => {
-    console.log(event.target.name, event.target.value);
     setData({ ...data, [event.target.name]: event.target.value });
   };
 
@@ -25,7 +25,8 @@ export const UpdatePost = ({ match }) => {
         return e.label;
       })
     );
-    setData({ // think how to refactor it 
+    setData({
+      // think how to refactor it
       ...data,
       tags: event.map((e) => {
         return { label: e.label, value: e.value, id: !!e.id ? e.id : e._id };
@@ -35,17 +36,15 @@ export const UpdatePost = ({ match }) => {
 
   const handleGenre = (event) => {
     setGenre(event.label);
-  }
+  };
 
   const formSubmit = async (event) => {
     event.preventDefault();
-    const postId = match.params.postId;
     const form = {
-      title:data.name,
-      synopsis:data.synopsis,
-      genre:chosenGenre
-    }
-    console.log(postId, form, chosenTags);
+      title: data.name,
+      synopsis: data.synopsis,
+      genre: chosenGenre,
+    };
     await request("/post/amendpost", "POST", {
       postId,
       form,
@@ -55,15 +54,16 @@ export const UpdatePost = ({ match }) => {
   };
 
   useEffect(() => {
-    fetch(`/post/getpost/${match.params.postId}`)
+    fetch(`/post/getpost/${postId}`)
       .then((data) => data.json())
       .then((data) => {
-        console.log(data);
         setData(data);
         setGenre(data.genre);
-        setChosen(data.tags.map((value) => {
-          return value.label;
-        }))
+        setChosen(
+          data.tags.map((value) => {
+            return value.label;
+          })
+        );
       });
     fetch("/post/upload_tags")
       .then((res) => res.json())
@@ -78,7 +78,8 @@ export const UpdatePost = ({ match }) => {
   return (
     <MainPart
       data={data}
-      genres={genres}s
+      genres={genres}
+      s
       tags={tags}
       handleForm={handleForm}
       handleGenre={handleGenre}
