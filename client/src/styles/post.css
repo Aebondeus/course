@@ -4,10 +4,25 @@
 
 .part-card.card{
     border:none;
-    background-color:whitesmoke;
+    background-color:#f8f9fa;
 }
 
-.btn-primary.tag{
+.part-card.card:hover{
+    background-color:#e9ebec;
+    transition: all .15s ease-in-out;
+}
+
+.part-name{
+    font-size: 22px;
+    font-weight: 500;
+}
+.part-link{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-link.tag{
     padding:1px 8px;
     margin-right: .4rem;
     margin-bottom: .4rem;
@@ -16,26 +31,42 @@
     border: none;
 }
 
-.btn-primary.tag:hover{
+.btn-link.tag:hover{
+    text-decoration: none;
     background-color: rgba(214, 176, 176, 0.973);
     color:black;
 }
 
-.btn-primary.tag:not(:disabled):not(.disabled):active{
-    color:black;
-    background-color: rgba(199, 156, 156, 0.973);    
-}
-.btn-primary.tag:focus{
+.btn-link.tag:not(:disabled):not(.disabled):active{
+    border: none;
     color:black;
     background-color: rgba(199, 156, 156, 0.973);
     box-shadow: 0 0 0 .2rem rgba(214, 176, 176, 0.726);
 }
+.btn-link.tag:focus{
+    color:black;
+    background-color: rgba(199, 156, 156, 0.973);
+    box-shadow: 0 0 0 .2rem rgba(214, 176, 176, 0.726);
+}
+
+.card-body.part-link{
+    padding:.5rem 1rem
+}
+.card-footer.part-change{
+    padding:0;
+}
+
+.change-btn{
+    padding: 5px;
+}
+  
+
 @media (max-width:340px){
-    .post-tags{
-        display: grid;
-        grid-template-columns: 50%;
-    }
     .tag{
         margin-top: 3px;
     }
+}
+.part-arrow{
+    height:1em;
+    width:1em;
 }

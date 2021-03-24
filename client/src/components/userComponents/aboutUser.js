@@ -1,17 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Card, Spinner } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
-import EdiText from "react-editext";
 import { authContext } from "../../context/authContext.js";
 import { useLoad } from "../../hooks/loadHook.js";
+import { dateTimeCommon } from "../../utils/dateFormat.js";
+import { InlineEdit } from "../commonComponents/inlineEdit.js";
 
 export const UserInfo = ({ userId }) => {
   const [info, setInfo] = useState(null);
   const [isChange, setChange] = useState(true);
   const context = useContext(authContext);
   const { request } = useLoad();
-  const dateOption = { year: "numeric", month: "numeric", day: "numeric" };
-  const dateTimeFormat = new Intl.DateTimeFormat("ru-Ru", dateOption);
 
   useEffect(() => {
     if (isChange) {
@@ -37,9 +36,19 @@ export const UserInfo = ({ userId }) => {
     setChange(true);
   };
 
-  return !!info ? (
+  if (!info) {
+    return (
+      <div className="loader text-center">
+        <Spinner animation="border" role="status" />
+      </div>
+    );
+  }
+  return (
     <Card style={{ border: "none" }}>
-      <Card.Header className="post-title" style={{ backgroundColor: "#fff", paddingLeft:"0" }}>
+      <Card.Header
+        className="post-title"
+        style={{ backgroundColor: "#fff", paddingLeft: "0" }}
+      >
         <FormattedMessage id="user-info.title" />:{" "}
       </Card.Header>
       <Card.Body>
@@ -50,18 +59,7 @@ export const UserInfo = ({ userId }) => {
           :{" "}
         </div>
         {context.id === userId ? (
-          <EdiText
-            className="text-editor"
-            type="text"
-            value={info.nickName}
-            onSave={nicknameEdit}
-            editButtonClassName="edit-btn"
-            editButtonContent="✎"
-            saveButtonClassName="save-btn"
-            saveButtonContent="✓"
-            cancelButtonClassName="cancel-btn"
-            cancelButtonContent="✕"
-          />
+          <InlineEdit value={info.nickName} onSave={nicknameEdit} />
         ) : (
           <span>{info.nickName}</span>
         )}
@@ -72,18 +70,7 @@ export const UserInfo = ({ userId }) => {
           :{" "}
         </div>
         {context.id === userId ? (
-          <EdiText
-            className="text-editor"
-            type="textarea"
-            value={!!info.about ? info.about : "Nothing here yet!"}
-            onSave={aboutEdit}
-            editButtonClassName="edit-btn"
-            editButtonContent="✎"
-            saveButtonClassName="save-btn"
-            saveButtonContent="✓"
-            cancelButtonClassName="cancel-btn"
-            cancelButtonContent="✕"
-          />
+          <InlineEdit value={info.about} onSave={aboutEdit} />
         ) : (
           <div>{!!info.about ? info.about : "Nothing here yet!"}</div>
         )}
@@ -93,18 +80,12 @@ export const UserInfo = ({ userId }) => {
           </strong>
           :
         </div>
-        <div>
-          {dateTimeFormat.format(Date.parse(info.regDate))}
-        </div>
+        <div>{dateTimeCommon.format(Date.parse(info.regDate))}</div>
         <div className="user-email">
           <strong>E-mail</strong>:{" "}
         </div>
         <div>{info.email}</div>
       </Card.Body>
     </Card>
-  ) : (
-    <div className="loader text-center">
-      <Spinner animation="border" role="status" />
-    </div>
   );
 };

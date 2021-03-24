@@ -1,18 +1,8 @@
 import express from "express";
-import User from "../models/User.js";
 import Post from "../models/Post.js";
 import Tag from "../models/Tag.js";
 
 const router = express.Router();
-
-// try to make one function that handle docsarray
-
-const getRating = (arr) => {
-  const rating = arr.reduce((prev, cur, idx) => {
-    return prev.concat(Object.values(cur));
-  }, []);
-  return rating;
-};
 
 router.use("/ratedposts", (req, res) => {
   try {

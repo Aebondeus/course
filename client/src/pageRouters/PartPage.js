@@ -7,16 +7,16 @@ export const PartPage = ({ match }) => {
   const [error, setError] = useState(false);
   const [curPart, setPart] = useState({});
   const [allParts, setAll] = useState([]);
+  const postId = match.params.postId;
+  const partId = match.params.partId;
 
   useEffect(() => {
     const getData = () => {
-      fetch(`/post/getpart/${match.params.postId}/${match.params.partId}`)
+      fetch(`/post/getpart/${postId}/${partId}`)
         .then((data) => {
           if (data.status === 200) {
-            console.log(data);
             return data.json();
           }
-          console.log(data.status)
           throw Error;
         })
         .then((result) => {
@@ -26,9 +26,12 @@ export const PartPage = ({ match }) => {
         .catch(() => setError(true));
     };
     getData();
-  }, [match.params.partId]);
+  }, [partId]);
 
-  return !error ? (
+  if (!!error) {
+    return <PageNotFound />;
+  }
+  return (
     <div>
       <div className="parts-nav-wrapper">
         <PartNav part={curPart} parts={allParts} />
@@ -36,10 +39,6 @@ export const PartPage = ({ match }) => {
       <div className="part-content-wrapper">
         <PartContent data={curPart} />
       </div>
-    </div>
-  ) : (
-    <div className="parts-abscence">
-      <PageNotFound />
     </div>
   );
 };

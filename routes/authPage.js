@@ -8,7 +8,6 @@ const salt = 15;
 router.use("/register", async (req, res) => {
   try {
     const { email, password, nickname } = req.body;
-    console.log(req.body);
     const pass = bcrypt.hashSync(password, salt);
     const user = new User({
       email:email.toLowerCase(),

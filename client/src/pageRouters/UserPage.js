@@ -10,10 +10,11 @@ import { PageNotFound } from "../components/notFound.js";
 import "../styles/userpage.css";
 
 export const UserPage = ({ match }) => {
+  const userId = match.params.userId;
   const [error, setError] = useState(false);
   const [del, setDel] = useState(false);
   const [posts, setPosts] = useState(null);
-  const [sort, setSort] = useState({name:-1})
+  const [sort, setSort] = useState({ name: -1 });
   const context = useContext(authContext);
   const history = useHistory();
 
@@ -21,7 +22,7 @@ export const UserPage = ({ match }) => {
     await fetch("/user/sort", {
       method: "PUT",
       body: JSON.stringify({
-        sortMatch: { author: match.params.userId },
+        sortMatch: { author: userId },
         sort: sort,
       }),
       headers: { "Content-Type": "application/json" },
@@ -47,31 +48,34 @@ export const UserPage = ({ match }) => {
   const newPost = () => {
     history.push("/createpost");
   };
-  return !error ? (
+  if (!!error) {
+    return <PageNotFound />
+  }
+  return (
     <div>
       <div className="user-data" style={{ marginBottom: "2rem" }}>
-        <UserInfo userId={match.params.userId} />
+        <UserInfo userId={userId} />
       </div>
       <Row className="user-posts-title">
         <Col lg={8} style={{ marginBottom: "1rem" }}>
           <div className="post-title" style={{ marginBottom: "1rem" }}>
             <FormattedMessage id="user-posts.title" />:
           </div>
-          {match.params.userId === context.id ? (
+          {userId === context.id &&(
             <Button variant="primary" onClick={newPost}>
               <FormattedMessage id="new-post" />
             </Button>
-          ) : null}
+          )}
         </Col>
       </Row>
       <Row className="user-posts-content">
         <Col lg={8} md={8} sm={12} className="user-posts">
-          <UserPosts posts={posts} del={del} setDel={setDel}/>
+          <UserPosts posts={posts} del={del} setDel={setDel} />
         </Col>
         <Col lg={4} md={4} sm={12} className="posts-sorter">
           <Sorter selectHandler={selectHandler} />
         </Col>
       </Row>
     </div>
-  ) : <div className="posts-abscence"><PageNotFound /></div>
+  );
 };

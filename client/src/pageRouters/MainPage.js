@@ -1,37 +1,27 @@
 import React, { useEffect, useState } from "react";
-import {FormattedMessage} from "react-intl";
-import {Card} from "react-bootstrap";
+import { FormattedMessage } from "react-intl";
+import { Card } from "react-bootstrap";
 import { MostRated } from "../components/mainComponents/mostRated.js";
 import { LastUpdated } from "../components/mainComponents/lastUpdated.js";
 import { Cloud } from "../components/mainComponents/tagCloud.js";
 
 export const MainPage = ({ match }) => {
-  const [lastData, setLast] = useState([]);
-  const [ratedData, setRated] = useState([]);
+  const [lastData, setLast] = useState(null);
+  const [ratedData, setRated] = useState(null);
 
   useEffect(() => {
     let getData = async () => {
       await fetch("/main/ratedposts")
         .then((res) => res.json())
-        .then((data) => {
-          setTimeout(() => {
-            setRated(data);
-          }, 0);
-        });
+        .then((data) => setRated(data));
       await fetch("/main/updatedposts")
         .then((response) => response.json())
         .then((data) => {
-          setTimeout(() => {
-            setLast(data);
-          }, 0);
+          setLast(data);
         });
     };
     getData();
   }, [match]);
-
-  const mockEvent = (event) => {
-    console.log("something");
-  };
 
   return (
     <div className="main-content">

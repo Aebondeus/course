@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Card, Button } from "react-bootstrap";
 import { TagsField } from "../commonComponents/tagsSelect";
-import {FormattedMessage} from "react-intl";
+import { FormattedMessage } from "react-intl";
 import { GenreField } from "../commonComponents/genresSelect";
 
 export const MainPart = (props) => {
@@ -9,7 +9,9 @@ export const MainPart = (props) => {
     <div className="new-post-wrapper">
       <Card style={{ marginLeft: "5rem", marginRight: "5rem" }}>
         <Card.Header>
-          <span className="post-title"><FormattedMessage id="new-post"/>:</span>
+          <span className="post-title">
+            <FormattedMessage id="new-post" />:
+          </span>
         </Card.Header>
         <Card.Body>
           <Form onSubmit={props.formSubmit}>
@@ -39,13 +41,20 @@ export const MainPart = (props) => {
               <Form.Label>
                 <FormattedMessage id="genre" />:
               </Form.Label>
-              <GenreField genres={props.genres} handleGenre={props.handleGenre}/>
+              <GenreField
+                genres={props.genres}
+                handleGenre={props.handleGenre}
+              />
             </Form.Group>
             <Form.Group>
               <Form.Label>
                 <FormattedMessage id="tags" />:
               </Form.Label>
-              <TagsField tags={props.tags} handleTag={props.handleTag} value={props.value} />
+              <TagsField
+                tags={props.tags}
+                handleTag={props.handleTag}
+                value={props.value}
+              />
             </Form.Group>
             <Button variant="success" type="submit" disabled={props.load}>
               <FormattedMessage id="submit" />

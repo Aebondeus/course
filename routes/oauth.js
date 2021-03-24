@@ -28,7 +28,6 @@ passport.use( // probably will be deleted
       profileFields: ["id", "displayName", "emails"],
     },
     async (accessToken, refreshToken, profile, cb) => {
-      console.log(profile, accessToken); // delete it
       let user = null;
       const data = await User.findOne({
         email: profile.emails[0].value,
@@ -66,7 +65,6 @@ passport.use(
       profileFields: ["id", "displayName", "emails"],
     },
     async (accessToken, refreshToken, profile, cb) => {
-      console.log(profile, accessToken); // delete it
       let user = null;
       const data = await User.findOne({
         email: profile.emails[0].value,
@@ -142,7 +140,6 @@ passport.use(
       profileFields: ["id", "displayName", "emails"],
     },
     async (accessToken, refreshToken, profile, cb) => {
-      console.log(profile, accessToken); // delete it
       let user = null;
       const data = await User.findOne({
         email: profile.emails[0].value,

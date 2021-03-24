@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import {FormattedMessage} from "react-intl";
+import { FormattedMessage } from "react-intl";
 import { PostInfo } from "../components/postComponents/postInfo";
 import { PostParts } from "../components/postComponents/postPartsWrapper";
 import { PostCommentsForm } from "../components/postComponents/postCommentsForm.js";
@@ -15,9 +15,10 @@ export const PostPage = ({ match }) => {
   const [comments, setComments] = useState(null);
   const [time, setTime] = useState([true]);
   const context = useContext(authContext);
+  const postId = match.params.postId
 
   const getPost = () => {
-    fetch(`/post/getpost/${match.params.postId}`)
+    fetch(`/post/getpost/${postId}`)
       .then((res) => {
         if (res.status === 200) {
           return res.json();
@@ -25,7 +26,6 @@ export const PostPage = ({ match }) => {
         throw Error;
       })
       .then((data) => {
-        console.log(data);
         setData({
           id: data.id,
           name: data.name,
@@ -39,10 +39,13 @@ export const PostPage = ({ match }) => {
         setRaters(data.raters);
       })
       .catch(() => setError(true));
-    fetch(`/post/upload_comm/${match.params.postId}`)
+  };
+
+  const getComm = () => {
+    fetch(`/post/upload_comm/${postId}`)
       .then((res) => res.json())
-      .then((data) => {
-        setComments(data);
+      .then((res) => {
+        setComments(res);
       });
   };
 
@@ -60,9 +63,15 @@ export const PostPage = ({ match }) => {
 
   useEffect(() => {
     getPost();
+    getComm();
   }, [time]);
 
-  return !error ? (
+  if (error) {
+    return (
+        <PageNotFound />
+    );
+  }
+  return (
     <div>
       <PostInfo data={postData} raters={raters} />
       <div className="title-area text-center">
@@ -76,12 +85,10 @@ export const PostPage = ({ match }) => {
           <FormattedMessage id="comments" />
         </h2>
       </div>
-      {context.token ? <PostCommentsForm data={match.params.postId} /> : null}
+      {context.token && <PostCommentsForm data={postId} />}
       <div className="comment-part" style={{ marginTop: "1rem" }}>
         <Comments data={comments} />
       </div>
     </div>
-  ) : (
-    <div className="posts-abscence"><PageNotFound /></div>
   );
 };

@@ -1,9 +1,16 @@
 import React from "react";
-import {FormattedMessage} from "react-intl";
-import {Card} from "react-bootstrap";
+import { FormattedMessage } from "react-intl";
+import { Card, Spinner } from "react-bootstrap";
 import { GenericPost } from "../commonComponents/mainPost";
 
-export const LastUpdated = ({posts}) => {
+export const LastUpdated = ({ posts }) => {
+  if (!posts) {
+    return (
+      <div className="text-center">
+        <Spinner animation="border" role="status" variant="dark" />
+      </div>
+    );
+  }
   return (
     <div className="updated-fictions">
       <Card className="card-out">
