@@ -18,6 +18,7 @@ router.use("/ratedposts", (req, res) => {
             name: doc.name,
             synopsis: doc.synopsis,
             rating: doc.ratingTotal,
+            genre:doc.genre,
             id: doc._id,
             updated: doc.updated.toString(),
           };
@@ -46,6 +47,7 @@ router.use("/updatedposts", (req, res) => {
             name: doc.name,
             synopsis: doc.synopsis,
             updated: doc.updated.toString(),
+            genre:doc.genre,
             rating: doc.ratingTotal,
             id: doc._id,
           };

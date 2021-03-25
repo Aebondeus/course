@@ -4,11 +4,10 @@ import Post from "../models/Post.js";
 import User from "../models/User.js";
 const ObjectId = mongoose.Types.ObjectId;
 const router = express.Router();
-const defaultSort = {name:-1};
 
-const matchConvert = (sortMatch) => { // match will always have author property
+const matchConvert = (sortMatch) => {
   sortMatch["author"] = ObjectId(sortMatch["author"]);
-}
+};
 
 router.use("/user_posts/:userId", (req, res) => {
   Post.find({author:req.params.userId}).sort({updated:-1}).exec((err, posts) => {
@@ -74,7 +73,7 @@ router.use("/sort", (req, res) => {
             length: { $size: "$parts" },
           },
         },
-        { $sort: Object.keys(sort).length > 0 ? sort : defaultSort },
+        { $sort: sort },
       ],
       (err, results) => {
         return res.status(200).json(results);

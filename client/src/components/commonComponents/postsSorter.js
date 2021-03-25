@@ -38,26 +38,21 @@ const options = [
   },
 ];
 
-export const Sorter = ({ selectHandler }) => {
-  const sortHandler = (event) => {
-    event.preventDefault();
-  };
-  return (
-    <Card>
-      <Card.Header>
-        <FormattedMessage id="user-posts.sort-title" />
-      </Card.Header>
-      <Card.Body>
-        <Form onSubmit={sortHandler}>
-          <Form.Group>
-            <Select
-              options={options}
-              onChange={selectHandler}
-              defaultValue={options[0]}
-            />
-          </Form.Group>
-        </Form>
-      </Card.Body>
-    </Card>
-  );
-};
+export const Sorter = ({ selectHandler }) => (
+  <Card>
+    <Card.Header>
+      <FormattedMessage id="user-posts.sort-title" />
+    </Card.Header>
+    <Card.Body>
+      <Form>
+        <Form.Group>
+          <Select
+            options={options}
+            onChange={selectHandler}
+            defaultValue={options[7]}
+          />
+        </Form.Group>
+      </Form>
+    </Card.Body>
+  </Card>
+);
