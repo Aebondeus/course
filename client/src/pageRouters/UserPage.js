@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { UserPosts } from "../components/userComponents/userPosts";
 import { authContext } from "../context/authContext";
 import { Row, Col, Button } from "react-bootstrap";
-import { Sorter } from "../components/userComponents/postsSorter";
+import { Sorter } from "../components/commonComponents/postsSorter";
 import { UserInfo } from "../components/userComponents/aboutUser.js";
 import { FormattedMessage } from "react-intl";
 import { PageNotFound } from "../components/notFound.js";
@@ -14,7 +14,7 @@ export const UserPage = ({ match }) => {
   const [error, setError] = useState(false);
   const [del, setDel] = useState(false);
   const [posts, setPosts] = useState(null);
-  const [sort, setSort] = useState({ name: -1 });
+  const [sort, setSort] = useState({ ratingTotal: -1 });
   const context = useContext(authContext);
   const history = useHistory();
 

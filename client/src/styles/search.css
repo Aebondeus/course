@@ -1,0 +1,16 @@
+.search-wrapper{
+    display:grid;
+}
+
+.card-body.search-posts{
+    padding-top: 0;
+}
+
+@media (max-width:768px){
+    .posts-col{
+        order:2;
+    }
+    .sorter-col{
+        order:1;
+    }
+} 

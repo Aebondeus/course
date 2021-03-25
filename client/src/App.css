@@ -4,8 +4,8 @@ body{
   background-color: #f8f9fa;
 }
 
-.card-body > .card {
-  margin-top: 1rem;
+.card{
+  margin-bottom: 1rem;
 }
 .whole-app{
   padding-bottom: auto;

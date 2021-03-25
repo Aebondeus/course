@@ -6,11 +6,14 @@ import { MainFooter } from "./components/footerComponents/mainFooter";
 import { authContext } from "./context/authContext.js";
 import { useAuth } from "./hooks/authHook.js";
 import { IntlProvider } from "react-intl";
+import {ThemeProvider} from "styled-components";
 import locales from "./language/locales";
 import ru from "./language/ru.json";
 import en from "./language/en.json";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import { lightTheme } from "./styles/theme";
+import { GlobalStyles } from "./styles/global";
 
 function App() {
   const { token, id, nickname, login, logout } = useAuth();
@@ -26,17 +29,20 @@ function App() {
 
   return (
     <authContext.Provider value={{ token, id, nickname, login, logout }}>
-      <IntlProvider locale={curLang} messages={locale[curLang]}>
-        <div className="whole-app" style={{ position: "relative" }}>
-          <div className="header-main">
-            <MainHeader setLang={setLang} />
-          </div>
+      <ThemeProvider theme={lightTheme}>
+        <GlobalStyles />
+        <IntlProvider locale={curLang} messages={locale[curLang]}>
+          <div className="whole-app" style={{ position: "relative" }}>
+            <div className="header-main">
+              <MainHeader setLang={setLang} />
+            </div>
             <Container>{Route}</Container>
-        </div>
-        <div className="footer-wrapper">
-          <MainFooter />
-        </div>
-      </IntlProvider>
+          </div>
+          <div className="footer-wrapper">
+            <MainFooter />
+          </div>
+        </IntlProvider>
+      </ThemeProvider>
     </authContext.Provider>
   );
 }

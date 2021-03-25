@@ -13,6 +13,9 @@ export const GenericPost = ({ posts }) =>
             <div className="post-synopsis">
               <FormattedMessage id="synopsis" />: {post.synopsis}
             </div>
+            <div className="post-genre">
+              <FormattedMessage id="genre" />: {post.genre}
+            </div>
             <div className="post-rating">
               <FormattedMessage id="rating" />: {post.rating}
             </div>
