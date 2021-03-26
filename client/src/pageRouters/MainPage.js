@@ -6,6 +6,7 @@ import { LastUpdated } from "../components/mainComponents/lastUpdated.js";
 import { Cloud } from "../components/mainComponents/tagCloud.js";
 
 export const MainPage = ({ match }) => {
+  document.title = "MORDOR | The Land of cursed future"
   const [lastData, setLast] = useState(null);
   const [ratedData, setRated] = useState(null);
 
@@ -35,7 +36,7 @@ export const MainPage = ({ match }) => {
               <Card.Title className="text-center">
                 <FormattedMessage id="tag-cloud" />
               </Card.Title>
-              <Card>
+              <Card className="cloud-container">
                 <Card.Body>
                   <Cloud />
                 </Card.Body>

@@ -12,11 +12,14 @@ import ru from "./language/ru.json";
 import en from "./language/en.json";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { lightTheme } from "./styles/theme";
+import { darkTheme, lightTheme } from "./styles/theme";
 import { GlobalStyles } from "./styles/global";
 
 function App() {
   const { token, id, nickname, login, logout } = useAuth();
+  const [theme, setTheme] = useState(
+    localStorage.getItem("theme") || "light"
+  )
   const [curLang, setLang] = useState(
     localStorage.getItem("lang") || locales.RU
   );
@@ -29,12 +32,12 @@ function App() {
 
   return (
     <authContext.Provider value={{ token, id, nickname, login, logout }}>
-      <ThemeProvider theme={lightTheme}>
+      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
         <GlobalStyles />
         <IntlProvider locale={curLang} messages={locale[curLang]}>
           <div className="whole-app" style={{ position: "relative" }}>
             <div className="header-main">
-              <MainHeader setLang={setLang} />
+              <MainHeader setLang={setLang} setTheme={setTheme}/>
             </div>
             <Container>{Route}</Container>
           </div>

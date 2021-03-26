@@ -7,7 +7,7 @@ export const LastUpdated = ({ posts }) => {
   if (!posts) {
     return (
       <div className="text-center">
-        <Spinner animation="border" role="status" variant="dark" />
+        <Spinner animation="border" role="status"/>
       </div>
     );
   }

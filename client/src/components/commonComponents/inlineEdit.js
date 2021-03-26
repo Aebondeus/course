@@ -8,7 +8,7 @@ export const InlineEdit = ({ value, onSave }) => (
     value={!!value ? value : "Nothing here yet!"}
     onSave={onSave}
     editButtonClassName="edit-btn"
-    editButtonContent="✎"
+    editButtonContent="✏️"
     saveButtonClassName="save-btn"
     saveButtonContent="✓"
     cancelButtonClassName="cancel-btn"

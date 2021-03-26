@@ -1,9 +1,3 @@
-@import './normalize.css';
-
-body{
-  background-color: #f8f9fa;
-}
-
 .card{
   margin-bottom: 1rem;
 }
@@ -11,8 +5,12 @@ body{
   padding-bottom: auto;
 }
 
+@media (max-width:567px){
+  .search-tab{
+    margin-top: 1rem;
+  }
+}
 .whole-app > .container{
-  background-color: #fff;
   box-shadow: 0 0 10px 1px black;
   padding-top: 20px;
   padding-bottom: 100px;
@@ -79,7 +77,7 @@ body{
 }
 
 .change-btn.update-btn{
-  color:black;
+  color:inherit;
 }
 
 .change-btn.delete-btn{

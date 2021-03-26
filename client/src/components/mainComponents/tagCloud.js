@@ -39,7 +39,6 @@ export const Cloud = () => {
         <Spinner
           animation="border"
           role="status"
-          variant="dark"
         />
       </div>
     );
@@ -51,7 +50,7 @@ export const Cloud = () => {
         maxSize={30}
         tags={tags}
         onClick={tagHandler}
-        colorOptions={color}
+        disableRandomColor="true" // temporary true, need to prevent multiple fetch
       />
     </div>
   );

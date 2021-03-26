@@ -47,7 +47,7 @@ export const UserInfo = ({ userId }) => {
     <Card style={{ border: "none" }}>
       <Card.Header
         className="post-title"
-        style={{ backgroundColor: "#fff", paddingLeft: "0" }}
+        style={{ backgroundColor: "inherit", paddingLeft: "0" }}
       >
         <FormattedMessage id="user-info.title" />:{" "}
       </Card.Header>

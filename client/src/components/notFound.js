@@ -11,6 +11,7 @@ const styles = {
   }
 }
 export const PageNotFound = () => {
+  document.title = "Not found!"
   return (
     <div id="not-found text-center" style={styles.notfound}>
       <div id="status-code">404</div>
@@ -32,7 +33,7 @@ export const PageNotFound = () => {
         </p>
         <Link
           to="/"
-          style={{ fontWeight: 700, color: "black", textDecoration: "none" }}
+          style={{ fontWeight: 700, color: "inherit", textDecoration: "none" }}
         >
           ♥
         </Link>

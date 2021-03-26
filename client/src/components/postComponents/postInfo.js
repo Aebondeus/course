@@ -55,7 +55,7 @@ export const PostInfo = ({ data, raters }) => {
       <Card style={{ border: "none" }}>
         <Card.Header
           className="post-title"
-          style={{ paddingLeft: "0", backgroundColor: "#fff" }}
+          style={{ paddingLeft: "0", backgroundColor: "inherit" }}
         >
           {data.name}
         </Card.Header>
