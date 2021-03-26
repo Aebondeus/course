@@ -6,7 +6,7 @@ import { dateTimeCommon } from "../../utils/dateFormat.js";
 export const GenericPost = ({ posts }) =>
   posts.map((post, idx) => {
     return (
-      <div className="card" key={idx}>
+      <div className="card post-preview" key={idx}>
         <div className="card-body">
           <div className="card-title post-title">{post.name}</div>
           <div className="card-text">

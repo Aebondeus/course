@@ -1,0 +1,8 @@
+#mock{
+    margin-right: auto;
+}
+
+.modal-btns{
+    display:flex;
+    justify-content: space-between;
+}

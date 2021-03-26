@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 export const NewPart = ({ match }) => {
+  document.title = "New part"
   const postId = match.params.postId;
   const history = useHistory();
   const [name, setName] = useState("");

@@ -82,18 +82,29 @@ export const AuthButton = () => {
             {errors.password && (
               <p className="error-text">{errors.password.message}</p>
             )}
-            <Button
-              variant="primary"
-              disabled={load}
-              type="submit"
-              onClick={handleSubmit}
-            >
-              <FormattedMessage id="modal-signin-btn" />
-            </Button>
-            <Button variant="link" onClick={handleRegister}>
-              <FormattedMessage id="modal-register-btn" />
-            </Button>
-            <OauthComponent />
+            <div className="modal-btns">
+              <div className="local-strat">
+                <Button
+                  id="signin-btn"
+                  variant="link"
+                  disabled={load}
+                  type="submit"
+                  onClick={handleSubmit}
+                >
+                  <FormattedMessage id="modal-signin-btn" />
+                </Button>
+                <Button
+                  variant="link"
+                  id="register-btn"
+                  onClick={handleRegister}
+                >
+                  <FormattedMessage id="modal-register-btn" />
+                </Button>
+              </div>
+              <div className="oauth-strats">
+                <OauthComponent />
+              </div>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>

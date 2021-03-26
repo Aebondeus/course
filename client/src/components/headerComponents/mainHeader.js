@@ -5,9 +5,10 @@ import { FormattedMessage } from "react-intl";
 import { AuthWrapper } from "./authWrapper.js";
 import { UiSwitch } from "./uiSwitchers.js";
 import { authContext } from "../../context/authContext.js";
-import "./header.css";
+import "../../styles/header.css";
 
-export const MainHeader = ({ setLang }) => {
+export const MainHeader = ({ setLang, setTheme }) => {
+  const theme = localStorage.getItem("theme");
   const context = useContext(authContext);
 
   const loginOauth = async () =>{
@@ -39,24 +40,24 @@ export const MainHeader = ({ setLang }) => {
   }, []);
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+    <Navbar collapseOnSelect expand="lg" variant={theme}>
       <Navbar.Brand className="header-logo">
-        <Link to="/" style={{ color: "black", textDecoration: "none" }}>
+        <Link to="/" className="header-logo">
           MORDOR
         </Link>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="controlled-header" />
       <Navbar.Collapse id="controlled-header">
-        <Form inline>
+        <Form inline style={{marginTop:"6px"}}>
           <Form.Control
             type="text"
-            className="search-tab ml-lg-2 mr-sm-2 mt-sm-2"
+            className="search-tab"
           />
-          <Button variant="outline-success" className="mt-sm-2">
+          <Button variant="link" className="search-btn">
             <FormattedMessage id="navbar-search" />
           </Button>
         </Form>
-        <UiSwitch setLang={setLang} />
+        <UiSwitch setLang={setLang} setTheme={setTheme}/>
         <div id="mock"></div>
         <AuthWrapper />
       </Navbar.Collapse>

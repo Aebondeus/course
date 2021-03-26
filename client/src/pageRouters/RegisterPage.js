@@ -55,7 +55,7 @@ export const RegisterPage = () => {
             {error ? (
               <div className="error-text text-center">{error}</div>
             ) : null}
-            <Form.Group controlId="formRegister">
+            <Form.Group controlId="formEmail">
               <Form.Label>
                 <FormattedMessage id="email" />:
               </Form.Label>
@@ -83,7 +83,7 @@ export const RegisterPage = () => {
             {errors.password && (
               <p className="error-text">{errors.password.message}</p>
             )}
-            <Form.Group>
+            <Form.Group controlId="formNickname">
               <Form.Label>
                 <FormattedMessage id="nickname" />:
               </Form.Label>

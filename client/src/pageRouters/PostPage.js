@@ -16,6 +16,7 @@ export const PostPage = ({ match }) => {
   const [time, setTime] = useState([true]);
   const context = useContext(authContext);
   const postId = match.params.postId
+  document.title = !!postData ? postData.name : "Loading..."
 
   const getPost = () => {
     fetch(`/post/getpost/${postId}`)

@@ -22,7 +22,7 @@ export const AuthWrapper = () => {
             <Button
               value={context.id}
               onClick={userHandler}
-              variant="outline-success"
+              variant="link"
               id="login"
             >
               {context.nickname}
