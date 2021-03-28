@@ -34,3 +34,28 @@
 .card-footer{
     padding-left: .65rem;
 }
+
+.pagination{
+    display:flex;
+    justify-content: center;
+}
+
+a.page-link{
+    margin: 0 .5rem;
+    border:none;
+}
+
+.page{
+    padding: .3rem .75rem;
+}
+
+.page-link-active{
+    border-radius: 50%;
+}
+
+a.page-link:focus{
+    box-shadow: none;
+}
+a.page-link:hover{
+    background-color: inherit;
+}

@@ -11,6 +11,10 @@
     margin-top: 3rem;
 }
 
+.auth-btn > button{
+    padding-left: 0;
+}
+
 @media (max-width:365px){
     .modal-btns{
         display:grid;

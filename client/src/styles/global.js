@@ -238,4 +238,30 @@ export const GlobalStyles = createGlobalStyle`
       background-color:${({theme}) => theme.dropzoneBackground};
       color:${({theme}) => theme.dropzoneText}
     }
+
+    .prev-page, .to-content, .next-page{
+      color:${({theme}) => theme.partNav};
+    }
+
+    .prev-page:hover, .to-content:hover, .next-page:hover{
+      color:${({theme}) => theme.partNavHover};
+    }
+    .page-link-disabled > .page-link, .page-link-disabled > .page-link:hover{
+      font-weight:400;
+      color:${({theme}) => theme.pageLinkDisable}
+    }
+    
+    .page-link{
+      background-color: inherit;
+      color:${({theme}) => theme.text}
+    }
+
+    .page-link:hover{
+      color:${({theme}) => theme.text};
+      font-weight: 700;
+    }
+
+    .page-link-active{
+      background-color:${({theme}) => theme.cardHeaderFooter}
+    }
     `;

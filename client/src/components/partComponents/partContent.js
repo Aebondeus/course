@@ -1,19 +1,18 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
+import { Card } from "react-bootstrap";
 import { Image } from "cloudinary-react";
 import "../../styles/part.css";
 
 export const PartContent = (props) => {
   return (
-    <div className="card">
-      <div className="card-header">
-        <strong>{props.data.name}</strong>
-      </div>
-      <div className="card-body">
+    <Card style={{ border: "none" }}>
+      <Card.Header className="post-title">{props.data.name}</Card.Header>
+      <Card.Body>
         {!!props.data.image && (
           <div className="part-img">
             <Image
-            className="cloud-img"
+              className="cloud-img"
               cloudName="mordorcloud"
               publicId={props.data.image}
               crop="scale"
@@ -21,7 +20,7 @@ export const PartContent = (props) => {
           </div>
         )}
         <ReactMarkdown source={props.data.content} />
-      </div>
-    </div>
+      </Card.Body>
+    </Card>
   );
 };

@@ -14,6 +14,15 @@ export const UserInfo = ({ userId }) => {
   const id = context.id;
 
   useEffect(() => {
+    fetch(`/user/get_data/${userId}`)
+      .then((res) => res.json())
+      .then((res) => {
+        setInfo(res);
+      });
+    setChange(false);
+  }, [userId]);
+  
+  useEffect(() => {
     if (isChange) {
       fetch(`/user/get_data/${userId}`)
         .then((res) => res.json())
@@ -22,7 +31,7 @@ export const UserInfo = ({ userId }) => {
         });
       setChange(false);
     }
-  }, [isChange, userId]);
+  }, [isChange]);
 
   const nicknameEdit = async (event) => {
     let body = { id: userId, nickname: event };

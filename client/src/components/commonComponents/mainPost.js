@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
+import { Card } from "react-bootstrap";
 import { dateTimeCommon } from "../../utils/dateFormat.js";
 
 export const GenericPost = ({ posts }) =>
   posts.map((post, idx) => {
     return (
-      <div className="card post-preview" key={idx}>
-        <div className="card-body">
+        <Card.Body key={idx} className="post-preview">
           <div className="card-title post-title">{post.name}</div>
           <div className="card-text">
             <div className="post-synopsis">
@@ -29,7 +29,6 @@ export const GenericPost = ({ posts }) =>
               </Link>
             </div>
           </div>
-        </div>
-      </div>
+        </Card.Body>
     );
   });

@@ -243,7 +243,7 @@ router.get(
 );
 router.get(
   "/auth/vkontakte",
-  passport.authenticate("vkontakte", { scope: ["email", "phone"] })
+  passport.authenticate("vkontakte", { scope: ["email", "contacts"] })
 );
 
 router.get("/auth/yandex", passport.authenticate("yandex"));

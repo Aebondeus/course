@@ -37,7 +37,7 @@ export const MainForm = (props) => (
               setSelectedTab={props.setSelectedTab}
             />
           </Form.Group>
-          <Button variant="success" type="submit" disabled={props.load}>
+          <Button variant="link" className="send-btn" type="submit" disabled={props.load}>
             <FormattedMessage id="submit" />
           </Button>
         </Form>

@@ -14,11 +14,9 @@ export const MainPart = (props) => {
   }
   return (
     <div className="update-post-wrapper">
-      <Card style={{ marginLeft: "5rem", marginRight: "5rem" }}>
-        <Card.Header>
-          <span className="post-title">
-            <FormattedMessage id="update-post" />:
-          </span>
+      <Card>
+        <Card.Header className="post-title">
+          <FormattedMessage id="update-post" />:
         </Card.Header>
         <Card.Body>
           {props.error && (
@@ -71,7 +69,8 @@ export const MainPart = (props) => {
               />
             </Form.Group>
             <Button
-              variant="success"
+              variant="link"
+              className="send-btn"
               type="submit"
               disabled={props.load}
               value={props.data.postId}

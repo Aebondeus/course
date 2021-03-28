@@ -1,8 +1,30 @@
 .part-img{
     display: flex;
     justify-content: center;
+    margin-bottom: 1rem;
 }
 .cloud-img{
     width:50%;
     height:50%;
+}
+
+.parts-nav{
+    display:flex;
+    justify-content: center;
+}
+.prev-page, .to-content, .next-page{
+    display:flex;
+    justify-content: space-between;
+    margin: 0 4px;
+}
+
+.prev-page{
+    padding-right: 1rem;
+}
+
+.next-page{
+    padding-left: 1rem;
+}
+.to-content > * {
+    margin:0 4px;
 }

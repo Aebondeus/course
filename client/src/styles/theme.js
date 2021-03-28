@@ -25,7 +25,11 @@ export const lightTheme = {
     mdeHeader:"#f9f9f9",
     dropzoneBackground:"rgba(248, 243, 250, 0.87)",
     dropzoneText:"gray",
-    toggleBorder: '#FFF',
+    partNav:"#757478",
+    partNavHover:"#363537",
+    pageLinkDisable:"#757478",
+    pageLinkActive:"rgba(0,0,0,.10)",
+    toggleBorder:'#FFF',
     gradient: 'linear-gradient(#39598A, #79D7ED)',
   }
   
@@ -46,7 +50,7 @@ export const lightTheme = {
     inlineEditor:"",
     inputBorder:"1px solid #FAFAFA",
     cardHeaderFooter:"#434244",
-    tag:"#cba4a4",
+    tag:"#af7373",
     tagDanger:"#c29494",
     partLink:"#403f41",
     partCard:"#4c4c4c",
@@ -56,6 +60,10 @@ export const lightTheme = {
     mdeHeader:"#363537",
     dropzoneBackground:"#363537",
     dropzoneText:"#FAFAFA",
+    partNav:"#bfbfbf",
+    partNavHover:"#FAFAFA",
+    pageLinkDisable:"#d3d3d3",
+    pageLinkActive:"#434244",
     toggleBorder: '#6B8096',
     gradient: 'linear-gradient(#091236, #1E215D)',
   }
