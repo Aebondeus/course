@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Nav } from "react-bootstrap";
+import {Icon24DoorArrowLeftOutline} from "@vkontakte/icons"
 import { authContext } from "../../context/authContext";
 import { AuthButton } from "./authModal";
 import { FormattedMessage } from "react-intl";
@@ -30,9 +31,9 @@ export const AuthWrapper = () => {
             <Button
               onClick={context.logout}
               id="logout"
-              variant="outline-primary"
+              variant="link"
             >
-              <FormattedMessage id="navbar-logout" />
+              <Icon24DoorArrowLeftOutline width={24} height={24}/>
             </Button>
           </div>
         ) : (

@@ -12,7 +12,7 @@ export const PartPage = ({ match }) => {
 
   useEffect(() => {
     const getData = () => {
-      fetch(`/post/getpart/${postId}/${partId}`)
+      fetch(`/handle_post/part/${postId}/${partId}`)
         .then((data) => {
           if (data.status === 200) {
             return data.json();

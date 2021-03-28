@@ -12,7 +12,7 @@ export const NewPart = ({ match }) => {
   const [selectedFile, setSelectedFile] = useState("");
   const [content, setContent] = useState("**Type here, mah boi!**");
   const [selectedTab, setSelectedTab] = useState("write");
-  const { request, load } = useLoad();
+  const { request, load, error } = useLoad();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,12 +28,16 @@ export const NewPart = ({ match }) => {
   };
 
   const finalSubmit = async (image) => {
-    const part = { name, content, image };
-    await request("/post/newpart", "POST", {
-      postId: postId,
-      part,
-    });
-    history.push(`/post/${postId}`);
+    try {
+      const part = { name, content, image };
+      await request("/handle_post/newpart", "POST", {
+        postId: postId,
+        part,
+      });
+      history.push(`/post/${postId}`);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleFileInput = (file) => {
@@ -47,6 +51,7 @@ export const NewPart = ({ match }) => {
   return (
     <Container className="new-part-wrapper">
       <MainForm
+        error={error}
         content={content}
         selectedTab={selectedTab}
         load={load}

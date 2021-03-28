@@ -34,7 +34,7 @@ export const AuthButton = () => {
     try {
       clearError();
       const res = await request("/auth/login", "POST", data);
-      context.login(res.token, res.userId, res.nickname);
+      context.login(res.token);
       setShow(false);
     } catch (err) {
       console.log(err.message);

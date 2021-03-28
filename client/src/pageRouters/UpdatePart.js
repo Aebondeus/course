@@ -13,10 +13,10 @@ export const UpdatePart = ({ match }) => {
   const [selectedFile, setSelectedFile] = useState("");
   const [prevImage, setImage] = useState("");
   const [selectedTab, setSelectedTab] = useState("write");
-  const { request, load } = useLoad();
+  const { request, load, error } = useLoad();
 
   useEffect(() => {
-    fetch(`/post/getpart/${postId}/${partId}`)
+    fetch(`/handle_post/part/${postId}/${partId}`)
       .then((data) => data.json())
       .then((data) => {
         setName(data.part.name);
@@ -39,13 +39,17 @@ export const UpdatePart = ({ match }) => {
   };
 
   const finalSubmit = async (image, updated) => {
-    const data = { name, content, image };
-    await request("/post/amendpart", "POST", {
-      partId: partId,
-      data,
-      prevImg: !!updated ? prevImage : null,
-    });
-    history.push(`/post/${postId}`);
+    try {
+      const data = { name, content, image };
+      await request(`/handle_post/part/${postId}/${partId}`, "PUT", {
+        data,
+        prevImg: !!updated && prevImage
+      });
+      history.push(`/post/${postId}`);
+    } catch (e) {
+      console.log(e);
+    }
+
   };
 
   const handleFileInput = (file) => {
@@ -59,6 +63,7 @@ export const UpdatePart = ({ match }) => {
   return (
     <Container className="update-part-wrapper">
       <PartUpdate
+        error={error}
         name={name}
         content={content}
         selectedTab={selectedTab}

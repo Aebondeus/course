@@ -14,7 +14,7 @@ export const NewPost = () => {
   const [chosenTags, setChosen] = useState(null);
   const [chosenGenre, setGenre] = useState(null);
   const [tagsValue, setValue] = useState(null);
-  const { load, request } = useLoad();
+  const { load, request, error } = useLoad();
   const history = useHistory();
   const context = useContext(authContext);
 
@@ -36,21 +36,26 @@ export const NewPost = () => {
   };
 
   const formSubmit = async (event) => {
-    event.preventDefault();
-    form.genre = chosenGenre;
-    await request("/post/newpost", "POST", {
-      form,
-      author: context.id,
-      tags: chosenTags,
-    });
-    history.push(`/user/${context.id}`);
+    try{
+      event.preventDefault();
+      form.genre = chosenGenre;
+      await request("/handle_post/newpost", "POST", {
+         form,
+         author: context.id,
+         tags: chosenTags,
+       });
+      history.push(`/user/${context.id}`);
+    } catch (e) {
+      console.log(e);
+    }
+
   };
 
   useEffect(() => {
-    fetch("/post/upload_tags")
+    fetch("/handle_post/upload_tags")
       .then((res) => res.json())
       .then((data) => setTags(data));
-    fetch("/post/upload_genres")
+    fetch("/handle_post/upload_genres")
       .then((res) => res.json())
       .then((res) => {
         setGenres(res);
@@ -60,6 +65,7 @@ export const NewPost = () => {
 
   return (
     <MainPart
+      error={error}
       handleForm={handleForm}
       handleGenre={handleGenre}
       tags={tags}

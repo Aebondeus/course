@@ -7,8 +7,8 @@ import { GenreField } from "../commonComponents/genresSelect";
 export const MainPart = (props) => {
   if (!props.data) {
     return (
-      <div>
-        <Spinner animation="border" role="status" className="text-center" />
+      <div className="text-center">
+        <Spinner animation="border" role="status"/>
       </div>
     );
   }
@@ -21,6 +21,9 @@ export const MainPart = (props) => {
           </span>
         </Card.Header>
         <Card.Body>
+          {props.error && (
+            <div className="error-text text-center">{props.error}</div>
+          )}
           <Form onSubmit={props.formSubmit}>
             <Form.Group>
               <Form.Label>

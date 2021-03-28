@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import postRouter from "./routes/postPage.js";
 import { mainRouter } from "./routes/mainPage.js";
 import { authRouter } from "./routes/authPage.js";
-import {userRouter} from "./routes/userPage.js"
+import { userRouter } from "./routes/userPage.js";
 import { searchRouter } from "./routes/search.js";
 import { oauthRouter } from "./routes/oauth.js";
 import passport from "passport";
@@ -39,7 +39,7 @@ app.use(cors({//
   credentials:true
 }))
 
-app.use("/post", postRouter);
+app.use("/handle_post", postRouter);
 app.use("/main", mainRouter);
 app.use("/auth", authRouter);
 app.use("/user", userRouter);

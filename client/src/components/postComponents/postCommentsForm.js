@@ -21,7 +21,7 @@ export const PostCommentsForm = (props) => {
     try {
       data.author = context.id;
       const comment = { postId: props.data, comment: data };
-      await request("/post/add_comm", "PUT", comment);
+      await request("/handle_post/add_comm", "PUT", comment);
       e.target.reset();
       setShow(true);
     } catch (err) {
@@ -44,7 +44,7 @@ export const PostCommentsForm = (props) => {
         </Toast.Body>
       </Toast>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Form.Group>
+        <Form.Group style={{ marginBottom: "0" }}>
           <div name="comment-area">
             <FormattedMessage id="comments-form.sign" />
           </div>
@@ -61,7 +61,8 @@ export const PostCommentsForm = (props) => {
           )}
         </Form.Group>
         <Button
-          variant="success"
+          className="send-btn"
+          variant="link"
           type="submit"
           disabled={load}
           onClick={handleSubmit}

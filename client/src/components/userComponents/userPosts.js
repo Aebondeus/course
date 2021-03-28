@@ -13,7 +13,8 @@ export const UserPosts = ({ posts, del, setDel }) => {
 
   const deletePost = async (event) => {
     event.preventDefault();
-    await request(`/post/deletepost/`, "POST", { postId: event.target.value });
+    const postId = event.target.value;
+    await request(`/handle_post/post/${postId}`, "DELETE");
     setDel(!del);
   };
 
@@ -53,15 +54,15 @@ export const UserPosts = ({ posts, del, setDel }) => {
                   <FormattedMessage id="updated" />:{" "}
                   {dateTimeCommon.format(Date.parse(post.updated))}
                 </div>
-                <div className="post-link">
-                  <Link to={`/post/${post._id}`}>
+                <div>
+                  <Link className="post-link" to={`/post/${post._id}`}>
                     <FormattedMessage id="open-post" />
                   </Link>
                 </div>
               </Card.Text>
             </Card.Body>
             {post.author === context.id && (
-              <Card.Footer style={{padding:"0 .5rem"}}>
+              <Card.Footer style={{ padding: "0 .5rem" }}>
                 <Button
                   value={post._id}
                   variant="link"

@@ -19,7 +19,7 @@ export const PostPage = ({ match }) => {
   document.title = !!postData ? postData.name : "Loading..."
 
   const getPost = () => {
-    fetch(`/post/getpost/${postId}`)
+    fetch(`/handle_post/post/${postId}`)
       .then((res) => {
         if (res.status === 200) {
           return res.json();
@@ -43,7 +43,7 @@ export const PostPage = ({ match }) => {
   };
 
   const getComm = () => {
-    fetch(`/post/upload_comm/${postId}`)
+    fetch(`/handle_post/upload_comm/${postId}`)
       .then((res) => res.json())
       .then((res) => {
         setComments(res);

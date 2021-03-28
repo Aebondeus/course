@@ -1,10 +1,10 @@
 import React from "react";
 import EdiText from "react-editext";
 
-export const InlineEdit = ({ value, onSave }) => (
+export const InlineEdit = ({ value, onSave, type }) => (
   <EdiText
     className="text-editor"
-    type="text"
+    type={type}
     value={!!value ? value : "Nothing here yet!"}
     onSave={onSave}
     editButtonClassName="edit-btn"

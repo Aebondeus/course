@@ -23,8 +23,8 @@ export const GenericPost = ({ posts }) =>
               <FormattedMessage id="updated" />:{" "}
               {dateTimeCommon.format(Date.parse(post.updated))}
             </div>
-            <div className="post-link">
-              <Link to={`/post/${post.id}`}>
+            <div>
+              <Link className="post-link" to={`/post/${post.id}`}>
                 <FormattedMessage id="open-post" />
               </Link>
             </div>

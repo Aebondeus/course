@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Spinner, Row, Col } from "react-bootstrap";
+import { Spinner, Row, Col } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
 import { GenericPost } from "../components/commonComponents/mainPost.js";
 import { Sorter } from "../components/commonComponents/postsSorter.js";
@@ -57,18 +57,10 @@ export const SearchByTag = ({ match }) => {
       <div className="row-wrapper">
         <Row>
           <Col lg={8} md={8} className="posts-col">
-            <Card className="card-out">
-              <Card.Body>
                 <GenericPost posts={posts} style={{ marginBottom: "1rem" }} />
-              </Card.Body>
-            </Card>
           </Col>
-          <Col lg={4} md={4} className="sorter-col">
-            <Card className="card-out">
-              <Card.Body>
+          <Col lg={4} md={4} className="posts-sorter">
                 <Sorter selectHandler={selectHandler} />
-              </Card.Body>
-            </Card>
           </Col>
         </Row>
       </div>

@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Card } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
+import {Icon24Chevron} from "@vkontakte/icons"
 import { authContext } from "../../context/authContext.js";
 import { useLoad } from "../../hooks/loadHook.js";
 import { dateTimeCommon } from "../../utils/dateFormat.js";
-import partArrow from "../../icons/partArrow.png"
 
 export const Parts = ({ part, data, idx }) => {
   const context = useContext(authContext);
@@ -20,7 +20,7 @@ export const Parts = ({ part, data, idx }) => {
 
   const deleteHandler = async (event) => {
     const partId = event.target.value;
-    await request(`/post/deletepart/${partId}`, "DELETE", { partId });
+    await request(`/handle_post/part/${postId}/${partId}`, "DELETE");
   };
 
   return (
@@ -35,7 +35,7 @@ export const Parts = ({ part, data, idx }) => {
               <span className="part-name">{part.name}</span>
               <div>{dateTimeCommon.format(Date.parse(part.date))}</div>
             </div>
-            <img src={partArrow} alt="1" width="24px" height="24px"/>
+            <Icon24Chevron width={26} height={26} />
           </Card.Body>
         </Link>
         {context.id === data.author && (

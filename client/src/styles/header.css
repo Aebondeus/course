@@ -6,3 +6,13 @@
     display:flex;
     justify-content: space-between;
 }
+
+.registr-wrapper{
+    margin-top: 3rem;
+}
+
+@media (max-width:365px){
+    .modal-btns{
+        display:grid;
+    }
+}

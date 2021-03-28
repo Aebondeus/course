@@ -11,7 +11,8 @@ export const PostParts = ({ data }) => {
 
   const partAddHandler = (event) => {
     event.preventDefault();
-    history.push(`/createpart/${event.target.value}`);
+    const postId = event.target.value;
+    history.push(`/createpart/${postId}`);
   };
   if (!data) {
     return (
@@ -24,7 +25,13 @@ export const PostParts = ({ data }) => {
     <div className="post-parts-wrapper">
       {context.id === data.author && (
         <div className="add-part">
-          <Button value={data.id} onClick={partAddHandler}>
+          <Button
+            value={data.id}
+            onClick={partAddHandler}
+            className="new-part-btn"
+            variant="link"
+          >
+            ✒️
             <FormattedMessage id="new-part" />
           </Button>
         </div>
