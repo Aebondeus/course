@@ -23,7 +23,7 @@ export const TagsField = (props) => {
           neutral10:context.tag,
           neutral20: context.cardBorder,
           neutral40: context.text,
-          neutral80: "black",
+          neutral80: context.text,
           danger:"black",
           dangerLight:context.tagDanger
         },

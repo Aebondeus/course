@@ -1,8 +1,12 @@
 a:hover {
   text-decoration: none;
 }
-.card{
+
+.post-preview{
   margin-bottom: 1rem;
+}
+.card-title{
+  font-size:25px;
 }
 .whole-app{
   padding-bottom: auto;
@@ -152,7 +156,6 @@ a:hover {
 }
 
 #search-result{
-  font-weight: 700;
   font-size: 2rem;
 }
 .posts-abscence{
@@ -160,7 +163,8 @@ a:hover {
   margin:20px 0;
 }
 
-.new-post-wrapper > .card, .new-part-wrapper > .card {
+.new-post-wrapper > .card, .new-part-wrapper > .card, 
+.update-post-wrapper > .card, .update-part-wrapper > .card {
   margin-left: 5rem;
   margin-right: 5rem;
   border:none;
@@ -171,7 +175,8 @@ a:hover {
   padding-left: 0;
 }
 
-.send-btn.btn-link:hover{
+.send-btn.btn-link:hover, .send-btn.btn-link:focus{
+  box-shadow: none;
   font-weight: 700;
   text-decoration: none;
 }

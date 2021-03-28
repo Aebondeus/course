@@ -2,21 +2,33 @@ import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { UserPosts } from "../components/userComponents/userPosts";
 import { authContext } from "../context/authContext";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, Spinner } from "react-bootstrap";
 import { Sorter } from "../components/commonComponents/postsSorter";
 import { UserInfo } from "../components/userComponents/aboutUser.js";
 import { FormattedMessage } from "react-intl";
+import { PostPaginator } from "../components/commonComponents/postPaginator.js";
 import { PageNotFound } from "../components/notFound.js";
 import "../styles/userpage.css";
+
+const PER_PAGE = 3;
 
 export const UserPage = ({ match }) => {
   const userId = match.params.userId;
   const [error, setError] = useState(false);
-  const [del, setDel] = useState(false);
   const [posts, setPosts] = useState(null);
   const [sort, setSort] = useState({ ratingTotal: -1 });
+  const [del, setDel] = useState(false);
+  const [curPage, setCurPage] = useState(0);
   const context = useContext(authContext);
   const history = useHistory();
+
+  const offset = curPage * PER_PAGE;
+  const pageCount = !!posts && Math.ceil(posts.length / PER_PAGE);
+  const postsOnPage = !!posts && posts.slice(offset, offset + PER_PAGE);
+
+  useEffect(() => {
+    getPosts();
+  }, [del, sort, userId]);
 
   const getPosts = async () => {
     await fetch("/user/sort", {
@@ -41,15 +53,23 @@ export const UserPage = ({ match }) => {
     setSort(event.value);
   };
 
-  useEffect(() => {
-    getPosts();
-  }, [del, sort]);
-
   const newPost = () => {
     history.push("/createpost");
   };
+
+  const handlePageClick = (data) => {
+    setCurPage(data.selected);
+  };
+
   if (!!error) {
-    return <PageNotFound />
+    return <PageNotFound />;
+  }
+  if (!posts) {
+    return (
+      <div className="loader text-center">
+        <Spinner animation="border" role="status" />
+      </div>
+    );
   }
   return (
     <div>
@@ -61,8 +81,9 @@ export const UserPage = ({ match }) => {
           <div className="post-title">
             <FormattedMessage id="user-posts.title" />:
           </div>
-          {userId === context.id &&(
-            <Button variant="link" className="new-post-btn" onClick={newPost}>✒️
+          {userId === context.id && (
+            <Button variant="link" className="new-post-btn" onClick={newPost}>
+              ✒️
               <FormattedMessage id="new-post" />
             </Button>
           )}
@@ -70,7 +91,8 @@ export const UserPage = ({ match }) => {
       </Row>
       <Row className="user-posts-content">
         <Col lg={8} md={8} sm={12} className="user-posts">
-          <UserPosts posts={posts} del={del} setDel={setDel} />
+          <UserPosts posts={postsOnPage} del={del} setDel={setDel} />
+          <PostPaginator pageCount={pageCount} onPageChange={handlePageClick} />
         </Col>
         <Col lg={4} md={4} sm={12} className="posts-sorter">
           <Sorter selectHandler={selectHandler} />

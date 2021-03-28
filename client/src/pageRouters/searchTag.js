@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Spinner, Row, Col } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
+import { PostPaginator } from "../components/commonComponents/postPaginator.js"
 import { GenericPost } from "../components/commonComponents/mainPost.js";
 import { Sorter } from "../components/commonComponents/postsSorter.js";
 import { PageNotFound } from "../components/notFound.js";
 import "../styles/search.css";
 
+const PER_PAGE = 10;
 const defaultSort = {ratingTotal:-1}
 
 export const SearchByTag = ({ match }) => {
@@ -13,6 +15,11 @@ export const SearchByTag = ({ match }) => {
   const [sort, setSort] = useState(defaultSort);
   const [posts, setPosts] = useState(null);
   const [error, setError] = useState(false);
+  const [curPage, setCurPage] = useState(0);
+
+  const offset = curPage * PER_PAGE;
+  const pageCount = !!posts && Math.ceil(posts.length / PER_PAGE);
+  const postsOnPage = !!posts && posts.slice(offset, offset + PER_PAGE);
 
   useEffect(() => {
     fetch(`/search/byTag/${tagLabel}`, {
@@ -37,6 +44,10 @@ export const SearchByTag = ({ match }) => {
     setSort(event.value);
   };
 
+  const handlePageClick = (data) => {
+    setCurPage(data.selected);
+  };
+
   if (!!error){
     return (<PageNotFound />)
   }
@@ -57,10 +68,14 @@ export const SearchByTag = ({ match }) => {
       <div className="row-wrapper">
         <Row>
           <Col lg={8} md={8} className="posts-col">
-                <GenericPost posts={posts} style={{ marginBottom: "1rem" }} />
+            <GenericPost posts={posts} style={{ marginBottom: "1rem" }} />
+            <PostPaginator
+              pageCount={pageCount}
+              onPageChange={handlePageClick}
+            />
           </Col>
           <Col lg={4} md={4} className="posts-sorter">
-                <Sorter selectHandler={selectHandler} />
+            <Sorter selectHandler={selectHandler} />
           </Col>
         </Row>
       </div>

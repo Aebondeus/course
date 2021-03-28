@@ -25,14 +25,15 @@ export const MainHeader = ({ setLang, setTheme }) => {
         if (res.status === 200) {
           return res.json();
         }
+        throw Error
       })
       .then((res) => {
-        if (!!res.user) {
-          context.login(res.user.jwtToken, res.user.userId, res.user.nickname);
-        } else {
+        if (!res.user){
           console.log(res.msg);
+        } else {
+          context.login(res.user.jwtToken);
         }
-      });
+      }).catch(() => {console.log("Athentication was failed")});
   }
 
   useEffect(() => {
