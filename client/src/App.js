@@ -10,10 +10,10 @@ import {ThemeProvider} from "styled-components";
 import locales from "./language/locales";
 import ru from "./language/ru.json";
 import en from "./language/en.json";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 import { darkTheme, lightTheme } from "./styles/theme";
 import { GlobalStyles } from "./styles/global";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
 function App() {
   const { token, id, nickname, login, logout } = useAuth();

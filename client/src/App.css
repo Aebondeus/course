@@ -1,3 +1,6 @@
+a:hover {
+  text-decoration: none;
+}
 .card{
   margin-bottom: 1rem;
 }
@@ -76,7 +79,11 @@
   content: "\274c ";
 }
 
-.change-btn.update-btn{
+.change-btn.update-btn, .change-btn.delete-btn,
+.new-part-btn, .new-post-btn{
+  transition: none;
+}
+.change-btn.update-btn, .new-part-btn, .new-post-btn{
   color:inherit;
 }
 
@@ -84,37 +91,54 @@
   color:red;
 }
 
-.change-btn.update-btn:hover, .change-btn.delete-btn:hover{
+.change-btn.update-btn:hover, .change-btn.delete-btn:hover,
+.new-post-btn:hover, .new-part-btn:hover{
   font-weight: 700;
   text-decoration: none;
   transition: all .05s ease-in-out;
 }
 
-.change-btn.update-btn::not(:disabled):not(.disabled):active, .change-btn.delete-btn::not(:disabled):not(.disabled):active{
-  font-weight: 700;
-  text-decoration: none;
-  border: none;
-  box-shadow: 0;
-}
-
-.change-btn.update-btn:focus, .change-btn.delete-btn:focus{
+.change-btn.update-btn::not(:disabled):not(.disabled):active,
+.change-btn.delete-btn::not(:disabled):not(.disabled):active
+{
   font-weight: 700;
   text-decoration: none;
   border: none;
   box-shadow: none;
 }
 
-.change-btn.update-btn:hover, .change-btn.update-btn:focus, .change-btn.update-btn::not(:disabled):not(.disabled):active{
-  color:black;
+.change-btn.update-btn:focus, .change-btn.delete-btn:focus,
+.new-post-btn:focus, .new-part-btn:focus{
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  box-shadow: none;
 }
 
-.change-btn.delete-btn:hover, .change-btn.delete-btn:focus, .change-btn.delete-btn::not(:disabled):not(.disabled):active{
+.change-btn.update-btn:hover, .change-btn.update-btn:focus,
+.change-btn.update-btn::not(:disabled):not(.disabled):active
+{
+  color:inherit;
+}
+
+.new-post-btn:hover, .new-part-btn:hover{
+  color:inherit;
+}
+
+.change-btn.delete-btn:hover, .change-btn.delete-btn:focus,
+.change-btn.delete-btn::not(:disabled):not(.disabled):active{
   color:red;
 }
 
+.post-link:hover, .comment-author:hover{
+  font-weight: 700;
+  text-decoration: none;
+}
 
 .post-title {
   font-size: 35px;
+  padding-left: 0;
+  background-color: inherit;
 }
 
 .posts-abscence, .parts-abscence, .comments-abscence {
@@ -134,4 +158,20 @@
 .posts-abscence{
   padding:20px;
   margin:20px 0;
+}
+
+.new-post-wrapper > .card, .new-part-wrapper > .card {
+  margin-left: 5rem;
+  margin-right: 5rem;
+  border:none;
+}
+
+
+.send-btn.btn-link{
+  padding-left: 0;
+}
+
+.send-btn.btn-link:hover{
+  font-weight: 700;
+  text-decoration: none;
 }

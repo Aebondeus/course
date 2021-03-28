@@ -20,9 +20,10 @@ export const useLoad = () => {
         const data = await res.json();
         if (!res.ok) {
           console.log("res not ok");
-          throw new Error(data.msg);
+          throw Error(data.msg);
         }
         setLoad(false);
+        clearError();
         return data;
       } catch (e) {
         console.log("Error in catch of request callback");

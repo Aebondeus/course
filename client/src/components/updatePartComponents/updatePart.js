@@ -10,6 +10,9 @@ export const PartUpdate = (props) => (
       <FormattedMessage id="update-part.title" />:
     </Card.Header>
     <Card.Body>
+      {props.error && (
+        <div className="error-text text-center">{props.error}</div>
+      )}
       <Form onSubmit={props.handleSubmit}>
         <Form.Group>
           <Form.Label>

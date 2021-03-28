@@ -11,6 +11,7 @@ export const UserInfo = ({ userId }) => {
   const [isChange, setChange] = useState(true);
   const context = useContext(authContext);
   const { request } = useLoad();
+  const id = context.id;
 
   useEffect(() => {
     if (isChange) {
@@ -45,10 +46,7 @@ export const UserInfo = ({ userId }) => {
   }
   return (
     <Card style={{ border: "none" }}>
-      <Card.Header
-        className="post-title"
-        style={{ backgroundColor: "inherit", paddingLeft: "0" }}
-      >
+      <Card.Header className="post-title">
         <FormattedMessage id="user-info.title" />:{" "}
       </Card.Header>
       <Card.Body>
@@ -58,8 +56,8 @@ export const UserInfo = ({ userId }) => {
           </strong>
           :{" "}
         </div>
-        {context.id === userId ? (
-          <InlineEdit value={info.nickName} onSave={nicknameEdit} />
+        {userId === id ? (
+          <InlineEdit value={info.nickName} onSave={nicknameEdit} type="text" />
         ) : (
           <span>{info.nickName}</span>
         )}
@@ -69,8 +67,8 @@ export const UserInfo = ({ userId }) => {
           </strong>
           :{" "}
         </div>
-        {context.id === userId ? (
-          <InlineEdit value={info.about} onSave={aboutEdit} />
+        {userId === id ? (
+          <InlineEdit value={info.about} onSave={aboutEdit} type="textarea" />
         ) : (
           <div>{!!info.about ? info.about : "Nothing here yet!"}</div>
         )}

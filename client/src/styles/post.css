@@ -2,16 +2,6 @@
     margin-bottom: .5rem;
 }
 
-.part-card.card{
-    border:none;
-    background-color:#f8f9fa;
-}
-
-.part-card.card:hover{
-    background-color:#e9ebec;
-    transition: all .15s ease-in-out;
-}
-
 .part-name{
     font-size: 22px;
     font-weight: 500;
@@ -59,7 +49,6 @@
 .change-btn{
     padding: 5px;
 }
-  
 
 @media (max-width:340px){
     .tag{

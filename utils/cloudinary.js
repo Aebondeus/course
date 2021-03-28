@@ -1,4 +1,5 @@
 import cloudinary from "cloudinary";
+
 const cloud = cloudinary.v2;
 cloud.config({
     cloud_name: process.env.CLOUD_NAME,

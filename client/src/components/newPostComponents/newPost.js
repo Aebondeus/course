@@ -7,13 +7,14 @@ import { GenreField } from "../commonComponents/genresSelect";
 export const MainPart = (props) => {
   return (
     <div className="new-post-wrapper">
-      <Card style={{ marginLeft: "5rem", marginRight: "5rem" }}>
-        <Card.Header>
-          <span className="post-title">
-            <FormattedMessage id="new-post" />:
-          </span>
+      <Card>
+        <Card.Header className="post-title">
+          <FormattedMessage id="new-post" />:
         </Card.Header>
         <Card.Body>
+          {props.error && (
+            <div className="error-text text-center">{props.error}</div>
+          )}
           <Form onSubmit={props.formSubmit}>
             <Form.Group>
               <Form.Label>
@@ -56,7 +57,7 @@ export const MainPart = (props) => {
                 value={props.value}
               />
             </Form.Group>
-            <Button variant="success" type="submit" disabled={props.load}>
+            <Button variant="link" className="send-btn" type="submit" disabled={props.load}>
               <FormattedMessage id="submit" />
             </Button>
           </Form>

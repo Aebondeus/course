@@ -58,11 +58,11 @@ export const UserPage = ({ match }) => {
       </div>
       <Row className="user-posts-title">
         <Col lg={8} style={{ marginBottom: "1rem" }}>
-          <div className="post-title" style={{ marginBottom: "1rem" }}>
+          <div className="post-title">
             <FormattedMessage id="user-posts.title" />:
           </div>
           {userId === context.id &&(
-            <Button variant="primary" onClick={newPost}>
+            <Button variant="link" className="new-post-btn" onClick={newPost}>✒️
               <FormattedMessage id="new-post" />
             </Button>
           )}

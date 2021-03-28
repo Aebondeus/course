@@ -3,12 +3,6 @@ import { Spinner } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { TagCloud } from "react-tagcloud";
 
-const color = {
-  luminosity: "dark",
-  format: "rgba",
-  alpha: 1,
-};
-
 export const Cloud = () => {
   const [tags, setTags] = useState([]);
   const history = useHistory();
@@ -50,7 +44,7 @@ export const Cloud = () => {
         maxSize={30}
         tags={tags}
         onClick={tagHandler}
-        disableRandomColor="true" // temporary true, need to prevent multiple fetch
+        disableRandomColor={true} // temporary true, need to prevent multiple fetch
       />
     </div>
   );

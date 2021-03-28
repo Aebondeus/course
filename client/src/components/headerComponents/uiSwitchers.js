@@ -45,7 +45,11 @@ export const UiSwitch = ({ setLang, setTheme }) => {
             <FormattedMessage id="navbar-lang.ru" />
           </Grid>
           <Grid item>
-            <Switch onClick={updateLang} checked={langState} color="default" />
+            <Switch
+              onClick={updateLang}
+              checked={langState}
+              color={!themeState ? "default" : "secondary"}
+            />
           </Grid>
           <Grid item>
             <FormattedMessage id="navbar-lang.en" />
@@ -59,7 +63,7 @@ export const UiSwitch = ({ setLang, setTheme }) => {
             <Switch
               onClick={updateTheme}
               checked={themeState}
-              color="default"
+              color={!themeState ? "default" : "secondary"}
             />
           </Grid>
           <Grid item>🌚</Grid>

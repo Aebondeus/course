@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 const {Schema, model} = mongoose;
 
 const partSchema = new Schema({
-    name:{type:String},
+    name:{type:String, required:true},
     date:{type:Date},
     content:{type:String},
     image:{type:String, default:''},

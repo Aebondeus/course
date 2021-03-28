@@ -30,6 +30,7 @@ const registerOptions = {
 };
 
 export const RegisterPage = () => {
+  document.title = "Регистрация | Sign Up"
   const { register, errors, handleSubmit } = useForm();
   const { load, request, error, clearError } = useLoad();
   const history = useHistory();
@@ -43,18 +44,19 @@ export const RegisterPage = () => {
       console.log(e.message);
     }
   };
+  
   return (
     <div className="registr-wrapper">
-      <h1>
+      <h1 className="text-center">
         <FormattedMessage id="register-page-title" />
       </h1>
 
       <div className="registr-card card">
         <div className="reg-form">
           <Form onSubmit={handleSubmit(onSubmit)}>
-            {error ? (
+            {error && (
               <div className="error-text text-center">{error}</div>
-            ) : null}
+            )}
             <Form.Group controlId="formEmail">
               <Form.Label>
                 <FormattedMessage id="email" />:
@@ -62,7 +64,6 @@ export const RegisterPage = () => {
               <Form.Control
                 type="email"
                 name="email"
-                placeholder="Enter your email"
                 ref={register(registerOptions.email)}
               />
             </Form.Group>
@@ -76,7 +77,6 @@ export const RegisterPage = () => {
               <Form.Control
                 type="password"
                 name="password"
-                placeholder="Enter your password"
                 ref={register(registerOptions.password)}
               />
             </Form.Group>
@@ -90,7 +90,6 @@ export const RegisterPage = () => {
               <Form.Control
                 type="nickname"
                 name="nickname"
-                placeholder="And your nickname here"
                 ref={register(registerOptions.nickname)}
               ></Form.Control>
               <Form.Text className="text-muted">

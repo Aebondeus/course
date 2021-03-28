@@ -15,7 +15,8 @@ export const PostInfo = ({ data, raters }) => {
 
   const tagSearch = (event) => {
     event.preventDefault();
-    history.push(`/searchByTag/${event.target.name}`);
+    const tag = event.target.name;
+    history.push(`/searchByTag/${tag}`);
   };
 
   const styleToast = {
@@ -26,7 +27,7 @@ export const PostInfo = ({ data, raters }) => {
     if (raters.includes(context.id)) {
       setError(true);
     } else {
-      await request("/post/rate", "PUT", {
+      await request("/handle_post/rate", "PUT", {
         postId: data.id,
         userId: context.id,
         rate: event,

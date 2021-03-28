@@ -11,7 +11,7 @@ export const UpdatePost = ({ match }) => {
   const [genres, setGenres] = useState(null);
   const [chosenTags, setChosen] = useState([]);
   const [chosenGenre, setGenre] = useState(null);
-  const { request, load } = useLoad();
+  const { request, load, error } = useLoad();
   const context = useContext(authContext);
   const history = useHistory();
 
@@ -39,22 +39,26 @@ export const UpdatePost = ({ match }) => {
   };
 
   const formSubmit = async (event) => {
-    event.preventDefault();
-    const form = {
-      title: data.name,
-      synopsis: data.synopsis,
-      genre: chosenGenre,
-    };
-    await request("/post/amendpost", "POST", {
-      postId,
-      form,
-      tags: chosenTags,
-    });
-    history.push(`/user/${context.id}`);
+    try{
+      event.preventDefault();
+      const form = {
+        title: data.name,
+        synopsis: data.synopsis,
+        genre: chosenGenre,
+      };
+      await request(`/handle_post/post/${postId}`, "PUT", {
+        form,
+        tags: chosenTags,
+      });
+      history.push(`/user/${context.id}`);
+    } catch (e) {
+      console.log(e);
+    }
+
   };
 
   useEffect(() => {
-    fetch(`/post/getpost/${postId}`)
+    fetch(`/handle_post/post/${postId}`)
       .then((data) => data.json())
       .then((data) => {
         setData(data);
@@ -65,10 +69,10 @@ export const UpdatePost = ({ match }) => {
           })
         );
       });
-    fetch("/post/upload_tags")
+    fetch("/handle_post/upload_tags")
       .then((res) => res.json())
       .then((data) => setTags(data));
-    fetch("/post/upload_genres")
+    fetch("/handle_post/upload_genres")
       .then((res) => res.json())
       .then((res) => {
         setGenres(res);
@@ -79,7 +83,7 @@ export const UpdatePost = ({ match }) => {
     <MainPart
       data={data}
       genres={genres}
-      s
+      error={error}
       tags={tags}
       handleForm={handleForm}
       handleGenre={handleGenre}

@@ -4,7 +4,8 @@ import User from "../models/User.js";
 import passportFacebook from "passport-facebook";
 import passportVkontakte from "passport-vkontakte";
 import passportYandex from "passport-yandex";
-import passportGoogle from "passport-google-oauth"
+import passportGoogle from "passport-google-oauth";
+import jwt from "jsonwebtoken";
 
 const VkontakteStrategy = passportVkontakte.Strategy;
 const FaceBookStrategy = passportFacebook.Strategy;
@@ -19,7 +20,8 @@ passport.deserializeUser((user, cb) => {
   cb(null, user);
 });
 
-passport.use( // probably will be deleted
+passport.use(
+  // probably will be deleted
   new FaceBookStrategy(
     {
       clientID: process.env.CLIENT_ID_FB,
@@ -39,16 +41,22 @@ passport.use( // probably will be deleted
           facebookId: profile.id,
         }).save();
         user = {
-          jwtToken: accessToken,
-          userId: newUser._id,
-          nickname: newUser.nickName,
+          jwtToken: jwt.sign(
+            { id: newUser._id, nickname: newUser.nickName },
+            process.env.FOR_TOKEN,
+            { expiresIn: "1h" }
+          ),
         };
       } else {
         await data.update({ $set: { facebookId: profile.id } }).exec();
         user = {
-          jwtToken: accessToken,
-          userId: data._id,
-          nickname: data.nickName,
+          jwtToken: jwt.sign(
+            { id: data._id, nickname: data.nickName },
+            process.env.FOR_TOKEN,
+            {
+              expiresIn: "1h",
+            }
+          ),
         };
       }
       cb(null, user);
@@ -76,16 +84,24 @@ passport.use(
           yandexId: profile.id,
         }).save();
         user = {
-          jwtToken: accessToken,
-          userId: newUser._id,
-          nickname: newUser.nickName,
+          jwtToken: jwt.sign(
+            { id: newUser._id, nickname: newUser.nickName },
+            process.env.FOR_TOKEN,
+            {
+              expiresIn: "1h",
+            }
+          ),
         };
       } else {
         await data.update({ $set: { yandexId: profile.id } }).exec();
         user = {
-          jwtToken: accessToken,
-          userId: data._id,
-          nickname: data.nickName,
+          jwtToken: jwt.sign(
+            { id: data._id, nickname: data.nickName },
+            process.env.FOR_TOKEN,
+            {
+              expiresIn: "1h",
+            }
+          ),
         };
       }
       cb(null, user);
@@ -114,16 +130,24 @@ passport.use(
           vkId: profile.id,
         }).save();
         user = {
-          jwtToken: accessToken,
-          userId: newUser._id,
-          nickname: newUser.nickName,
+          jwtToken: jwt.sign(
+            { id: newUser._id, nickname: newUser.nickName },
+            process.env.FOR_TOKEN,
+            {
+              expiresIn: "1h",
+            }
+          ),
         };
       } else {
         await data.update({ $set: { vkId: profile.id } }).exec();
         user = {
-          jwtToken: accessToken,
-          userId: data._id,
-          nickname: data.nickName,
+          jwtToken: jwt.sign(
+            { id: data._id, nickname: data.nickName },
+            process.env.FOR_TOKEN,
+            {
+              expiresIn: "1h",
+            }
+          ),
         };
       }
       cb(null, user);
@@ -135,7 +159,8 @@ passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.CLIENT_ID_GOOGLE,
-      clientSecret: process.env.CLIENT_SECRET_GOOGLE,
+      clientSecret:
+        process.env.CLIENT_SECRET_GOOGLE,
       callbackURL: "/oauth/auth/google/mordorcourse",
       profileFields: ["id", "displayName", "emails"],
     },
@@ -151,16 +176,24 @@ passport.use(
           googleId: profile.id,
         }).save();
         user = {
-          jwtToken: accessToken,
-          userId: newUser._id,
-          nickname: newUser.nickName,
+          jwtToken: jwt.sign(
+            { id: newUser._id, nickname: newUser.nickName },
+            process.env.FOR_TOKEN,
+            {
+              expiresIn: "1h",
+            }
+          ),
         };
       } else {
         await data.update({ $set: { googleId: profile.id } }).exec();
         user = {
-          jwtToken: accessToken,
-          userId: data._id,
-          nickname: data.nickName,
+          jwtToken: jwt.sign(
+            { id: data._id, nickname: data.nickName },
+            process.env.FOR_TOKEN,
+            {
+              expiresIn: "1h",
+            }
+          ),
         };
       }
       cb(null, user);
@@ -170,7 +203,8 @@ passport.use(
 
 const router = express.Router();
 
-const CLIENT_HOME_PAGE = process.env.CLIENT_HOME_PAGE || "http://localhost:3000/";
+const CLIENT_HOME_PAGE =
+  process.env.CLIENT_HOME_PAGE || "http://localhost:3000/";
 
 router.get("/login/success", (req, res) => {
   if (req.user) {
@@ -209,7 +243,7 @@ router.get(
 );
 router.get(
   "/auth/vkontakte",
-  passport.authenticate("vkontakte", { scope: ["email"] })
+  passport.authenticate("vkontakte", { scope: ["email", "phone"] })
 );
 
 router.get("/auth/yandex", passport.authenticate("yandex"));
