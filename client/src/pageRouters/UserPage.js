@@ -27,7 +27,7 @@ export const UserPage = ({ match }) => {
   const postsOnPage = !!posts && posts.slice(offset, offset + PER_PAGE);
 
   useEffect(() => {
-      getPosts();
+    getPosts();
   }, [del, sort, userId]);
 
   const getPosts = async () => {
@@ -68,7 +68,7 @@ export const UserPage = ({ match }) => {
         context.logout();
         history.push("/");
       });
-  }
+  };
 
   if (!!error) {
     return <PageNotFound />;
@@ -83,7 +83,7 @@ export const UserPage = ({ match }) => {
   return (
     <div>
       <div className="user-data" style={{ marginBottom: "2rem" }}>
-        <UserInfo userId={userId} deleteUser={deleteUser}/>
+        <UserInfo userId={userId} deleteUser={deleteUser} />
       </div>
       <Row className="user-posts-title">
         <Col lg={8} style={{ marginBottom: "1rem" }}>

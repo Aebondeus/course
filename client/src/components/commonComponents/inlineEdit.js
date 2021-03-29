@@ -15,4 +15,3 @@ export const InlineEdit = ({ value, onSave, type }) => (
     cancelButtonContent="✕"
   />
 );
-    

@@ -1,8 +1,8 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { Card, Form } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
 import Select from "react-select";
-import {ThemeContext} from "styled-components";
+import { ThemeContext } from "styled-components";
 
 const options = [
   {
@@ -53,16 +53,16 @@ export const Sorter = ({ selectHandler }) => {
               options={options}
               onChange={selectHandler}
               defaultValue={options[7]}
-              theme={theme => ({
+              theme={(theme) => ({
                 ...theme,
-                colors:{
-                  primary:context.text,
-                  primary25:context.cardHeaderFooter,
-                  primary50:context.cardHeaderFooter,
-                  neutral0:context.wholeApp,
-                  neutral20:context.cardBorder,
-                  neutral40:context.text
-                }
+                colors: {
+                  primary: context.text,
+                  primary25: context.cardHeaderFooter,
+                  primary50: context.cardHeaderFooter,
+                  neutral0: context.wholeApp,
+                  neutral20: context.cardBorder,
+                  neutral40: context.text,
+                },
               })}
             />
           </Form.Group>

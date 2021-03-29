@@ -69,7 +69,7 @@ export const SearchByTag = ({ match }) => {
       <div className="row-wrapper">
         <Row>
           <Col lg={8} md={8} className="posts-col">
-            <GenericPost posts={posts} style={{ marginBottom: "1rem" }} />
+            <GenericPost posts={postsOnPage} style={{ marginBottom: "1rem" }} />
             <PostPaginator
               pageCount={pageCount}
               onPageChange={handlePageClick}

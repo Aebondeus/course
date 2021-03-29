@@ -8,7 +8,7 @@ const {
   updateNickname,
   updateAbout,
   sortPosts,
-  deleteUser
+  deleteUser,
 } = UserPageController();
 
 router.use("/user_posts/:userId", getUser);

@@ -5,7 +5,7 @@ import { Image } from "cloudinary-react";
 import "../../styles/part.css";
 
 export const PartContent = ({ part }) => {
-  document.title = !!part.name ? part.name : "Loading..."
+  document.title = !!part.name ? part.name : "Loading...";
   return (
     <Card style={{ border: "none" }}>
       <Card.Header className="post-title">{part.name}</Card.Header>

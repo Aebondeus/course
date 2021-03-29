@@ -57,7 +57,12 @@ export const MainPart = (props) => {
                 value={props.value}
               />
             </Form.Group>
-            <Button variant="link" className="send-btn" type="submit" disabled={props.load}>
+            <Button
+              variant="link"
+              className="send-btn"
+              type="submit"
+              disabled={props.load}
+            >
               <FormattedMessage id="submit" />
             </Button>
           </Form>

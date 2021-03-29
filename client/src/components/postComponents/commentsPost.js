@@ -26,7 +26,9 @@ export const Comments = (props) => {
         <Card>
           <Card.Body>
             <Link to={`/user/${comment.authorId}`}>
-              <div className="comment-author">{!!comment.author ? comment.author : "DELETED USER"}: </div>
+              <div className="comment-author">
+                {!!comment.author ? comment.author : "DELETED USER"}:{" "}
+              </div>
             </Link>
             <ReactMarkdown
               className="comment-content"
