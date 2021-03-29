@@ -51,6 +51,7 @@
     "user-info.about":"About myself",
     "user-info.regdate":"With us since",
     "user-posts.title":"User posts",
+    "user-posts.abscence":"Here could be the author posts...",
     "user-posts.sort-title":"Sort posts by",
     "user-posts.sort-name-asc":"by name (asc)",
     "user-posts.sort-name-desc":"by name (desc)",
@@ -80,5 +81,9 @@
     "not-found-2":"We dont have anything on your request!",
     "not-found-3":"I dont even know, what should i do...",
     "not-found-4":"Try to search something else!",
-    "not-found-5":"Good luck!"
+    "not-found-5":"Good luck!",
+    "previous-page":"← Previous",
+    "next-page":"Next →",
+    "previous-part":"Previous",
+    "next-part":"Next"
 }

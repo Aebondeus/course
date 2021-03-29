@@ -51,6 +51,7 @@
     "user-info.about":"О себе",
     "user-info.regdate":"С нами с",
     "user-posts.sort-title":"Сортировать посты по",
+    "user-posts.abscence":"Здесь могли быть посты автора...",
     "user-posts.title":"Произведения пользователя",
     "user-posts.sort-name-asc":"По названию (возр.)",
     "user-posts.sort-name-desc":"По названию (убыв.)",
@@ -80,5 +81,9 @@
     "not-found-2":"Мы не нашли ничего по твоему запросу!",
     "not-found-3":"Даже не знаю, что должен делать...",
     "not-found-4":"Попробуй поискать снова!",
-    "not-found-5":"Удачи тебе!"
+    "not-found-5":"Удачи тебе!",
+    "previous-page":"← Назад",
+    "next-page":"Вперед→",
+    "previous-part":"Предыдущая",
+    "next-part":"Следующая"
 }

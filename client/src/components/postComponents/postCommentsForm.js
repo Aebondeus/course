@@ -53,7 +53,6 @@ export const PostCommentsForm = (props) => {
             as="textarea"
             rows={2}
             name="content"
-            style={{ width: "50%" }}
             ref={register(registerOptions.content)}
           ></Form.Control>
           {errors.content && (

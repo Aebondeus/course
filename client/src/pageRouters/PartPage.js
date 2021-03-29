@@ -37,7 +37,10 @@ export const PartPage = ({ match }) => {
         <PartNav part={curPart} parts={allParts} />
       </div>
       <div className="part-content-wrapper">
-        <PartContent data={curPart} />
+        <PartContent part={curPart} />
+      </div>
+      <div className="parts-nav-wrapper">
+        <PartNav part={curPart} parts={allParts} />
       </div>
     </div>
   );

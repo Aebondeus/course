@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
-
+import "../styles/404.css";
 const styles = {
   notfound :{
     paddingTop:"40px",
@@ -11,9 +11,9 @@ const styles = {
   }
 }
 export const PageNotFound = () => {
-  document.title = "Not found!"
+  document.title = "404 - Not found!"
   return (
-    <div id="not-found text-center" style={styles.notfound}>
+    <div id="not-found">
       <div id="status-code">404</div>
       <div className="explanation">
         <p>

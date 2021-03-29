@@ -5,6 +5,7 @@ import { useLoad } from "../hooks/loadHook.js";
 import { authContext } from "../context/authContext";
 
 export const NewPost = () => {
+  document.title = "New post | Новое произведение";
   const [form, setForm] = useState({
     title: "",
     synopsis: "",
@@ -36,19 +37,18 @@ export const NewPost = () => {
   };
 
   const formSubmit = async (event) => {
-    try{
+    try {
       event.preventDefault();
       form.genre = chosenGenre;
       await request("/handle_post/newpost", "POST", {
-         form,
-         author: context.id,
-         tags: chosenTags,
-       });
+        form,
+        author: context.id,
+        tags: chosenTags,
+      });
       history.push(`/user/${context.id}`);
     } catch (e) {
       console.log(e);
     }
-
   };
 
   useEffect(() => {

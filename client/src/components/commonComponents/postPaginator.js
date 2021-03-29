@@ -1,8 +1,9 @@
 import ReactPaginate from "react-paginate";
+import { FormattedMessage } from "react-intl"
 export const PostPaginator = ({ pageCount, onPageChange }) => (
   <ReactPaginate
-    previousLabel="← Previous"
-    nextLabel="Next →"
+    previousLabel={<FormattedMessage id="previous-page"/>}
+    nextLabel={<FormattedMessage id="next-page"/>}
     pageCount={pageCount}
     onPageChange={onPageChange}
     pageRangeDisplayed={3}

@@ -12,6 +12,9 @@ export const UserInfo = ({ userId }) => {
   const context = useContext(authContext);
   const { request } = useLoad();
   const id = context.id;
+  document.title = !!info
+    ? `User page | Страница пользователя: ${info.nickName}`
+    : "Loading...";
 
   useEffect(() => {
     fetch(`/user/get_data/${userId}`)

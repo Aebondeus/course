@@ -18,6 +18,11 @@
     margin: 0 4px;
 }
 
+.Icon{
+    width:30px;
+    height:30px;
+}
+
 .prev-page{
     padding-right: 1rem;
 }
@@ -25,6 +30,32 @@
 .next-page{
     padding-left: 1rem;
 }
+
+@media (max-width:426px) {
+    .prev-page{
+        padding-right: .15rem;
+    }
+    .prev-page > *, .to-content > *, .next-page > *{
+        font-size: .8rem;
+    }
+    .next-page{
+        padding-left: .15rem;
+    }
+}
+
+
+@media (max-width:320px) {
+    .prev-page > span{
+        margin-left: -4px;
+    }
+    .to-content {
+        margin: 0 -4px;
+    }
+    .next-page > span{
+        margin-right: -4px;
+    }
+}
+
 .to-content > * {
     margin:0 4px;
 }

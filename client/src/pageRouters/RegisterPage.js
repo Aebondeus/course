@@ -30,7 +30,7 @@ const registerOptions = {
 };
 
 export const RegisterPage = () => {
-  document.title = "Регистрация | Sign Up"
+  document.title = "Регистрация | Sign Up";
   const { register, errors, handleSubmit } = useForm();
   const { load, request, error, clearError } = useLoad();
   const history = useHistory();
@@ -44,7 +44,7 @@ export const RegisterPage = () => {
       console.log(e.message);
     }
   };
-  
+
   return (
     <div className="registr-wrapper">
       <h1 className="text-center">
@@ -54,9 +54,7 @@ export const RegisterPage = () => {
       <div className="registr-card card">
         <div className="reg-form">
           <Form onSubmit={handleSubmit(onSubmit)}>
-            {error && (
-              <div className="error-text text-center">{error}</div>
-            )}
+            {error && <div className="error-text text-center">{error}</div>}
             <Form.Group controlId="formEmail">
               <Form.Label>
                 <FormattedMessage id="email" />:
