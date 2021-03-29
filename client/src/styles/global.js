@@ -184,6 +184,7 @@ export const GlobalStyles = createGlobalStyle`
 
     .btn-link.tag{
       background-color:${({ theme }) => theme.tag};
+      color:${({theme}) => theme.text};
     }
 
     .part-card, .comment > .card{

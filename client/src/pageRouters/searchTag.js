@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Spinner, Row, Col } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
-import { PostPaginator } from "../components/commonComponents/postPaginator.js"
+import { PostPaginator } from "../components/commonComponents/postPaginator.js";
 import { GenericPost } from "../components/commonComponents/mainPost.js";
 import { Sorter } from "../components/commonComponents/postsSorter.js";
 import { PageNotFound } from "../components/notFound.js";
 import "../styles/search.css";
 
 const PER_PAGE = 10;
-const defaultSort = {ratingTotal:-1}
+const defaultSort = { ratingTotal: -1 };
 
 export const SearchByTag = ({ match }) => {
   const tagLabel = match.params.tagLabel;
@@ -16,6 +16,7 @@ export const SearchByTag = ({ match }) => {
   const [posts, setPosts] = useState(null);
   const [error, setError] = useState(false);
   const [curPage, setCurPage] = useState(0);
+  document.title = `Search by tag | Поиск по тегу: ${tagLabel}; `;
 
   const offset = curPage * PER_PAGE;
   const pageCount = !!posts && Math.ceil(posts.length / PER_PAGE);
@@ -48,15 +49,15 @@ export const SearchByTag = ({ match }) => {
     setCurPage(data.selected);
   };
 
-  if (!!error){
-    return (<PageNotFound />)
+  if (!!error) {
+    return <PageNotFound />;
   }
-  if (!posts){
-    return  (
+  if (!posts) {
+    return (
       <div className="loader text-center">
         <Spinner animation="border" role="status" />
       </div>
-    )
+    );
   }
   return (
     <div className="search-wrapper">

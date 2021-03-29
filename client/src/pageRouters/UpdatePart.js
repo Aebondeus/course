@@ -14,6 +14,9 @@ export const UpdatePart = ({ match }) => {
   const [prevImage, setImage] = useState("");
   const [selectedTab, setSelectedTab] = useState("write");
   const { request, load, error } = useLoad();
+  document.title = !!name
+    ? `Update the part | Обновить главу: ${name}`
+    : "Loading...";
 
   useEffect(() => {
     fetch(`/handle_post/part/${postId}/${partId}`)
@@ -43,13 +46,12 @@ export const UpdatePart = ({ match }) => {
       const data = { name, content, image };
       await request(`/handle_post/part/${postId}/${partId}`, "PUT", {
         data,
-        prevImg: !!updated && prevImage
+        prevImg: !!updated && prevImage,
       });
       history.push(`/post/${postId}`);
     } catch (e) {
       console.log(e);
     }
-
   };
 
   const handleFileInput = (file) => {

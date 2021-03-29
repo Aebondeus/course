@@ -15,8 +15,8 @@ export const PostPage = ({ match }) => {
   const [comments, setComments] = useState(null);
   const [time, setTime] = useState([true]);
   const context = useContext(authContext);
-  const postId = match.params.postId
-  document.title = !!postData ? postData.name : "Loading..."
+  const postId = match.params.postId;
+  document.title = !!postData ? postData.name : "Loading...";
 
   const getPost = () => {
     fetch(`/handle_post/post/${postId}`)
@@ -68,9 +68,7 @@ export const PostPage = ({ match }) => {
   }, [time]);
 
   if (error) {
-    return (
-        <PageNotFound />
-    );
+    return <PageNotFound />;
   }
   return (
     <div>

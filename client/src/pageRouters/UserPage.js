@@ -92,7 +92,10 @@ export const UserPage = ({ match }) => {
       <Row className="user-posts-content">
         <Col lg={8} md={8} sm={12} className="user-posts">
           <UserPosts posts={postsOnPage} del={del} setDel={setDel} />
-          <PostPaginator pageCount={pageCount} onPageChange={handlePageClick} />
+          <PostPaginator
+            pageCount={!!pageCount ? pageCount : 1}
+            onPageChange={handlePageClick}
+          />
         </Col>
         <Col lg={4} md={4} sm={12} className="posts-sorter">
           <Sorter selectHandler={selectHandler} />

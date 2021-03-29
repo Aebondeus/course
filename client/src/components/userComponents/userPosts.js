@@ -32,7 +32,7 @@ export const UserPosts = ({ posts, del, setDel }) => {
   if (!posts.length) {
     return (
       <Card.Text>
-        <div className="posts-abscence">Here could be the author posts...</div>
+        <div className="posts-abscence"><FormattedMessage id="user-posts.abscence"/></div>
       </Card.Text>
     );
   }

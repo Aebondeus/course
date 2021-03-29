@@ -6,7 +6,7 @@ import { LastUpdated } from "../components/mainComponents/lastUpdated.js";
 import { Cloud } from "../components/mainComponents/tagCloud.js";
 
 export const MainPage = ({ match }) => {
-  document.title = "MORDOR | The Land of cursed future"
+  document.title = "MORDOR | The Land of cursed future";
   const [lastData, setLast] = useState(null);
   const [ratedData, setRated] = useState(null);
 

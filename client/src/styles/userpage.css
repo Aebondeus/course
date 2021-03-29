@@ -31,10 +31,6 @@
     padding:0.6rem;
 }
 
-.card-footer{
-    padding-left: .65rem;
-}
-
 .pagination{
     display:flex;
     justify-content: center;

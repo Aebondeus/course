@@ -14,6 +14,9 @@ export const UpdatePost = ({ match }) => {
   const { request, load, error } = useLoad();
   const context = useContext(authContext);
   const history = useHistory();
+  document.title = !!data
+    ? `Update the post | Обновить произдведение: ${data.name}`
+    : "Loading...";
 
   const handleForm = (event) => {
     setData({ ...data, [event.target.name]: event.target.value });
@@ -39,7 +42,7 @@ export const UpdatePost = ({ match }) => {
   };
 
   const formSubmit = async (event) => {
-    try{
+    try {
       event.preventDefault();
       const form = {
         title: data.name,
@@ -54,7 +57,6 @@ export const UpdatePost = ({ match }) => {
     } catch (e) {
       console.log(e);
     }
-
   };
 
   useEffect(() => {

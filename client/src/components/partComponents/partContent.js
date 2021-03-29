@@ -4,22 +4,23 @@ import { Card } from "react-bootstrap";
 import { Image } from "cloudinary-react";
 import "../../styles/part.css";
 
-export const PartContent = (props) => {
+export const PartContent = ({ part }) => {
+  document.title = !!part.name ? part.name : "Loading..."
   return (
     <Card style={{ border: "none" }}>
-      <Card.Header className="post-title">{props.data.name}</Card.Header>
+      <Card.Header className="post-title">{part.name}</Card.Header>
       <Card.Body>
-        {!!props.data.image && (
+        {!!part.image && (
           <div className="part-img">
             <Image
               className="cloud-img"
               cloudName="mordorcloud"
-              publicId={props.data.image}
+              publicId={part.image}
               crop="scale"
             />
           </div>
         )}
-        <ReactMarkdown source={props.data.content} />
+        <ReactMarkdown source={part.content} />
       </Card.Body>
     </Card>
   );

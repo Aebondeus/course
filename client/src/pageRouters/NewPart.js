@@ -5,12 +5,12 @@ import { useHistory } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 export const NewPart = ({ match }) => {
-  document.title = "New part"
+  document.title = "New part | Новая глава";
   const postId = match.params.postId;
   const history = useHistory();
   const [name, setName] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
-  const [content, setContent] = useState("**Type here, mah boi!**");
+  const [content, setContent] = useState("**Type here!**");
   const [selectedTab, setSelectedTab] = useState("write");
   const { request, load, error } = useLoad();
 

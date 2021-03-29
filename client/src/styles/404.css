@@ -1,0 +1,45 @@
+#status-code{
+    font-size: 5rem;
+}
+
+#not-found{
+    padding-top: 40px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+@media (max-width:768px){
+    #status-code{
+        font-size: 3rem;
+    }
+    #not-found{
+        font-size:1.5rem;
+    }
+}
+
+@media (max-width:514px){
+    #not-found{
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width:449px){
+    #not-found{
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width:416px){
+    #not-found{
+        font-size: 1rem;
+    }
+}
+@media (max-width:353px){
+    #status-code{
+        font-size: 2rem;
+    }
+    #not-found{
+        font-size:.8rem;
+    }
+}

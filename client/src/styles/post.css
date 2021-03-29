@@ -46,10 +46,6 @@
     padding:0;
 }
 
-.change-btn{
-    padding: 5px;
-}
-
 @media (max-width:340px){
     .tag{
         margin-top: 3px;
@@ -58,4 +54,14 @@
 .part-arrow{
     height:1em;
     width:1em;
+}
+
+#comment{
+    width: 50%;
+}
+
+@media (max-width:768px){
+    #comment{
+        width:80%;
+    }
 }
