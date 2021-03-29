@@ -120,13 +120,14 @@ passport.use(
     async (accessToken, refreshToken, params, profile, cb) => {
       console.log(profile, accessToken); // delete it
       let user = null;
+      const email = !!profile.emails ? profile.emails[0].value : "";
       const data = await User.findOne({
-        email: profile.emails[0].value,
+        email: email, vkId:profile.id
       }).exec();
       if (!data) {
         const newUser = await new User({
           nickName: profile.displayName,
-          email: profile.emails[0].value,
+          email: !!email ? email : "",
           vkId: profile.id,
         }).save();
         user = {
@@ -159,8 +160,7 @@ passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.CLIENT_ID_GOOGLE,
-      clientSecret:
-        process.env.CLIENT_SECRET_GOOGLE,
+      clientSecret: process.env.CLIENT_SECRET_GOOGLE,
       callbackURL: "/oauth/auth/google/mordorcourse",
       profileFields: ["id", "displayName", "emails"],
     },
@@ -243,7 +243,7 @@ router.get(
 );
 router.get(
   "/auth/vkontakte",
-  passport.authenticate("vkontakte", { scope: ["email", "contacts"] })
+  passport.authenticate("vkontakte", { scope: ["email"] })
 );
 
 router.get("/auth/yandex", passport.authenticate("yandex"));

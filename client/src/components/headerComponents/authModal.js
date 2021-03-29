@@ -17,7 +17,7 @@ const registerOptions = {
   },
 };
 
-export const AuthButton = () => {
+export const AuthButton = ({ setOpen }) => {
   const [show, setShow] = useState(false);
   const { register, errors, handleSubmit } = useForm();
   const { load, request, error, clearError } = useLoad();
@@ -36,6 +36,7 @@ export const AuthButton = () => {
       const res = await request("/auth/login", "POST", data);
       context.login(res.token);
       setShow(false);
+      setOpen(true);
     } catch (err) {
       console.log(err.message);
     }
