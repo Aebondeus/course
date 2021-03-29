@@ -5,22 +5,22 @@ import { Card, Spinner } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
 import { dateTimeComments } from "../../utils/dateFormat.js";
 
-export const Comments = (props) => {
-  if (!props.data) {
+export const Comments = ({data}) => {
+  if (!data) {
     return (
       <div className="loader text-center">
         <Spinner animation="border" role="status" />
       </div>
     );
   }
-  if (!props.data.length) {
+  if (!data.length) {
     return (
       <div className="comments-abscence">
         <FormattedMessage id="comments-abscence" />
       </div>
     );
   }
-  return props.data.map((comment, idx) => {
+  return data.map((comment, idx) => {
     return (
       <div className="comment" key={idx} style={{ marginTop: "1rem" }}>
         <Card>

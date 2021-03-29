@@ -55,6 +55,7 @@ export const MainPart = (props) => {
                 <GenreField
                   genres={props.genres}
                   handleGenre={props.handleGenre}
+                  value={props.genre}
                 />
               </div>
             </Form.Group>

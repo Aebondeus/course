@@ -46,7 +46,6 @@ export const AuthPageController = () => {
         if (!ispass) {
           return res.status(402).json({ msg: "Wrong email/password" });
         }
-        console.log(process.env.FOR_TOKEN);
         const id = user._id;
         const nickname = user.nickName;
         const token = jwt.sign(

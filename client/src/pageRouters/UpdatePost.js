@@ -84,6 +84,7 @@ export const UpdatePost = ({ match }) => {
   return (
     <MainPart
       data={data}
+      genre={chosenGenre}
       genres={genres}
       error={error}
       tags={tags}
