@@ -120,11 +120,17 @@ passport.use(
     async (accessToken, refreshToken, params, profile, cb) => {
       console.log(profile, accessToken); // delete it
       let user = null;
+      let data = null;
       const email = !!profile.emails ? profile.emails[0].value : "";
-      const data = await User.findOne({
-        email: email,
-        vkId: profile.id,
-      }).exec();
+      if (!email){
+        data = await User.findOne({
+          vkId: profile.id,
+        }).exec();
+      } else {
+        data = await User.findOne({
+          email: email, vkId:profile.id
+        }).exec();
+      }
       if (!data) {
         const newUser = await new User({
           nickName: profile.displayName,
