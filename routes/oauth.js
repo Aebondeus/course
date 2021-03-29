@@ -122,7 +122,8 @@ passport.use(
       let user = null;
       const email = !!profile.emails ? profile.emails[0].value : "";
       const data = await User.findOne({
-        email: email, vkId:profile.id
+        email: email,
+        vkId: profile.id,
       }).exec();
       if (!data) {
         const newUser = await new User({

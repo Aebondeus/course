@@ -8,7 +8,7 @@ export const PartUpdate = (props) => (
   <div className="update-part-wrapper">
     <Card>
       <Card.Header className="post-title">
-          <FormattedMessage id="update-part.title" />:
+        <FormattedMessage id="update-part.title" />:
       </Card.Header>
       <Card.Body>
         {props.error && (
@@ -38,7 +38,12 @@ export const PartUpdate = (props) => (
               setSelectedTab={props.setSelectedTab}
             />
           </Form.Group>
-          <Button variant="link" className="send-btn" type="submit" disabled={props.load}>
+          <Button
+            variant="link"
+            className="send-btn"
+            type="submit"
+            disabled={props.load}
+          >
             <FormattedMessage id="submit" />
           </Button>
         </Form>

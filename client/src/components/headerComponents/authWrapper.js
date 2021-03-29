@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Nav } from "react-bootstrap";
-import {Icon24DoorArrowLeftOutline} from "@vkontakte/icons"
+import { Icon24DoorArrowLeftOutline } from "@vkontakte/icons";
 import { authContext } from "../../context/authContext";
 import { AuthButton } from "./authModal";
-import {AuthSnack, RegSnack} from "./authSnack.js"
+import { AuthSnack } from "../commonComponents/authSnack.js";
 
 export const AuthWrapper = () => {
   const [authOpen, setAuthOpen] = useState(false);
@@ -13,7 +13,7 @@ export const AuthWrapper = () => {
 
   const handleAuthClose = () => {
     setAuthOpen(false);
-  }
+  };
 
   const userHandler = (event) => {
     const userId = event.target.value;
@@ -33,18 +33,18 @@ export const AuthWrapper = () => {
             >
               {context.nickname}
             </Button>
-            <Button
-              onClick={context.logout}
-              id="logout"
-              variant="link"
-            >
-              <Icon24DoorArrowLeftOutline width={24} height={24}/>
+            <Button onClick={context.logout} id="logout" variant="link">
+              <Icon24DoorArrowLeftOutline width={24} height={24} />
             </Button>
           </div>
         ) : (
-          <AuthButton setOpen={setAuthOpen}/>
+          <AuthButton setOpen={setAuthOpen} />
         )}
-        <AuthSnack nickname={context.nickname} open={authOpen} handleClose={handleAuthClose}/>
+        <AuthSnack
+          nickname={context.nickname}
+          open={authOpen}
+          handleClose={handleAuthClose}
+        />
       </Nav.Item>
     </Nav>
   );

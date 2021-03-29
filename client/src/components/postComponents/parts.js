@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Card } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
-import {Icon24Chevron} from "@vkontakte/icons"
+import { Icon24Chevron } from "@vkontakte/icons";
 import { authContext } from "../../context/authContext.js";
 import { useLoad } from "../../hooks/loadHook.js";
 import { dateTimeCommon } from "../../utils/dateFormat.js";

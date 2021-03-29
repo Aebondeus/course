@@ -4,10 +4,10 @@ import { Card, Spinner } from "react-bootstrap";
 import { GenericPost } from "../commonComponents/mainPost.js";
 
 export const MostRated = ({ posts }) => {
-  if (!posts){
+  if (!posts) {
     return (
       <div className="text-center">
-        <Spinner animation="border" role="status"/>
+        <Spinner animation="border" role="status" />
       </div>
     );
   }

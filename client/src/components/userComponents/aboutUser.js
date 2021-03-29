@@ -25,7 +25,7 @@ export const UserInfo = ({ userId, deleteUser }) => {
       });
     setChange(false);
   }, [userId]);
-  
+
   useEffect(() => {
     if (isChange) {
       fetch(`/user/get_data/${userId}`)
@@ -106,7 +106,7 @@ export const UserInfo = ({ userId, deleteUser }) => {
               style={{ marginTop: "2rem" }}
               onClick={handleShow}
             >
-              Удалить пользователя
+              <FormattedMessage id="profile-delete.btn" />
             </Button>
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
@@ -114,9 +114,7 @@ export const UserInfo = ({ userId, deleteUser }) => {
               </Modal.Header>
               <Modal.Body>
                 <p>
-                  Вы действительно хотите удалить профиль? Все ваши посты и
-                  комментарии будут сохранены, но при повторной регистрации
-                  доступа к ним вы не получите:
+                  <FormattedMessage id="profile-delete.description" />
                 </p>
                 <div className="modal-btns">
                   <Button
@@ -126,7 +124,7 @@ export const UserInfo = ({ userId, deleteUser }) => {
                       deleteUser();
                     }}
                   >
-                    Я все понимаю. Удалить.
+                    <FormattedMessage id="profile-delete.yes" />
                   </Button>
                   <Button
                     variant="link"

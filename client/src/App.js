@@ -6,7 +6,7 @@ import { MainFooter } from "./components/footerComponents/mainFooter";
 import { authContext } from "./context/authContext.js";
 import { useAuth } from "./hooks/authHook.js";
 import { IntlProvider } from "react-intl";
-import {ThemeProvider} from "styled-components";
+import { ThemeProvider } from "styled-components";
 import locales from "./language/locales";
 import ru from "./language/ru.json";
 import en from "./language/en.json";
@@ -17,9 +17,7 @@ import "./App.css";
 
 function App() {
   const { token, id, nickname, login, logout } = useAuth();
-  const [theme, setTheme] = useState(
-    localStorage.getItem("theme") || "light"
-  )
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [curLang, setLang] = useState(
     localStorage.getItem("lang") || locales.RU
   );
@@ -37,7 +35,7 @@ function App() {
         <IntlProvider locale={curLang} messages={locale[curLang]}>
           <div className="whole-app" style={{ position: "relative" }}>
             <div className="header-main">
-              <MainHeader setLang={setLang} setTheme={setTheme}/>
+              <MainHeader setLang={setLang} setTheme={setTheme} />
             </div>
             <Container>{Route}</Container>
           </div>

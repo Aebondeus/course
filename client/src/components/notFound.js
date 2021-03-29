@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import "../styles/404.css";
 const styles = {
-  notfound :{
-    paddingTop:"40px",
+  notfound: {
+    paddingTop: "40px",
     textAlign: "center",
     fontWeight: "700",
-    fontSize: "2rem"
-  }
-}
+    fontSize: "2rem",
+  },
+};
 export const PageNotFound = () => {
-  document.title = "404 - Not found!"
+  document.title = "404 - Not found!";
   return (
     <div id="not-found">
       <div id="status-code">404</div>

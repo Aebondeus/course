@@ -1,11 +1,11 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import Select from "react-select";
 import { FormattedMessage } from "react-intl";
-import {ThemeContext} from "styled-components";
+import { ThemeContext } from "styled-components";
 
 export const GenreField = (props) => {
   const context = useContext(ThemeContext);
-  
+
   return (
     <Select
       isSearchable={true}

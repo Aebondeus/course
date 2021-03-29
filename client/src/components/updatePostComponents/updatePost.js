@@ -8,7 +8,7 @@ export const MainPart = (props) => {
   if (!props.data) {
     return (
       <div className="text-center">
-        <Spinner animation="border" role="status"/>
+        <Spinner animation="border" role="status" />
       </div>
     );
   }
