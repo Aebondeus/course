@@ -55,8 +55,8 @@ const prettifyComment = (arr) => {
         commentId: doc._id,
         date: doc.publishDate,
         content: doc.content,
-        author: doc.author.nickName,
-        authorId: doc.author._id,
+        author: !!doc.author ? doc.author.nickName : null,
+        authorId: !!doc.author ? doc.author._id : null,
       };
     });
     return result;

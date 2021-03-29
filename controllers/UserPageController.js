@@ -110,5 +110,17 @@ export const UserPageController = () => {
         return res.status(500).json({ msg: "Server error. Check sortPosts" });
       }
   }
-  return { getUser, getData, updateNickname, updateAbout, sortPosts };
+
+  const deleteUser = async (req, res) => {
+    try{
+      const userId = req.params.userId;
+      User.findByIdAndDelete(userId).exec((err, doc) => {
+        return res.status(200).json({ msg: "User was deleted" });
+      });
+    } catch (e) {
+      console.log(e);
+      return res.status(500).json({ msg: "Server Error. Check deleteUser" });
+    }
+  }
+  return { getUser, getData, updateNickname, updateAbout, sortPosts, deleteUser };
 };

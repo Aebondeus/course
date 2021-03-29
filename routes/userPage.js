@@ -8,6 +8,7 @@ const {
   updateNickname,
   updateAbout,
   sortPosts,
+  deleteUser
 } = UserPageController();
 
 router.use("/user_posts/:userId", getUser);
@@ -15,5 +16,6 @@ router.use("/get_data/:userId", getData);
 router.use("/update_nickname", updateNickname);
 router.use("/update_about", updateAbout);
 router.use("/sort", sortPosts);
+router.use("/deleteUser/:userId", deleteUser);
 
 export const userRouter = router;
