@@ -16,6 +16,9 @@ a:hover {
   .search-tab{
     margin-top: 1rem;
   }
+  .search-btn{
+    padding-left: 0;
+  }
 }
 .whole-app > .container{
   box-shadow: 0 0 10px 1px black;

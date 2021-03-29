@@ -118,7 +118,6 @@ passport.use(
       profileFields: ["id", "displayName", "emails"],
     },
     async (accessToken, refreshToken, params, profile, cb) => {
-      console.log(profile, accessToken); // delete it
       let user = null;
       let data = null;
       const email = !!profile.emails ? profile.emails[0].value : "";

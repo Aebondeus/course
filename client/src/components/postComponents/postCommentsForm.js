@@ -11,16 +11,16 @@ const registerOptions = {
   },
 };
 
-export const PostCommentsForm = (props) => {
+export const PostCommentsForm = ({ data }) => {
   const [show, setShow] = useState(false);
   const { load, request } = useLoad();
   const { register, errors, handleSubmit } = useForm();
   const context = useContext(authContext);
 
-  const onSubmit = async (data, e) => {
+  const onSubmit = async (text, e) => {
     try {
-      data.author = context.id;
-      const comment = { postId: props.data, comment: data };
+      text.author = context.id;
+      const comment = { postId: data, comment: text };
       await request("/handle_post/add_comm", "PUT", comment);
       e.target.reset();
       setShow(true);
