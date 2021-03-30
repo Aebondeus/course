@@ -118,45 +118,36 @@ passport.use(
       profileFields: ["id", "displayName", "emails"],
     },
     async (accessToken, refreshToken, params, profile, cb) => {
+      console.log(profile);
       let user = null;
       let data = null;
-      const email = !!profile.emails ? profile.emails[0].value : "";
-      if (!email){
-        data = await User.findOne({
-          vkId: profile.id,
-        }).exec();
+      const email = !!profile.emails && profile.emails[0].value;
+      if (!email) {
+        data = await User.findOrCreate({
+          vkId: profile.id
+        })
+        console.log(data);
       } else {
-        data = await User.findOne({
-          email: email, vkId:profile.id
-        }).exec();
+        data = await User.findOrCreate({ email: email, vkId: profile.id });
+        console.log(data);
       }
-      if (!data) {
-        const newUser = await new User({
-          nickName: profile.displayName,
-          email: !!email ? email : "",
-          vkId: profile.id,
-        }).save();
-        user = {
-          jwtToken: jwt.sign(
-            { id: newUser._id, nickname: newUser.nickName },
-            process.env.FOR_TOKEN,
-            {
-              expiresIn: "1h",
-            }
-          ),
-        };
-      } else {
-        await data.update({ $set: { vkId: profile.id } }).exec();
-        user = {
-          jwtToken: jwt.sign(
-            { id: data._id, nickname: data.nickName },
-            process.env.FOR_TOKEN,
-            {
-              expiresIn: "1h",
-            }
-          ),
-        };
-      }
+      const res = await User.findOneAndUpdate(
+        { vkid: data.vkId },
+        {
+          $set: {
+            nickName: !!data.doc.nickName
+              ? data.doc.nickName
+              : profile.displayName,
+          },
+        }
+      ).exec();
+      user = {
+        jwtToken: jwt.sign(
+          { id: res._id, nickname: res.nickName },
+          process.env.FOR_TOKEN,
+          { expiresIn: "1h" }
+        ),
+      };
       cb(null, user);
     }
   )

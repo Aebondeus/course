@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import findOrCreate from "mongoose-findorcreate";
 const { Schema, model } = mongoose;
 
 const userSchema = new Schema({
-  email: { type: String },
+  email: { type: String, unique:true },
   phone: { type: String },
   password: { type: String },
   nickName: { type: String, required: true },
@@ -17,4 +18,5 @@ const userSchema = new Schema({
   regDate: { type: Date, default: new Date() },
 });
 
+userSchema.plugin(findOrCreate);
 export default model("User", userSchema);
