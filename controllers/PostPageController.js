@@ -5,6 +5,16 @@ import Tag from "../models/Tag.js";
 import Part from "../models/Part.js";
 import Comment from "../models/Comment.js";
 import cloud from "../utils/cloudinary.js";
+import jwt from "jsonwebtoken";
+
+const isRealAuthor = (token) => {
+  try {
+    jwt.verify(token, process.env.FOR_TOKEN);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
 
 const medium = (arr) => {
   let data = arr.reduce((prev, cur) => {
@@ -139,7 +149,10 @@ const destroyImage = async (imgLink) => {
 export const PostPageController = () => {
   const createPost = async (req, res) => {
     try {
-      const { form, author, tags } = req.body;
+      const { form, author, token, tags } = req.body;
+      if (!isRealAuthor(token)) {
+        return res.status(403).json({ msg: "Forbidden" });
+      }
       const post = new Post({
         name: form.title,
         synopsis: form.synopsis,
@@ -171,9 +184,12 @@ export const PostPageController = () => {
 
   const createPart = async (req, res) => {
     try {
-      const { postId, part } = req.body;
+      const { postId, token, part } = req.body;
       if (!part.name) {
         return res.status(400).json({ msg: "You're forget about a title!" });
+      }
+      if (!isRealAuthor(token)) {
+        return res.status(403).json({ msg: "Forbidden" });
       }
       let imgLink = "";
       if (!!part.image) {
@@ -211,18 +227,20 @@ export const PostPageController = () => {
       Post.findById(postId)
         .populate("parts")
         .populate("tags")
+        .populate("author")
         .exec((err, doc) => {
           if (err) {
             return res.status(404).json({ msg: "Not Found" });
           }
           const data = {
             id: doc.id,
-            author: doc.author,
+            author: !!doc.author && doc.author.id,
+            nickname: !!doc.author && doc.author.nickName,
             name: doc.name,
             synopsis: doc.synopsis,
             genre: doc.genre,
             rating: doc.ratingTotal,
-            raters: !!doc.rating.length ? getRaters(doc.rating) : [], // unify it
+            raters: getRaters(doc.rating),
             tags: prettifyTags(doc.tags),
             parts: prettifyParts(doc.parts),
           };
@@ -257,9 +275,12 @@ export const PostPageController = () => {
   const amendPost = async (req, res) => {
     try {
       const { postId } = req.params;
-      const { form, tags } = req.body;
+      const { form, token, tags } = req.body;
       if (!form.title) {
         return res.status(400).json({ msg: "You forget about a title!" });
+      }
+      if (!isRealAuthor(token)){
+        return res.status(403).json({ msg: "Forbidden" });
       }
       await Post.findById(postId, (err, doc) => {
         unboundTag(doc.tags, doc._id);
@@ -291,9 +312,12 @@ export const PostPageController = () => {
   const amendPart = async (req, res) => {
     try {
       const partId = req.params.partId;
-      const { data, prevImg } = req.body;
+      const { data, prevImg, token } = req.body;
       if (!data.name) {
         return res.status(400).json({ msg: "You're forget about a title" });
+      }
+      if (!isRealAuthor(token)) {
+        return res.status(403).json({ msg: "Forbidden" });
       }
       if (!!prevImg) {
         destroyImage(prevImg);
@@ -354,7 +378,7 @@ export const PostPageController = () => {
         await Part.findByIdAndDelete(partId).exec();
       });
     } catch (e) {
-      return res.status(500) / json({ msg: "Server error. Check deletePart" });
+      return res.status(500).json({ msg: "Server error. Check deletePart" });
     }
   };
 
@@ -375,7 +399,10 @@ export const PostPageController = () => {
 
   const addComment = async (req, res) => {
     try {
-      const { postId, comment } = req.body;
+      const { postId, comment, token } = req.body;
+      if (!isRealAuthor){
+        return res.status(404).json({msg:"Forbidden"})
+      }
       let data = createComment(postId, comment);
       await Post.findByIdAndUpdate(postId, {
         $push: { comments: data },

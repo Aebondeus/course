@@ -43,6 +43,7 @@ export const NewPost = () => {
       await request("/handle_post/newpost", "POST", {
         form,
         author: context.id,
+        token:context.token,
         tags: chosenTags,
       });
       history.push(`/user/${context.id}`);

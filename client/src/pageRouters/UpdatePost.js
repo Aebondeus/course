@@ -51,6 +51,7 @@ export const UpdatePost = ({ match }) => {
       };
       await request(`/handle_post/post/${postId}`, "PUT", {
         form,
+        token: context.token,
         tags: chosenTags,
       });
       history.push(`/user/${context.id}`);

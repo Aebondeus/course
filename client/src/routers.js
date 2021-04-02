@@ -20,10 +20,18 @@ export const Routes = (token, id) => {
       <Route path="/post/:postId" component={PostPage} exact />
       <Route path="/post/:postId/:partId" component={PartPage} exact />
       <Route path="/user/:userId" component={UserPage} exact />
-      <Route path="/createpost" component={NewPost} exact />
-      <Route path="/updatepost/:postId" component={UpdatePost} />
-      <Route path="/createpart/:postId" component={NewPart} />
-      <Route path="/updatepart/:postId/:partId" component={UpdatePart} exact />
+      <Route path="/createpost" component={NewPost} exact>
+        {!token && <Redirect to="/" />}
+      </Route>
+      <Route path="/updatepost/:postId" component={UpdatePost} exact>
+        {!token && <Redirect to="/" />}
+      </Route>
+      <Route path="/createpart/:postId" component={NewPart} exact>
+        {!token && <Redirect to="/" />}
+      </Route>
+      <Route path="/updatepart/:postId/:partId" component={UpdatePart} exact>
+        {!token && <Redirect to="/" />}
+      </Route>
       <Route path="/searchByTag/:tagLabel" component={SearchByTag} exact />
       <Route path="/404" component={PageNotFound} />
       <Redirect to="/404" />

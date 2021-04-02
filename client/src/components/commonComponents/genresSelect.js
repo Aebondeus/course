@@ -5,14 +5,13 @@ import { ThemeContext } from "styled-components";
 
 export const GenreField = ({genres, handleGenre, value}) => {
   const context = useContext(ThemeContext);
-
   return (
     <Select
       isSearchable={true}
       options={genres}
       onChange={handleGenre}
       placeholder={<FormattedMessage id="select-genre" />}
-      value={genres.find(genre => genre.label === value)}
+      value={!!genres && genres.find(genre => genre.label === value)}
       theme={(theme) => ({
         ...theme,
         colors: {

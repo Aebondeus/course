@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLoad } from "../hooks/loadHook.js";
 import { useHistory } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { PartUpdate } from "../components/updatePartComponents/updatePart.js";
+import { authContext } from "../context/authContext.js";
 
 export const UpdatePart = ({ match }) => {
   const postId = match.params.postId;
   const partId = match.params.partId;
+  const context = useContext(authContext);
   const history = useHistory();
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
@@ -47,6 +49,7 @@ export const UpdatePart = ({ match }) => {
       await request(`/handle_post/part/${postId}/${partId}`, "PUT", {
         data,
         prevImg: !!updated && prevImage,
+        token: context.token,
       });
       history.push(`/post/${postId}`);
     } catch (e) {

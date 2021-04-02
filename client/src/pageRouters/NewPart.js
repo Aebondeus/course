@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { MainForm } from "../components/newPartComponents/newPart.js";
 import { useLoad } from "../hooks/loadHook.js";
 import { useHistory } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import { authContext } from "../context/authContext.js";
 
 export const NewPart = ({ match }) => {
   document.title = "New part | Новая глава";
   const postId = match.params.postId;
   const history = useHistory();
+  const context = useContext(authContext);
   const [name, setName] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
   const [content, setContent] = useState("**Type here!**");
@@ -32,6 +34,7 @@ export const NewPart = ({ match }) => {
       const part = { name, content, image };
       await request("/handle_post/newpart", "POST", {
         postId: postId,
+        token: context.token,
         part,
       });
       history.push(`/post/${postId}`);

@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
-import { Form, Button, Toast } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { useLoad } from "../../hooks/loadHook";
 import { useForm } from "react-hook-form";
 import { authContext } from "../../context/authContext";
 import { FormattedMessage } from "react-intl";
+import { ToastComment, ToastError } from "./toasts";
 
 const registerOptions = {
   content: {
@@ -13,6 +14,7 @@ const registerOptions = {
 
 export const PostCommentsForm = ({ data }) => {
   const [show, setShow] = useState(false);
+  const [error, setError] = useState(false);
   const { load, request } = useLoad();
   const { register, errors, handleSubmit } = useForm();
   const context = useContext(authContext);
@@ -20,11 +22,12 @@ export const PostCommentsForm = ({ data }) => {
   const onSubmit = async (text, e) => {
     try {
       text.author = context.id;
-      const comment = { postId: data, comment: text };
+      const comment = { postId: data, comment: text, token: context.token };
       await request("/handle_post/add_comm", "PUT", comment);
       e.target.reset();
       setShow(true);
     } catch (err) {
+      setError(true);
       console.log(err);
       throw err;
     }
@@ -33,16 +36,8 @@ export const PostCommentsForm = ({ data }) => {
   return (
     <div className="comment-form-part">
       <div className="title-area text-center"></div>
-      <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
-        <Toast.Header>
-          <strong className="mr-auto">
-            <FormattedMessage id="comments-form.sent.header" />
-          </strong>
-        </Toast.Header>
-        <Toast.Body>
-          <FormattedMessage id="comments-form.sent.body" />
-        </Toast.Body>
-      </Toast>
+      <ToastComment setShow={setShow} show={show} />
+      <ToastError setError={setError} show={error} />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Form.Group style={{ marginBottom: "0" }}>
           <div name="comment-area">

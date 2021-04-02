@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import ReactStars from "react-stars";
-import { Button, Spinner, Toast, Card } from "react-bootstrap";
-import { useHistory } from "react-router-dom"; // will be used for tags
+import { Button, Spinner, Card } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { authContext } from "../../context/authContext";
 import { useLoad } from "../../hooks/loadHook.js";
+import { ToastFaliure, ToastSuccess } from "./toasts";
 
 export const PostInfo = ({ data, raters }) => {
   const [showSuccess, setSuccess] = useState(false);
@@ -54,12 +55,7 @@ export const PostInfo = ({ data, raters }) => {
   return (
     <div className="post-info">
       <Card style={{ border: "none" }}>
-        <Card.Header
-          className="post-title"
-          style={{ paddingLeft: "0", backgroundColor: "inherit" }}
-        >
-          {data.name}
-        </Card.Header>
+        <Card.Header className="post-title">{data.name}</Card.Header>
         <Card.Body>
           <div className="post-synopsis">
             <div>
@@ -67,6 +63,14 @@ export const PostInfo = ({ data, raters }) => {
                 <FormattedMessage id="synopsis" />:{" "}
               </strong>
               {data.synopsis}
+            </div>
+          </div>
+          <div className="post-author">
+            <div>
+              <strong>
+                <FormattedMessage id="author" />:{" "}
+              </strong>
+              <Link to={`/user/${data.author}`}>{data.nickname}</Link>
             </div>
           </div>
           <div className="post-genre">
@@ -106,38 +110,18 @@ export const PostInfo = ({ data, raters }) => {
             {data.rating}
           </div>
           {!!context.id && <ReactStars {...stars} />}
-          <Toast
-            onClose={() => setSuccess(false)}
+          <ToastSuccess
+            setSuccess={setSuccess}
             show={showSuccess}
             delay={3000}
-            autohide
             style={styleToast}
-          >
-            <Toast.Header>
-              <strong>
-                <FormattedMessage id="post-rate-success.header" />
-              </strong>
-            </Toast.Header>
-            <Toast.Body>
-              <FormattedMessage id="post-rate-success.body" />
-            </Toast.Body>
-          </Toast>
-          <Toast
-            onClose={() => setError(false)}
+          />
+          <ToastFaliure
+            setError={setError}
             show={showError}
             delay={3000}
-            autohide
             style={styleToast}
-          >
-            <Toast.Header>
-              <strong>
-                <FormattedMessage id="post-rate-error.header" />
-              </strong>
-            </Toast.Header>
-            <Toast.Body>
-              <FormattedMessage id="post-rate-error.body" />
-            </Toast.Body>
-          </Toast>
+          />
         </Card.Body>
       </Card>
     </div>
