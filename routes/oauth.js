@@ -30,35 +30,27 @@ passport.use(
       profileFields: ["id", "displayName", "emails"],
     },
     async (accessToken, refreshToken, profile, cb) => {
-      let user = null;
-      const data = await User.findOne({
+      const data = await User.findOrCreate({
         email: profile.emails[0].value,
-      }).exec();
-      if (!data) {
-        const newUser = await new User({
-          nickName: profile.displayName,
-          email: profile.emails[0].value,
-          facebookId: profile.id,
-        }).save();
-        user = {
-          jwtToken: jwt.sign(
-            { id: newUser._id, nickname: newUser.nickName },
-            process.env.FOR_TOKEN,
-            { expiresIn: "1h" }
-          ),
-        };
-      } else {
-        await data.update({ $set: { facebookId: profile.id } }).exec();
-        user = {
-          jwtToken: jwt.sign(
-            { id: data._id, nickname: data.nickName },
-            process.env.FOR_TOKEN,
-            {
-              expiresIn: "1h",
-            }
-          ),
-        };
-      }
+        facebookId: profile.id,
+      });
+      const res = await User.findOneAndUpdate(
+        { facebookId: data.doc.facebookId },
+        {
+          $set: {
+            nickName: !!data.doc.nickName
+              ? data.doc.nickName
+              : profile.displayName,
+          },
+        }
+      ).exec();
+      const user = {
+        jwtToken: jwt.sign(
+          { id: res._id, nickname: res.nickName },
+          process.env.FOR_TOKEN,
+          { expiresIn: "1h" }
+        ),
+      };
       cb(null, user);
     }
   )
@@ -73,37 +65,27 @@ passport.use(
       profileFields: ["id", "displayName", "emails"],
     },
     async (accessToken, refreshToken, profile, cb) => {
-      let user = null;
-      const data = await User.findOne({
+      const data = await User.findOrCreate({
         email: profile.emails[0].value,
-      }).exec();
-      if (!data) {
-        const newUser = await new User({
-          nickName: profile.displayName,
-          email: profile.emails[0].value,
-          yandexId: profile.id,
-        }).save();
-        user = {
-          jwtToken: jwt.sign(
-            { id: newUser._id, nickname: newUser.nickName },
-            process.env.FOR_TOKEN,
-            {
-              expiresIn: "1h",
-            }
-          ),
-        };
-      } else {
-        await data.update({ $set: { yandexId: profile.id } }).exec();
-        user = {
-          jwtToken: jwt.sign(
-            { id: data._id, nickname: data.nickName },
-            process.env.FOR_TOKEN,
-            {
-              expiresIn: "1h",
-            }
-          ),
-        };
-      }
+        yandexId: profile.id,
+      });
+      const res = await User.findOneAndUpdate(
+        { yandexId: data.doc.yandexId },
+        {
+          $set: {
+            nickName: !!data.doc.nickName
+              ? data.doc.nickName
+              : profile.displayName,
+          },
+        }
+      ).exec();
+      const user = {
+        jwtToken: jwt.sign(
+          { id: res._id, nickname: res.nickName },
+          process.env.FOR_TOKEN,
+          { expiresIn: "1h" }
+        ),
+      };
       cb(null, user);
     }
   )
@@ -118,21 +100,17 @@ passport.use(
       profileFields: ["id", "displayName", "emails"],
     },
     async (accessToken, refreshToken, params, profile, cb) => {
-      console.log(profile);
-      let user = null;
       let data = null;
       const email = !!profile.emails && profile.emails[0].value;
       if (!email) {
         data = await User.findOrCreate({
-          vkId: profile.id
-        })
-        console.log(data);
+          vkId: profile.id,
+        });
       } else {
         data = await User.findOrCreate({ email: email, vkId: profile.id });
-        console.log(data);
       }
       const res = await User.findOneAndUpdate(
-        { vkid: data.vkId },
+        { vkId: data.doc.vkId },
         {
           $set: {
             nickName: !!data.doc.nickName
@@ -141,7 +119,7 @@ passport.use(
           },
         }
       ).exec();
-      user = {
+      const user = {
         jwtToken: jwt.sign(
           { id: res._id, nickname: res.nickName },
           process.env.FOR_TOKEN,
@@ -162,37 +140,27 @@ passport.use(
       profileFields: ["id", "displayName", "emails"],
     },
     async (accessToken, refreshToken, profile, cb) => {
-      let user = null;
-      const data = await User.findOne({
+      const data = await User.findOrCreate({
         email: profile.emails[0].value,
-      }).exec();
-      if (!data) {
-        const newUser = await new User({
-          nickName: profile.displayName,
-          email: profile.emails[0].value,
-          googleId: profile.id,
-        }).save();
-        user = {
-          jwtToken: jwt.sign(
-            { id: newUser._id, nickname: newUser.nickName },
-            process.env.FOR_TOKEN,
-            {
-              expiresIn: "1h",
-            }
-          ),
-        };
-      } else {
-        await data.update({ $set: { googleId: profile.id } }).exec();
-        user = {
-          jwtToken: jwt.sign(
-            { id: data._id, nickname: data.nickName },
-            process.env.FOR_TOKEN,
-            {
-              expiresIn: "1h",
-            }
-          ),
-        };
-      }
+        googleId: profile.id,
+      });
+      const res = await User.findOneAndUpdate(
+        { googleId: data.doc.googleId },
+        {
+          $set: {
+            nickName: !!data.doc.nickName
+              ? data.doc.nickName
+              : profile.displayName,
+          },
+        }
+      ).exec();
+      const user = {
+        jwtToken: jwt.sign(
+          { id: res._id, nickname: res.nickName },
+          process.env.FOR_TOKEN,
+          { expiresIn: "1h" }
+        ),
+      };
       cb(null, user);
     }
   )
@@ -204,21 +172,19 @@ const CLIENT_HOME_PAGE =
   process.env.CLIENT_HOME_PAGE || "http://localhost:3000/";
 
 router.get("/login/success", (req, res) => {
-  if (req.user) {
-    res.json({
+  if (!!req.session.passport) { // maybe req.user will be
+    return res.json({
       sucess: true,
       msg: "user was authenticated",
       user: req.user,
-      cookies: req.cookies,
-    });
-  } else {
-    res.json({
+    })}
+  return res.json({
       success: true,
       msg: "user wasn't authenticated or sign in with local authorization",
       user: null,
     });
   }
-});
+);
 
 router.get("/login/failed", (req, res) => {
   res.status(401).json({
@@ -229,9 +195,10 @@ router.get("/login/failed", (req, res) => {
 
 router.get("/logout", (req, res) => {
   req.session = null;
+  req.user = null;
   res.clearCookie("session", { path: "/" });
   res.clearCookie("session.sig", { path: "/" });
-  res.redirect(CLIENT_HOME_PAGE);
+  res.redirect(CLIENT_HOME_PAGE); // probably will be removed
 });
 
 router.get(

@@ -19,6 +19,7 @@ export const MainHeader = ({ setLang, setTheme }) => {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Credentials": true,
+        "Cache-Control":"no-cache, no-store, must-revalidate"
       },
     })
       .then((res) => {
@@ -41,7 +42,7 @@ export const MainHeader = ({ setLang, setTheme }) => {
 
   useEffect(() => {
     loginOauth();
-  }, []);
+  });
 
   return (
     <Navbar collapseOnSelect expand="lg" variant={theme}>

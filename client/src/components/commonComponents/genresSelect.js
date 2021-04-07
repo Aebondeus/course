@@ -5,6 +5,7 @@ import { ThemeContext } from "styled-components";
 
 export const GenreField = ({genres, handleGenre, value}) => {
   const context = useContext(ThemeContext);
+
   return (
     <Select
       isSearchable={true}

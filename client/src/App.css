@@ -169,6 +169,14 @@ a:hover {
   border:none;
 }
 
+@media (max-width:756px){
+  .new-post-wrapper > .card, .new-part-wrapper > .card, 
+  .update-post-wrapper > .card, .update-part-wrapper > .card {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
 
 .send-btn.btn-link{
   padding-left: 0;
