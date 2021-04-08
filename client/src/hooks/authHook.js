@@ -7,22 +7,13 @@ export const useAuth = () => {
   const [token, setToken] = useState(null);
   const [id, setId] = useState(null);
   const [nickname, setNickname] = useState(null);
-  
-  const deleteUserData = async() =>{
-    await fetch("/oauth/logout");
-    localStorage.removeItem(storage);
-    return true;
-  }
 
   const logout = useCallback(async () => {
+    localStorage.removeItem(storage);
+    await fetch("/oauth/logout");
     setToken(null);
     setId(null);
     setNickname(null);
-    const isDeleted = await deleteUserData();
-    console.log(isDeleted)
-    if (!!isDeleted){
-      window.location.reload();
-    }
   });
 
   const login = useCallback((token) => {
@@ -47,7 +38,7 @@ export const useAuth = () => {
     if (data && data.token) {
       login(data.token);
     }
-  }, [logout]);
+  }, []);
 
   return { token, id, nickname, login, logout };
 };
