@@ -9,6 +9,7 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.3",
     "@vkontakte/icons": "^1.88.0",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^4.6.0",
     "cloudinary-react": "^1.7.0",
     "jsonwebtoken": "^8.5.1",

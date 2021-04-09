@@ -33,7 +33,7 @@ export const PostPage = ({ match }) => {
           synopsis: data.synopsis,
           genre: data.genre,
           tags: data.tags,
-          author: !data.author ? null : data.author,
+          author: !data.author ? "road_to_404" : data.author,
           nickname:!data.nickname ? "DELETED USER": data.nickname,
           parts: data.parts,
           rating: data.rating,

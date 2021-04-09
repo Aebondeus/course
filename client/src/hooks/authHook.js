@@ -8,6 +8,27 @@ export const useAuth = () => {
   const [id, setId] = useState(null);
   const [nickname, setNickname] = useState(null);
 
+  const setStatesAndStorageData = async (id, token, nickname) => {
+    localStorage.setItem(
+      storage,
+      JSON.stringify({ userId: id, token, nickname })
+    );
+    setToken(token);
+    setId(id);
+    setNickname(nickname);
+  };
+
+  const login = useCallback(async (token) => {
+    try {
+      const data = jwt.verify(token, process.env.REACT_APP_FOR_TOKEN);
+      const { id, nickname } = data;
+      await setStatesAndStorageData(id, token, nickname);
+    } catch (e) {
+      console.log(e);
+      logout();
+    }
+  }, []);
+
   const logout = useCallback(async () => {
     localStorage.removeItem(storage);
     await fetch("/oauth/logout");
@@ -16,24 +37,7 @@ export const useAuth = () => {
     setNickname(null);
   });
 
-  const login = useCallback((token) => {
-    try {
-      const data = jwt.verify(token, process.env.REACT_APP_FOR_TOKEN);
-      const { id, nickname } = data;
-      setToken(token);
-      setId(id);
-      setNickname(nickname);
-      localStorage.setItem(
-        storage,
-        JSON.stringify({ userId: id, token, nickname })
-      );
-    } catch (e) {
-      console.log(e);
-      logout();
-    }
-  }, []);
-
-   useEffect(() => {
+  useEffect(() => {
     const data = JSON.parse(localStorage.getItem(storage));
     if (data && data.token) {
       login(data.token);

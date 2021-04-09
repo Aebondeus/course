@@ -3,10 +3,10 @@ import findOrCreate from "mongoose-findorcreate";
 const { Schema, model } = mongoose;
 
 const userSchema = new Schema({
-  email: { type: String, unique:true },
+  email: { type: String, unique: true },
   phone: { type: String },
   password: { type: String },
-  nickName: { type: String, required: true },
+  nickName: { type: String },
   posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
   comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   facebookId: { type: String },

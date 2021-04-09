@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Card, Spinner, Button, Modal, Form } from "react-bootstrap";
+import { Card, Spinner, Button, Modal } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
 import { authContext } from "../../context/authContext.js";
 import { useLoad } from "../../hooks/loadHook.js";
@@ -13,6 +13,7 @@ export const UserInfo = ({ userId, deleteUser }) => {
   const context = useContext(authContext);
   const { request } = useLoad();
   const id = context.id;
+
   document.title = !!info
     ? `User page | Страница пользователя: ${info.nickName}`
     : "Loading...";
@@ -39,8 +40,8 @@ export const UserInfo = ({ userId, deleteUser }) => {
 
   const nicknameEdit = async (event) => {
     let body = { id: userId, nickname: event };
-    await request("/user/update_nickname", "PUT", body);
-    context.login(context.token, context.id, event);
+    const { token } = await request("/user/update_nickname", "PUT", body);
+    context.login(token);
     setChange(true);
   };
 

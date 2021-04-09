@@ -42,7 +42,7 @@ export const MainHeader = ({ setLang, setTheme }) => {
 
   useEffect(() => {
     loginOauth();
-  });
+  }, []);
 
   return (
     <Navbar collapseOnSelect expand="lg" variant={theme}>

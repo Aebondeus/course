@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import Post from "../models/Post.js";
 import User from "../models/User.js";
+import jwt from "jsonwebtoken";
+
 const ObjectId = mongoose.Types.ObjectId;
 
 const matchConvert = (sortMatch) => {
@@ -51,7 +53,14 @@ export const UserPageController = () => {
         { $set: { nickName: nickname } },
         { new: true },
         (err, doc) => {
-          return res.status(200).json({ msg: "Nickname was updated!" });
+          const token = jwt.sign(
+            { id: doc._id, nickname: doc.nickName },
+            process.env.FOR_TOKEN,
+            { expiresIn: "1h" }
+          );
+          return res
+            .status(200)
+            .json({ msg: "Nickname was updated!", token: token });
         }
       );
     } catch (e) {

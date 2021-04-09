@@ -42,7 +42,8 @@ passport.use(
               ? data.doc.nickName
               : profile.displayName,
           },
-        }
+        },
+        { new: true }
       ).exec();
       const user = {
         jwtToken: jwt.sign(
@@ -77,7 +78,8 @@ passport.use(
               ? data.doc.nickName
               : profile.displayName,
           },
-        }
+        },
+        { new: true }
       ).exec();
       const user = {
         jwtToken: jwt.sign(
@@ -117,7 +119,8 @@ passport.use(
               ? data.doc.nickName
               : profile.displayName,
           },
-        }
+        },
+        { new: true }
       ).exec();
       const user = {
         jwtToken: jwt.sign(
@@ -152,7 +155,8 @@ passport.use(
               ? data.doc.nickName
               : profile.displayName,
           },
-        }
+        },
+        { new: true }
       ).exec();
       const user = {
         jwtToken: jwt.sign(
