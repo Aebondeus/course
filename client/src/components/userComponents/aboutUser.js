@@ -39,14 +39,14 @@ export const UserInfo = ({ userId, deleteUser }) => {
   }, [isChange, userId]);
 
   const nicknameEdit = async (event) => {
-    let body = { id: userId, nickname: event };
+    let body = { token: context.token, nickname: event };
     const { token } = await request("/user/update_nickname", "PUT", body);
     context.login(token);
     setChange(true);
   };
 
   const aboutEdit = async (event) => {
-    let body = { id: userId, about: event };
+    let body = { token: context.token, about: event };
     await request("/user/update_about", "PUT", body);
     setChange(true);
   };

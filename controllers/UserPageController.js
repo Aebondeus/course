@@ -9,6 +9,15 @@ const matchConvert = (sortMatch) => {
   sortMatch["author"] = ObjectId(sortMatch["author"]);
 };
 
+const isRealUser = (token) => {
+  try {
+    const user = jwt.verify(token, process.env.FOR_TOKEN);
+    return user;
+  } catch (e) {
+    return false;
+  }
+};
+
 export const UserPageController = () => {
   const getUser = async (req, res) => {
     try {
@@ -47,7 +56,11 @@ export const UserPageController = () => {
 
   const updateNickname = async (req, res) => {
     try {
-      const { id, nickname } = req.body;
+      const { token, nickname } = req.body;
+      const { id, iat } = isRealUser(token);
+      if (!id) {
+        return res.status(403).json({ msg: "Forbidden!" });
+      }
       await User.findByIdAndUpdate(
         id,
         { $set: { nickName: nickname } },
@@ -56,7 +69,7 @@ export const UserPageController = () => {
           const token = jwt.sign(
             { id: doc._id, nickname: doc.nickName },
             process.env.FOR_TOKEN,
-            { expiresIn: "1h" }
+            { expiresIn: iat }
           );
           return res
             .status(200)
@@ -73,7 +86,11 @@ export const UserPageController = () => {
 
   const updateAbout = async (req, res) => {
     try {
-      const { id, about } = req.body;
+      const { token, about } = req.body;
+      const { id } = isRealUser(token);
+      if (!id) {
+        return res.status(403).json({ msg: "Forbidden!" });
+      }
       await User.findByIdAndUpdate(
         id,
         { $set: { about: about } },
@@ -89,40 +106,45 @@ export const UserPageController = () => {
   };
 
   const sortPosts = async (req, res) => {
-      try {
-        const { sortMatch, sort } = req.body;
-        matchConvert(sortMatch);
-        await Post.aggregate(
-          [
-            { $match: sortMatch },
-            {
-              $project: {
-                name: 1,
-                synopsis: 1,
-                genre: 1,
-                author: 1,
-                tags: 1,
-                parts: 1,
-                ratingTotal: 1,
-                updated: 1,
-                length: { $size: "$parts" },
-              },
+    try {
+      const { sortMatch, sort } = req.body;
+      matchConvert(sortMatch);
+      await Post.aggregate(
+        [
+          { $match: sortMatch },
+          {
+            $project: {
+              name: 1,
+              synopsis: 1,
+              genre: 1,
+              author: 1,
+              tags: 1,
+              parts: 1,
+              ratingTotal: 1,
+              updated: 1,
+              length: { $size: "$parts" },
             },
-            { $sort: sort },
-          ],
-          (err, results) => {
-            return res.status(200).json(results);
-          }
-        );
-      } catch (e) {
-        console.log(e);
-        return res.status(500).json({ msg: "Server error. Check sortPosts" });
-      }
-  }
+          },
+          { $sort: sort },
+        ],
+        (err, results) => {
+          return res.status(200).json(results);
+        }
+      );
+    } catch (e) {
+      console.log(e);
+      return res.status(500).json({ msg: "Server error. Check sortPosts" });
+    }
+  };
 
   const deleteUser = async (req, res) => {
-    try{
+    try {
       const userId = req.params.userId;
+      const { token } = req.body;
+      const user = isRealUser(token);
+      if (!user || userId != user.id) {
+        return res.status(403).json({ msg: "Forbidden!" });
+      }
       User.findByIdAndDelete(userId).exec((err, doc) => {
         return res.status(200).json({ msg: "User was deleted" });
       });
@@ -130,6 +152,13 @@ export const UserPageController = () => {
       console.log(e);
       return res.status(500).json({ msg: "Server Error. Check deleteUser" });
     }
-  }
-  return { getUser, getData, updateNickname, updateAbout, sortPosts, deleteUser };
+  };
+  return {
+    getUser,
+    getData,
+    updateNickname,
+    updateAbout,
+    sortPosts,
+    deleteUser,
+  };
 };

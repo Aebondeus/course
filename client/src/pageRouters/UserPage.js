@@ -30,7 +30,7 @@ export const UserPage = ({ match }) => {
     getPosts();
   }, [del, sort, userId]);
 
-  const getPosts = async () => {
+  const getPosts = async () => { //! will be refactored
     await fetch("/user/sort", {
       method: "PUT",
       body: JSON.stringify({
@@ -61,12 +61,26 @@ export const UserPage = ({ match }) => {
     setCurPage(data.selected);
   };
 
-  const deleteUser = async () => {
-    await fetch(`/user/deleteUser/${userId}`)
-      .then((res) => res.json())
+  const deleteUser = async () => { //! will be refactored
+    await fetch(`/user/deleteUser/${userId}`, {
+      method: "DELETE",
+      body: JSON.stringify({
+        token: context.token,
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        }
+        throw Error;
+      })
       .then((res) => {
         context.logout();
         history.push("/");
+      })
+      .catch(() => {
+        console.log("Get your hands of this console!");
       });
   };
 

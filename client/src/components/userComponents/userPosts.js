@@ -14,7 +14,9 @@ export const UserPosts = ({ posts, del, setDel }) => {
   const deletePost = async (event) => {
     event.preventDefault();
     const postId = event.target.value;
-    await request(`/handle_post/post/${postId}`, "DELETE");
+    await request(`/handle_post/post/${postId}`, "DELETE", {
+      token: context.token,
+    });
     setDel(!del);
   };
 

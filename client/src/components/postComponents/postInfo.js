@@ -10,7 +10,7 @@ import { ToastFaliure, ToastSuccess } from "./toasts";
 export const PostInfo = ({ data, raters }) => {
   const [showSuccess, setSuccess] = useState(false);
   const [showError, setError] = useState(false);
-  const { request } = useLoad();
+  const { request, error } = useLoad();
   const history = useHistory();
   const context = useContext(authContext);
 
@@ -28,12 +28,16 @@ export const PostInfo = ({ data, raters }) => {
     if (raters.includes(context.id)) {
       setError(true);
     } else {
-      await request("/handle_post/rate", "PUT", {
-        postId: data.id,
-        userId: context.id,
-        rate: event,
-      });
-      setSuccess(true);
+      try {
+        await request("/handle_post/rate", "PUT", {
+          postId: data.id,
+          token: context.token,
+          rate: event,
+        });
+        setSuccess(true);
+      } catch (e) {
+        setError(true);
+      }
     }
   };
 

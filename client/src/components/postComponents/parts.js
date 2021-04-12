@@ -20,7 +20,9 @@ export const Parts = ({ part, data, idx }) => {
 
   const deleteHandler = async (event) => {
     const partId = event.target.value;
-    await request(`/handle_post/part/${postId}/${partId}`, "DELETE");
+    await request(`/handle_post/part/${postId}/${partId}`, "DELETE", {
+      token: context.token,
+    });
   };
 
   return (

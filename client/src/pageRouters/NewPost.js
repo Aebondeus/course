@@ -42,7 +42,6 @@ export const NewPost = () => {
       form.genre = chosenGenre;
       await request("/handle_post/newpost", "POST", {
         form,
-        author: context.id,
         token:context.token,
         tags: chosenTags,
       });

@@ -7,14 +7,20 @@ import Comment from "../models/Comment.js";
 import cloud from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
 
-const isRealAuthor = (token) => {
+const SCORES = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
+const isRealUser = (token) => {
   try {
-    jwt.verify(token, process.env.FOR_TOKEN);
-    return true;
+    const user = jwt.verify(token, process.env.FOR_TOKEN);
+    return user.id;
   } catch (e) {
     return false;
   }
 };
+
+const isAuthorOfPost = async (userId, postId) => {
+  const post = await Post.findById(postId).exec();
+  return userId === post.author;
+}
 
 const medium = (arr) => {
   let data = arr.reduce((prev, cur) => {
@@ -149,14 +155,16 @@ const destroyImage = async (imgLink) => {
 export const PostPageController = () => {
   const createPost = async (req, res) => {
     try {
-      const { form, author, token, tags } = req.body;
-      if (!isRealAuthor(token)) {
-        return res.status(403).json({ msg: "Forbidden" });
+      const { form, token, tags } = req.body;
+      const user = isRealUser(token);
+      const genre = await Genre.findOne({label:form.genre}).exec();
+      if (!user || !genre) {
+        return res.status(403).json({ msg: "Get logged in or choose genre from list" });
       }
       const post = new Post({
         name: form.title,
         synopsis: form.synopsis,
-        author: author,
+        author: user,
         genre: form.genre,
         tags: [],
         parts: [],
@@ -172,10 +180,11 @@ export const PostPageController = () => {
             .json({ err, msg: "You're forget about title!" });
         }
         await boundTags(tags, post);
-        await boundPost(author, post);
+        await boundPost(user, post);
         return res.status(200).json({ msg: "We did it" });
       });
     } catch (e) {
+      console.log(e);
       return res
         .status(400)
         .json({ err: e, msg: "Something going wrong in newpost" });
@@ -185,10 +194,12 @@ export const PostPageController = () => {
   const createPart = async (req, res) => {
     try {
       const { postId, token, part } = req.body;
+      const user = isRealUser(token);
+      const author = isAuthorOfPost(user, postId);
       if (!part.name) {
         return res.status(400).json({ msg: "You're forget about a title!" });
       }
-      if (!isRealAuthor(token)) {
+      if (!user || !author) {
         return res.status(403).json({ msg: "Forbidden" });
       }
       let imgLink = "";
@@ -274,13 +285,19 @@ export const PostPageController = () => {
 
   const amendPost = async (req, res) => {
     try {
-      const { postId } = req.params;
+      const postId = req.params.postId;
       const { form, token, tags } = req.body;
+      const user = isRealUser(token);
+      const author = isAuthorOfPost(user, postId);
+      const genre = await Genre.findOne({label:form.genre}).exec();
       if (!form.title) {
         return res.status(400).json({ msg: "You forget about a title!" });
       }
-      if (!isRealAuthor(token)){
+      if (!user || !author){
         return res.status(403).json({ msg: "Forbidden" });
+      }
+      if (!genre){
+        return res.status(400).json({msg:"Choose genre from a list"})
       }
       await Post.findById(postId, (err, doc) => {
         unboundTag(doc.tags, doc._id);
@@ -312,11 +329,14 @@ export const PostPageController = () => {
   const amendPart = async (req, res) => {
     try {
       const partId = req.params.partId;
+      const postId = req.params.postId;
+      const user = isRealUser(token);
+      const author = isAuthorOfPost(user, postId);
       const { data, prevImg, token } = req.body;
       if (!data.name) {
         return res.status(400).json({ msg: "You're forget about a title" });
       }
-      if (!isRealAuthor(token)) {
+      if (!user || !author) {
         return res.status(403).json({ msg: "Forbidden" });
       }
       if (!!prevImg) {
@@ -347,7 +367,16 @@ export const PostPageController = () => {
   const deletePost = async (req, res) => {
     try {
       const postId = req.params.postId;
+      const { token } = req.body;
+      const user = isRealUser(token);
+      const author = isAuthorOfPost(user, postId);
+      if (!user || !author){
+        return res.status(403).json({ msg: "Forbidden" });
+      }
       await Post.findById(postId, async (err, post) => {
+        if (err){
+          console.log(err);
+        }
         post.parts.forEach((part) => {
           Part.findByIdAndDelete(part).exec((err, doc) => {
             !!doc.image && destroyImage(doc.image);
@@ -355,7 +384,6 @@ export const PostPageController = () => {
         });
         await unboundPost(post.author, post._id);
         unboundTag(post.tags, post._id);
-        console.log(post.comments);
         await deleteComment(post.comments);
       });
       await Post.findByIdAndDelete(postId, (err, post) => {
@@ -370,6 +398,12 @@ export const PostPageController = () => {
   const deletePart = async (req, res) => {
     try {
       const { postId, partId } = req.params;
+      const { token } = req.body;
+      const user = isRealUser(token);
+      const author = isAuthorOfPost(user, postId);
+      if (!user || !author){
+        return res.status(403).json({ msg: "Forbidden" });
+      }
       Part.findById(partId).exec(async (err, part) => {
         await Post.findByIdAndUpdate(postId, {
           $pull: { parts: partId },
@@ -400,7 +434,7 @@ export const PostPageController = () => {
   const addComment = async (req, res) => {
     try {
       const { postId, comment, token } = req.body;
-      if (!isRealAuthor){
+      if (!isRealUser(token)){
         return res.status(404).json({msg:"Forbidden"})
       }
       let data = createComment(postId, comment);
@@ -414,11 +448,21 @@ export const PostPageController = () => {
   };
 
   const ratePost = async (req, res) => {
-    try {
-      const { postId, userId, rate } = req.body;
+    try { 
+      const { postId, token, rate } = req.body;
+      const user = isRealUser(token);
+      const post = await Post.findById(postId).exec();
+      const raters = getRaters(post.rating);
+      if (!user || !SCORES.includes(rate) || raters.includes(user)){
+        return res.status(403).json({ msg: "Forbidden" });
+      }
+      const isUserInDb = await User.findById(user).exec();
+      if (!isUserInDb){
+        return res.status(403).json({ msg: "Forbidden" });
+      }
       Post.findByIdAndUpdate(
         postId,
-        { $push: { rating: { [userId]: rate } } },
+        { $push: { rating: { [user]: rate } } },
         { new: true }
       ).exec((err, doc) => {
         doc.ratingTotal = medium(getRating(doc.rating));
@@ -426,6 +470,7 @@ export const PostPageController = () => {
       });
       return res.status(200).json({ msg: "Rating added" });
     } catch (e) {
+      console.log(e);
       return res.status(500).json({ msg: "Server error. Check ratePost" });
     }
   };
