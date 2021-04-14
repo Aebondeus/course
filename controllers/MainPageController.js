@@ -1,28 +1,31 @@
 import Post from "../models/Post.js";
 import Tag from "../models/Tag.js";
 
+const prettifyPosts = async (postsList) => {
+  return postsList.map((post) => {
+    return {
+      name: post.name,
+      synopsis: post.synopsis,
+      rating: post.ratingTotal,
+      genre: post.genre,
+      id: post._id,
+      updated: post.updated.toString(),
+    };
+  });
+};
+
 export const MainPageController = () => {
   const getRatedPosts = (req, res) => {
     try {
       Post.find({})
         .sort({ ratingTotal: "desc" })
         .limit(10)
-        .exec((err, docs) => {
+        .exec(async (err, docs) => {
           if (err) {
             throw err;
           }
-          const docsarray = docs.map((doc) => {
-            return {
-              name: doc.name,
-              synopsis: doc.synopsis,
-              rating: doc.ratingTotal,
-              genre: doc.genre,
-              id: doc._id,
-              updated: doc.updated.toString(),
-            };
-          });
-
-          return res.status(200).json(docsarray);
+          const posts = await prettifyPosts(docs);
+          return res.status(200).json(posts);
         });
     } catch (e) {
       console.log("Erorr in ratedposts");
@@ -35,21 +38,12 @@ export const MainPageController = () => {
       Post.find({})
         .sort({ updated: -1 })
         .limit(10)
-        .exec((err, docs) => {
+        .exec(async (err, docs) => {
           if (err) {
             throw err;
           }
-          const docsarray = docs.map((doc) => {
-            return {
-              name: doc.name,
-              synopsis: doc.synopsis,
-              rating: doc.ratingTotal,
-              genre: doc.genre,
-              id: doc._id,
-              updated: doc.updated.toString(),
-            };
-          });
-          return res.status(200).json(docsarray);
+          const posts = await prettifyPosts(docs);
+          return res.status(200).json(posts);
         });
     } catch (e) {
       console.log("Error in updatedposts");

@@ -8,6 +8,7 @@ import cloud from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
 
 const SCORES = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
+
 const isRealUser = (token) => {
   try {
     const user = jwt.verify(token, process.env.FOR_TOKEN);
@@ -20,7 +21,7 @@ const isRealUser = (token) => {
 const isAuthorOfPost = async (userId, postId) => {
   const post = await Post.findById(postId).exec();
   return userId === post.author;
-}
+};
 
 const medium = (arr) => {
   let data = arr.reduce((prev, cur) => {
@@ -64,6 +65,46 @@ const createComment = (postId, comment) => {
   return data;
 };
 
+const createNewPost = (form, user) => {
+  return new Post({
+    name: form.title,
+    synopsis: form.synopsis,
+    author: user,
+    genre: form.genre,
+    tags: [],
+    parts: [],
+    comments: [],
+    rating: [],
+    ratingTotal: 0,
+    updated: new Date(),
+  });
+}
+
+const createNewPart = (part, postId, imgLink) => {
+  return new Part({
+    name: part.name,
+    date: new Date(),
+    content: part.content,
+    post: postId,
+    image: imgLink,
+  });
+}
+
+const getPostData = (post) => {
+  return {
+    id: post.id,
+    author: !!post.author && post.author.id,
+    nickname: !!post.author && post.author.nickName,
+    name: post.name,
+    synopsis: post.synopsis,
+    genre: post.genre,
+    rating: post.ratingTotal,
+    raters: getRaters(post.rating),
+    tags: prettifyTags(post.tags),
+    parts: prettifyParts(post.parts),
+  };
+}
+
 const prettifyComment = (arr) => {
   if (!!arr) {
     const result = arr.map((doc) => {
@@ -97,6 +138,14 @@ const prettifyParts = (arr) => {
   return result;
 };
 
+const deletePostParts = async (post) => {
+  post.parts.forEach((part) => {
+    Part.findByIdAndDelete(part).exec((err, doc) => {
+      !!doc.image && destroyImage(doc.image);
+    });
+  });
+}
+
 const prettifyTags = (arr) => {
   const result = arr.map((doc) => {
     return { label: doc.label, value: doc.value, id: doc._id };
@@ -104,31 +153,45 @@ const prettifyTags = (arr) => {
   return result;
 };
 
-const boundTags = async (arr, post) => {
-  // refactor it
-  if (!!arr) {
-    for (const tag of arr) {
-      await Tag.find({ label: tag }, async (err, doc) => {
-        if (!!!doc.length) {
-          await new Tag({
-            label: tag,
-            value: tag.toLowerCase(),
-            posts: [post],
-          }).save();
-        } else {
-          await Tag.findByIdAndUpdate(doc[0]._id, {
-            $push: { posts: post },
-          }).exec();
-        }
-      });
-    }
+const createNewTag = async (tag, post) => {
+  await new Tag({
+    label: tag,
+    value: tag.toLowerCase(),
+    posts: [post],
+  }).save();
+};
 
+const addNewPostToTag = async (tagId, post) => {
+  await Tag.findByIdAndUpdate(tagId, {
+    $push: { posts: post },
+  }).exec();
+};
+
+const addTagsToPost = async (postId) => {
+  await Tag.find({ posts: { $all: postId } }, (err, docs) => {
+    Post.findByIdAndUpdate(postId, {
+      $push: { tags: { $each: docs } },
+    }).exec();
+  });
+};
+
+const handleTags = async (tag, post) => {
+  await Tag.find({ label: tag }, async (err, doc) => {
+    if (!!!doc.length) {
+      await createNewTag(tag, post);
+    } else {
+      await addNewPostToTag(doc[0]._id, post);
+    }
+  });
+};
+
+const boundTags = async (tagList, post) => {
+  if (!!tagList) {
+    for (const tag of tagList) {
+      await handleTags(tag, post);
+    }
     setTimeout(async () => {
-      await Tag.find({ posts: { $all: post._id } }, (err, docs) => {
-        Post.findByIdAndUpdate(post, {
-          $push: { tags: { $each: docs } },
-        }).exec();
-      });
+      await addTagsToPost(post._id);
     }, 50);
   }
 };
@@ -157,22 +220,13 @@ export const PostPageController = () => {
     try {
       const { form, token, tags } = req.body;
       const user = isRealUser(token);
-      const genre = await Genre.findOne({label:form.genre}).exec();
+      const genre = await Genre.findOne({ label: form.genre }).exec();
       if (!user || !genre) {
-        return res.status(403).json({ msg: "Get logged in or choose genre from list" });
+        return res
+          .status(403)
+          .json({ msg: "Get logged in or choose genre from list" });
       }
-      const post = new Post({
-        name: form.title,
-        synopsis: form.synopsis,
-        author: user,
-        genre: form.genre,
-        tags: [],
-        parts: [],
-        comments: [],
-        rating: [],
-        ratingTotal: 0,
-        updated: new Date(),
-      });
+      const post = createNewPost(form, user);
       post.save(async (err) => {
         if (err) {
           return res
@@ -206,23 +260,17 @@ export const PostPageController = () => {
       if (!!part.image) {
         imgLink = await handleImage(part.image);
       }
-      const data = new Part({
-        name: part.name,
-        date: new Date(),
-        content: part.content,
-        post: postId,
-        image: imgLink,
-      });
-      data.save(async (err) => {
+      const newPart = createNewPart(part, postId, imgLink);
+      newPart.save(async (err) => {
         if (err) {
           return res.status(400).json({ msg: "You're forget about a title!" });
-        } else {
-          await Post.findByIdAndUpdate(postId, {
-            $push: { parts: data },
-          }).exec();
-          return res.status(200).json({ msg: "Part was added" });
         }
-      });
+        await Post.findByIdAndUpdate(postId, {
+          $push: { parts: newPart },
+        }).exec();
+        return res.status(200).json({ msg: "Part was added" });
+        }
+      );
     } catch (e) {
       console.log("Error in create part");
       console.log(e);
@@ -243,19 +291,8 @@ export const PostPageController = () => {
           if (err) {
             return res.status(404).json({ msg: "Not Found" });
           }
-          const data = {
-            id: doc.id,
-            author: !!doc.author && doc.author.id,
-            nickname: !!doc.author && doc.author.nickName,
-            name: doc.name,
-            synopsis: doc.synopsis,
-            genre: doc.genre,
-            rating: doc.ratingTotal,
-            raters: getRaters(doc.rating),
-            tags: prettifyTags(doc.tags),
-            parts: prettifyParts(doc.parts),
-          };
-          return res.status(200).json(data);
+          const post = getPostData(doc)
+          return res.status(200).json(post);
         });
     } catch (e) {
       return res.status(500).json({ msg: "Server error in getpost" });
@@ -289,17 +326,17 @@ export const PostPageController = () => {
       const { form, token, tags } = req.body;
       const user = isRealUser(token);
       const author = isAuthorOfPost(user, postId);
-      const genre = await Genre.findOne({label:form.genre}).exec();
+      const genre = await Genre.findOne({ label: form.genre }).exec();
       if (!form.title) {
         return res.status(400).json({ msg: "You forget about a title!" });
       }
-      if (!user || !author){
+      if (!user || !author) {
         return res.status(403).json({ msg: "Forbidden" });
       }
-      if (!genre){
-        return res.status(400).json({msg:"Choose genre from a list"})
+      if (!genre) {
+        return res.status(400).json({ msg: "Choose genre from a list" });
       }
-      await Post.findById(postId, (err, doc) => {
+      await Post.findById(postId, (err, doc) => { // ? maybe in update
         unboundTag(doc.tags, doc._id);
       });
       await Post.findByIdAndUpdate(
@@ -370,20 +407,16 @@ export const PostPageController = () => {
       const { token } = req.body;
       const user = isRealUser(token);
       const author = isAuthorOfPost(user, postId);
-      if (!user || !author){
+      if (!user || !author) {
         return res.status(403).json({ msg: "Forbidden" });
       }
       await Post.findById(postId, async (err, post) => {
-        if (err){
+        if (err) {
           console.log(err);
         }
-        post.parts.forEach((part) => {
-          Part.findByIdAndDelete(part).exec((err, doc) => {
-            !!doc.image && destroyImage(doc.image);
-          });
-        });
+        await deletePostParts(post);
         await unboundPost(post.author, post._id);
-        unboundTag(post.tags, post._id);
+        await unboundTag(post.tags, post._id);
         await deleteComment(post.comments);
       });
       await Post.findByIdAndDelete(postId, (err, post) => {
@@ -401,7 +434,7 @@ export const PostPageController = () => {
       const { token } = req.body;
       const user = isRealUser(token);
       const author = isAuthorOfPost(user, postId);
-      if (!user || !author){
+      if (!user || !author) {
         return res.status(403).json({ msg: "Forbidden" });
       }
       Part.findById(partId).exec(async (err, part) => {
@@ -434,8 +467,8 @@ export const PostPageController = () => {
   const addComment = async (req, res) => {
     try {
       const { postId, comment, token } = req.body;
-      if (!isRealUser(token)){
-        return res.status(404).json({msg:"Forbidden"})
+      if (!isRealUser(token)) {
+        return res.status(404).json({ msg: "Forbidden" });
       }
       let data = createComment(postId, comment);
       await Post.findByIdAndUpdate(postId, {
@@ -448,16 +481,16 @@ export const PostPageController = () => {
   };
 
   const ratePost = async (req, res) => {
-    try { 
+    try {
       const { postId, token, rate } = req.body;
       const user = isRealUser(token);
       const post = await Post.findById(postId).exec();
       const raters = getRaters(post.rating);
-      if (!user || !SCORES.includes(rate) || raters.includes(user)){
+      if (!user || !SCORES.includes(rate) || raters.includes(user)) {
         return res.status(403).json({ msg: "Forbidden" });
       }
       const isUserInDb = await User.findById(user).exec();
-      if (!isUserInDb){
+      if (!isUserInDb) {
         return res.status(403).json({ msg: "Forbidden" });
       }
       Post.findByIdAndUpdate(
