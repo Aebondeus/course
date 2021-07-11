@@ -7,6 +7,7 @@ import { useLoad } from "../../hooks/loadHook.js";
 import { useContext } from "react";
 import { authContext } from "../../context/authContext.js";
 import { OauthComponent } from "./oauthComponent.js";
+import { serverRoutes, clientRoutes } from '../../constants/allRoutes';
 
 const registerOptions = {
   email: {
@@ -16,6 +17,9 @@ const registerOptions = {
     required: <FormattedMessage id="modal-password-error" />,
   },
 };
+
+const { login } = serverRoutes;
+const { registerPage } = clientRoutes;
 
 export const AuthButton = ({ setOpen }) => {
   const [show, setShow] = useState(false);
@@ -28,12 +32,12 @@ export const AuthButton = ({ setOpen }) => {
   const handleClose = () => setShow(false);
   const handleRegister = () => {
     setShow(false);
-    history.push("/register");
+    history.push(registerPage);
   };
   const onSubmit = async (data) => {
     try {
       clearError();
-      const res = await request("/auth/login", "POST", data);
+      const res = await request(login, "POST", data);
       context.login(res.token);
       setShow(false);
       setOpen(true);

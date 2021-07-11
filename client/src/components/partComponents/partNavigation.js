@@ -6,6 +6,9 @@ import {
 } from "@vkontakte/icons";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
+import { clientRoutes } from '../../constants/allRoutes';
+
+const { toPost } = clientRoutes;
 
 // TODO: all props should be destuctured
 export const PartNav = (props) => {
@@ -17,14 +20,14 @@ export const PartNav = (props) => {
   return (
     <div className="parts-nav">
       {!!prevPage && (
-        <Link className="prev-page" to={`/post/${postId}/${prevPage}`}>
+        <Link className="prev-page" to={`${toPost}/${postId}/${prevPage}`}>
           <Icon24ChevronLeft />
           <span>
             <FormattedMessage id="previous-part" />
           </span>
         </Link>
       )}
-      <Link className="to-content" to={`/post/${postId}`}>
+      <Link className="to-content" to={`${toPost}/${postId}`}>
         {" "}
         <span>
           <FormattedMessage id="content-title" />
@@ -32,7 +35,7 @@ export const PartNav = (props) => {
         <Icon24List />
       </Link>
       {!!nextPage && (
-        <Link className="next-page" to={`/post/${postId}/${nextPage}`}>
+        <Link className="next-page" to={`${toPost}/${postId}/${nextPage}`}>
           <span>
             <FormattedMessage id="next-part" />
           </span>

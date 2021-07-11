@@ -11,30 +11,44 @@ import { SearchByTag } from "./pageRouters/searchTag.js";
 import { UpdatePart } from "./pageRouters/UpdatePart.js";
 import { UpdatePost } from "./pageRouters/UpdatePost.js";
 import { UserPage } from "./pageRouters/UserPage.js";
+import { clientRoutes } from './constants/allRoutes';
 
-export const Routes = (token, id) => {
+const {
+  mainPage,
+  user,
+  searchByTag,
+  updatePart,
+  updatePost,
+  toPost,
+  createPost,
+  createPart,
+  registerPage,
+  notFound,
+} = clientRoutes;
+
+export const Routes = (token) => {
   return (
     <Switch>
-      <Route path="/" component={MainPage} exact />
-      <Route path="/register" component={RegisterPage} exact />
-      <Route path="/post/:postId" component={PostPage} exact />
-      <Route path="/post/:postId/:partId" component={PartPage} exact />
-      <Route path="/user/:userId" component={UserPage} exact />
-      <Route path="/createpost" component={NewPost} exact>
-        {!token && <Redirect to="/" />}
+      <Route path={mainPage} component={MainPage} exact />
+      <Route path={registerPage} component={RegisterPage} exact />
+      <Route path={`${toPost}/:postId`} component={PostPage} exact />
+      <Route path={`${toPost}/:postId/:partId`} component={PartPage} exact />
+      <Route path={`${user}/:userId`} component={UserPage} exact />
+      <Route path={createPost} component={NewPost} exact>
+        {!token && <Redirect to={mainPage} />}
       </Route>
-      <Route path="/updatepost/:postId" component={UpdatePost} exact>
-        {!token && <Redirect to="/" />}
+      <Route path={`${updatePost}/:postId`} component={UpdatePost} exact>
+        {!token && <Redirect to={mainPage} />}
       </Route>
-      <Route path="/createpart/:postId" component={NewPart} exact>
-        {!token && <Redirect to="/" />}
+      <Route path={`${createPart}/:postId`} component={NewPart} exact>
+        {!token && <Redirect to={mainPage} />}
       </Route>
-      <Route path="/updatepart/:postId/:partId" component={UpdatePart} exact>
-        {!token && <Redirect to="/" />}
+      <Route path={`${updatePart}/:postId/:partI`} component={UpdatePart} exact>
+        {!token && <Redirect to={mainPage} />}
       </Route>
-      <Route path="/searchByTag/:tagLabel" component={SearchByTag} exact />
-      <Route path="/404" component={PageNotFound} />
-      <Redirect to="/404" />
+      <Route path={`${searchByTag}/:tagLabel`} component={SearchByTag} exact />
+      <Route path={notFound} component={PageNotFound} />
+      <Redirect to={notFound} />
     </Switch>
   );
 };

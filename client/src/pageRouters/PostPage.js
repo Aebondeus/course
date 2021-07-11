@@ -6,7 +6,10 @@ import { PostCommentsForm } from "../components/postComponents/postCommentsForm.
 import { Comments } from "../components/postComponents/commentsPost";
 import { authContext } from "../context/authContext";
 import { PageNotFound } from "../components/notFound";
+import { serverRoutes } from '../constants/allRoutes'
 import "../styles/post.css";
+
+const { post: { main, uploadComments } } = serverRoutes
 
 // TODO: change setTimeout to sockets, take out routes and backend-interacting functions
 export const PostPage = ({ match }) => {
@@ -20,7 +23,7 @@ export const PostPage = ({ match }) => {
   document.title = !!postData ? postData.name : "Loading...";
 
   const getPost = () => {
-    fetch(`/handle_post/post/${postId}`)
+    fetch(`${main}/${postId}`)
       .then((res) => {
         if (res.status === 200) {
           return res.json();
@@ -45,7 +48,7 @@ export const PostPage = ({ match }) => {
   };
 
   const getComm = () => {
-    fetch(`/handle_post/upload_comm/${postId}`)
+    fetch(`${uploadComments}/${postId}`)
       .then((res) => res.json())
       .then((res) => {
         setComments(res);

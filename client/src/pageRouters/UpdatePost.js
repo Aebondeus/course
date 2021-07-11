@@ -3,6 +3,10 @@ import { useHistory } from "react-router-dom";
 import { useLoad } from "../hooks/loadHook.js";
 import { authContext } from "../context/authContext";
 import { MainPart } from "../components/updatePostComponents/updatePost.js";
+import { clientRoutes, serverRoutes } from '../constants/allRoutes';
+
+const { user } = clientRoutes;
+const { post: { main, uploadTags, uploadGenres } } = serverRoutes;
 
 export const UpdatePost = ({ match }) => {
   const postId = match.params.postId;
@@ -49,19 +53,19 @@ export const UpdatePost = ({ match }) => {
         synopsis: data.synopsis,
         genre: chosenGenre,
       };
-      await request(`/handle_post/post/${postId}`, "PUT", {
+      await request(`${main}/${postId}`, "PUT", {
         form,
         token: context.token,
         tags: chosenTags,
       });
-      history.push(`/user/${context.id}`);
+      history.push(`${user}/${context.id}`);
     } catch (e) {
       console.log(e);
     }
   };
 
   useEffect(() => {
-    fetch(`/handle_post/post/${postId}`)
+    fetch(`${main}/${postId}`)
       .then((data) => data.json())
       .then((data) => {
         setData(data);
@@ -72,10 +76,10 @@ export const UpdatePost = ({ match }) => {
           })
         );
       });
-    fetch("/handle_post/upload_tags")
+    fetch(uploadTags)
       .then((res) => res.json())
       .then((data) => setTags(data));
-    fetch("/handle_post/upload_genres")
+    fetch(uploadGenres)
       .then((res) => res.json())
       .then((res) => {
         setGenres(res);

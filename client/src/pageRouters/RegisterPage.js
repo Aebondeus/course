@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useLoad } from "../hooks/loadHook";
 import { useHistory } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
+import { clientRoutes, serverRoutes } from '../constants/allRoutes';
 
 // TODO: take out all form options
 const registerOptions = {
@@ -30,6 +31,9 @@ const registerOptions = {
   },
 };
 
+const { register: registerRoute } = serverRoutes;
+const { mainPage } = clientRoutes;
+
 // TODO: take out titles of documents, take out routes, simplify Form.Group with map
 export const RegisterPage = () => {
   document.title = "Регистрация | Sign Up";
@@ -40,8 +44,8 @@ export const RegisterPage = () => {
   const onSubmit = async (data) => {
     try {
       clearError();
-      await request("/auth/register", "POST", data);
-      history.push("/");
+      await request(registerRoute, "POST", data);
+      history.push(mainPage);
     } catch (e) {
       console.log(e.message);
     }

@@ -1,18 +1,20 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { Icon36LogoVk, Icon24LogoGoogle } from "@vkontakte/icons";
+import { serverRoutes } from '../../constants/allRoutes';
 
+const { oauth: {vk, yandex, google} } = serverRoutes;
 export const OauthComponent = () => {
 
   // TODO: take out oauth routes
   const handleVkSignIn = async () => {
-    window.open("/oauth/auth/vkontakte", "_self");
+    window.open(vk, "_self");
   };
   const handleYaSignIn = async () => {
-    window.open("/oauth/auth/yandex", "_self");
+    window.open(yandex, "_self");
   };
   const handleGoogleSignIn = async () => {
-    window.open("/oauth/auth/google", "_self");
+    window.open(google, "_self");
   };
   return (
     <span>

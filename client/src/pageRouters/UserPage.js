@@ -8,8 +8,11 @@ import { UserInfo } from "../components/userComponents/aboutUser.js";
 import { FormattedMessage } from "react-intl";
 import { PostPaginator } from "../components/commonComponents/postPaginator.js";
 import { PageNotFound } from "../components/notFound.js";
+import { clientRoutes, serverRoutes } from '../constants/allRoutes';
 import "../styles/userpage.css";
 
+const { user: { sort: userSort, deleteUser } } = serverRoutes;
+const { createPost } = clientRoutes;
 const PER_PAGE = 3;
 
 export const UserPage = ({ match }) => {
@@ -31,7 +34,7 @@ export const UserPage = ({ match }) => {
   }, [del, sort, userId]);
 
   const getPosts = async () => { //! will be refactored
-    await fetch("/user/sort", {
+    await fetch(userSort, {
       method: "PUT",
       body: JSON.stringify({
         sortMatch: { author: userId },
@@ -54,7 +57,7 @@ export const UserPage = ({ match }) => {
   };
 
   const newPost = () => {
-    history.push("/createpost");
+    history.push(createPost);
   };
 
   const handlePageClick = (data) => {
@@ -62,7 +65,7 @@ export const UserPage = ({ match }) => {
   };
 
   const deleteUser = async () => { //! will be refactored
-    await fetch(`/user/deleteUser/${userId}`, {
+    await fetch(`${deleteUser}/${userId}`, {
       method: "DELETE",
       body: JSON.stringify({
         token: context.token,

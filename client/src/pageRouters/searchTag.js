@@ -5,7 +5,10 @@ import { PostPaginator } from "../components/commonComponents/postPaginator.js";
 import { GenericPost } from "../components/commonComponents/mainPost.js";
 import { Sorter } from "../components/commonComponents/postsSorter.js";
 import { PageNotFound } from "../components/notFound.js";
+import { serverRoutes } from '../constants/allRoutes';
 import "../styles/search.css";
+
+const { search: { byTag } } = serverRoutes;
 
 // TODO: take out constants, document titles, routes and backend-interacted functions
 // TODO: error is true or false, we dont need to double check it in 54 line
@@ -25,7 +28,7 @@ export const SearchByTag = ({ match }) => {
   const postsOnPage = !!posts && posts.slice(offset, offset + PER_PAGE);
 
   useEffect(() => {
-    fetch(`/search/byTag/${tagLabel}`, {
+    fetch(`${byTag}/${tagLabel}`, {
       method: "PUT",
       body: JSON.stringify({ sort: sort }),
       headers: { "Content-Type": "application/json" },

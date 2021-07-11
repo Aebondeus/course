@@ -4,6 +4,10 @@ import { useLoad } from "../hooks/loadHook.js";
 import { useHistory } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { authContext } from "../context/authContext.js";
+import { clientRoutes, serverRoutes } from '../constants/allRoutes';
+
+const { part: { newPart } } = serverRoutes;
+const { toPost } = clientRoutes;
 
 export const NewPart = ({ match }) => {
   document.title = "New part | Новая глава";
@@ -32,12 +36,12 @@ export const NewPart = ({ match }) => {
   const finalSubmit = async (image) => {
     try {
       const part = { name, content, image };
-      await request("/handle_post/newpart", "POST", {
+      await request(newPart, "POST", {
         postId: postId,
         token: context.token,
         part,
       });
-      history.push(`/post/${postId}`);
+      history.push(`${toPost}/${postId}`);
     } catch (e) {
       console.log(e);
     }

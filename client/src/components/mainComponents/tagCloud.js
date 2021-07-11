@@ -3,6 +3,10 @@ import { Spinner } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
 import { TagCloud } from "react-tagcloud";
+import { serverRoutes, clientRoutes } from '../../constants/allRoutes';
+
+const { main: { allTags }} = serverRoutes;
+const { searchByTag } = clientRoutes;
 
 export const Cloud = () => {
   const [tags, setTags] = useState(null);
@@ -10,7 +14,7 @@ export const Cloud = () => {
 
   // TODO: maybe take out reduce in utils
   useEffect(() => {
-    fetch("/main/alltags")
+    fetch(allTags)
       .then((res) => res.json())
       .then((res) => {
         setTags(
@@ -26,7 +30,7 @@ export const Cloud = () => {
 
   const tagHandler = (event) => {
     const tag = event.value;
-    history.push(`/searchByTag/${tag}`);
+    history.push(`${searchByTag}/${tag}`);
   };
 
   if (!tags) {

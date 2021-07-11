@@ -4,6 +4,10 @@ import { useHistory } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { PartUpdate } from "../components/updatePartComponents/updatePart.js";
 import { authContext } from "../context/authContext.js";
+import { clientRoutes, serverRoutes } from '../constants/allRoutes';
+
+const { part: { main }} = serverRoutes
+const { toPost } = clientRoutes;
 
 // TODO: take out document titles, backend-interacted functions, routes, destructure context
 export const UpdatePart = ({ match }) => {
@@ -22,7 +26,7 @@ export const UpdatePart = ({ match }) => {
     : "Loading...";
 
   useEffect(() => {
-    fetch(`/handle_post/part/${postId}/${partId}`)
+    fetch(`${main}/${postId}/${partId}`)
       .then((data) => data.json())
       .then((data) => {
         setName(data.part.name);
@@ -47,12 +51,12 @@ export const UpdatePart = ({ match }) => {
   const finalSubmit = async (image, updated) => {
     try {
       const data = { name, content, image };
-      await request(`/handle_post/part/${postId}/${partId}`, "PUT", {
+      await request(`${main}/${postId}/${partId}`, "PUT", {
         data,
         prevImg: !!updated && prevImage,
         token: context.token,
       });
-      history.push(`/post/${postId}`);
+      history.push(`${toPost}/${postId}`);
     } catch (e) {
       console.log(e);
     }
