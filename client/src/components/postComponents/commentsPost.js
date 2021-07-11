@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { Card, Spinner } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
 import { dateTimeComments } from "../../utils/dateFormat.js";
+import { clientRoutes } from '../../constants/allRoutes';
+
+const { user } = clientRoutes;
 
 export const Comments = ({data}) => {
   if (!data) {
@@ -25,7 +28,7 @@ export const Comments = ({data}) => {
       <div className="comment" key={idx} style={{ marginTop: "1rem" }}>
         <Card>
           <Card.Body>
-            <Link to={`/user/${comment.authorId}`}>
+            <Link to={`${user}/${comment.authorId}`}>
               <div className="comment-author">
                 {/* TODO: All strings should be take out in constants or resources*/}
                 {!!comment.author ? comment.author : "DELETED USER"}:{" "}

@@ -5,7 +5,9 @@ import { Icon24DoorArrowLeftOutline } from "@vkontakte/icons";
 import { authContext } from "../../context/authContext";
 import { AuthButton } from "./authModal";
 import { AuthSnack } from "../commonComponents/authSnack.js";
+import { clientRoutes } from '../../constants/allRoutes';
 
+const { user } = clientRoutes;
 export const AuthWrapper = () => {
   const [authOpen, setAuthOpen] = useState(false);
   const context = useContext(authContext);
@@ -17,7 +19,7 @@ export const AuthWrapper = () => {
 
   const userHandler = (event) => {
     const userId = event.target.value;
-    history.push(`/user/${userId}`);
+    history.push(`${user}/${userId}`);
   };
 
   return (

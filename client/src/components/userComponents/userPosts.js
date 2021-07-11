@@ -5,6 +5,10 @@ import { FormattedMessage } from "react-intl";
 import { authContext } from "../../context/authContext";
 import { useLoad } from "../../hooks/loadHook.js";
 import { dateTimeCommon } from "../../utils/dateFormat.js";
+import { clientRoutes, serverRoutes } from '../../constants/allRoutes';
+
+const { post: { main }} = serverRoutes;
+const { updatePost: update } = clientRoutes;
 
 // TODO: destructure posts, desctructure events in handlers
 export const UserPosts = ({ posts, del, setDel }) => {
@@ -15,14 +19,14 @@ export const UserPosts = ({ posts, del, setDel }) => {
   const deletePost = async (event) => {
     event.preventDefault();
     const postId = event.target.value;
-    await request(`/handle_post/post/${postId}`, "DELETE", {
+    await request(`${main}/${postId}`, "DELETE", {
       token: context.token,
     });
     setDel(!del);
   };
 
   const updatePost = async (event) => {
-    history.push(`/updatepost/${event.target.value}`);
+    history.push(`${update}/${event.target.value}`);
   };
 
   if (!posts) {

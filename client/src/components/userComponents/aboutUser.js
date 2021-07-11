@@ -5,6 +5,9 @@ import { authContext } from "../../context/authContext.js";
 import { useLoad } from "../../hooks/loadHook.js";
 import { dateTimeCommon } from "../../utils/dateFormat.js";
 import { InlineEdit } from "../commonComponents/inlineEdit.js";
+import { serverRoutes } from '../../constants/allRoutes';
+
+const { user: { getData, updateNickname, updateAbout }} = serverRoutes
 
 // TODO: take out routes, set translation to russian buttons, 
 // TODO: destructure context, maybe info too
@@ -23,7 +26,7 @@ export const UserInfo = ({ userId, deleteUser }) => {
     : "Loading...";
 
   useEffect(() => {
-    fetch(`/user/get_data/${userId}`)
+    fetch(`${getData}/${userId}`)
       .then((res) => res.json())
       .then((res) => {
         setInfo(res);
@@ -33,7 +36,7 @@ export const UserInfo = ({ userId, deleteUser }) => {
 
   useEffect(() => {
     if (isChange) {
-      fetch(`/user/get_data/${userId}`)
+      fetch(`${getData}/${userId}`)
         .then((res) => res.json())
         .then((res) => {
           setInfo(res);
@@ -44,14 +47,14 @@ export const UserInfo = ({ userId, deleteUser }) => {
 
   const nicknameEdit = async (event) => {
     let body = { token: context.token, nickname: event };
-    const { token } = await request("/user/update_nickname", "PUT", body);
+    const { token } = await request(updateNickname, "PUT", body);
     context.login(token);
     setChange(true);
   };
 
   const aboutEdit = async (event) => {
     let body = { token: context.token, about: event };
-    await request("/user/update_about", "PUT", body);
+    await request(updateAbout, "PUT", body);
     setChange(true);
   };
 

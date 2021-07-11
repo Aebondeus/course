@@ -6,6 +6,9 @@ import { AuthWrapper } from "./authWrapper.js";
 import { UiSwitch } from "./uiSwitchers.js";
 import { authContext } from "../../context/authContext.js";
 import "../../styles/header.css";
+import { serverRoutes } from '../../constants/allRoutes';
+
+const { oauth: {success} } = serverRoutes;
 
 export const MainHeader = ({ setLang, setTheme }) => {
   const theme = localStorage.getItem("theme");
@@ -13,7 +16,7 @@ export const MainHeader = ({ setLang, setTheme }) => {
 
   // TODO: take out header configs
   const loginOauth = async () => {
-    await fetch("/oauth/login/success", {
+    await fetch(success, {
       method: "GET",
       credentials: "include",
       headers: {

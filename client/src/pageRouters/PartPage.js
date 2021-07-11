@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { PageNotFound } from "../components/notFound";
 import { PartContent } from "../components/partComponents/partContent";
 import { PartNav } from "../components/partComponents/partNavigation";
+import { serverRoutes } from '../constants/allRoutes';
+
+const { part: { main } } = serverRoutes;
 
 export const PartPage = ({ match }) => {
   const [error, setError] = useState(false);
@@ -12,7 +15,7 @@ export const PartPage = ({ match }) => {
 
   useEffect(() => {
     const getData = () => {
-      fetch(`/handle_post/part/${postId}/${partId}`)
+      fetch(`${main}/${postId}/${partId}`)
         .then((data) => {
           if (data.status === 200) {
             return data.json();

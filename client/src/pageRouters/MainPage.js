@@ -4,7 +4,9 @@ import { Card } from "react-bootstrap";
 import { MostRated } from "../components/mainComponents/mostRated.js";
 import { LastUpdated } from "../components/mainComponents/lastUpdated.js";
 import { Cloud } from "../components/mainComponents/tagCloud.js";
+import { serverRoutes } from '../constants/allRoutes';
 
+const { main: { ratedPosts, updatedPosts } } = serverRoutes;
 export const MainPage = ({ match }) => {
   document.title = "MORDOR | The Land of cursed future";
   const [lastData, setLast] = useState(null);
@@ -12,10 +14,10 @@ export const MainPage = ({ match }) => {
 
   useEffect(() => {
     let getData = async () => {
-      await fetch("/main/ratedposts")
+      await fetch(ratedPosts)
         .then((res) => res.json())
         .then((data) => setRated(data));
-      await fetch("/main/updatedposts")
+      await fetch(updatedPosts)
         .then((response) => response.json())
         .then((data) => {
           setLast(data);

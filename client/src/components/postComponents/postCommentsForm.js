@@ -5,12 +5,15 @@ import { useForm } from "react-hook-form";
 import { authContext } from "../../context/authContext";
 import { FormattedMessage } from "react-intl";
 import { ToastComment, ToastError } from "./toasts";
+import { serverRoutes } from '../../constants/allRoutes';
 
 const registerOptions = {
   content: {
     required: <FormattedMessage id="comments-form.error" />,
   },
 };
+
+const { post: { addComment } } = serverRoutes;
 
 export const PostCommentsForm = ({ data }) => {
   const [show, setShow] = useState(false);
@@ -23,8 +26,7 @@ export const PostCommentsForm = ({ data }) => {
     try {
       text.author = context.id;
       const comment = { postId: data, comment: text, token: context.token };
-      // TODO: take out all routes
-      await request("/handle_post/add_comm", "PUT", comment);
+      await request(addComment, "PUT", comment);
       e.target.reset();
       setShow(true);
     } catch (err) {
