@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import "../styles/404.css";
+
+// TODO: remove styles, simplify explanation block with array
 const styles = {
   notfound: {
     paddingTop: "40px",

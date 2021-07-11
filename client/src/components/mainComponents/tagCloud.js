@@ -8,6 +8,7 @@ export const Cloud = () => {
   const [tags, setTags] = useState(null);
   const history = useHistory();
 
+  // TODO: maybe take out reduce in utils
   useEffect(() => {
     fetch("/main/alltags")
       .then((res) => res.json())

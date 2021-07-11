@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useLoad } from "../hooks/loadHook.js";
 import { authContext } from "../context/authContext";
 
+// TODO: take out all routes, take out functions that interact with backend
 export const NewPost = () => {
   document.title = "New post | Новое произведение";
   const [form, setForm] = useState({

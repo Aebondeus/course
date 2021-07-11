@@ -4,6 +4,7 @@ import { TagsField } from "../commonComponents/tagsSelect";
 import { FormattedMessage } from "react-intl";
 import { GenreField } from "../commonComponents/genresSelect";
 
+// TODO: destructure props
 export const MainPart = (props) => {
   if (!props.data) {
     return (

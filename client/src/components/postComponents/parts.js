@@ -7,6 +7,7 @@ import { authContext } from "../../context/authContext.js";
 import { useLoad } from "../../hooks/loadHook.js";
 import { dateTimeCommon } from "../../utils/dateFormat.js";
 
+// TODO: context should be destructured
 export const Parts = ({ part, data, idx }) => {
   const context = useContext(authContext);
   const history = useHistory();

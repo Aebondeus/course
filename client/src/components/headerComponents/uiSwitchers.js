@@ -13,6 +13,7 @@ export const UiSwitch = ({ setLang, setTheme }) => {
     localStorage.getItem("theme") === "dark"
   );
 
+  // TODO: refactor callbacks
   const updateTheme = useCallback((event) => {
     if (event.target.checked) {
       setTheme("dark");

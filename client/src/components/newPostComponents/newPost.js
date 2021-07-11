@@ -4,6 +4,7 @@ import { TagsField } from "../commonComponents/tagsSelect";
 import { FormattedMessage } from "react-intl";
 import { GenreField } from "../commonComponents/genresSelect";
 
+// TODO: all props should be destructured
 export const MainPart = (props) => {
   return (
     <div className="new-post-wrapper">

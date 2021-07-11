@@ -7,6 +7,7 @@ import {
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 
+// TODO: all props should be destuctured
 export const PartNav = (props) => {
   const partId = props.part._id;
   const postId = props.part.post;

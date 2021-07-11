@@ -4,6 +4,7 @@ import { FormattedMessage } from "react-intl";
 import { ImgDrop } from "../commonComponents/partDropzone.js";
 import { PartEditor } from "../commonComponents/partEditor.js";
 
+// TODO: destucture props
 export const PartUpdate = (props) => (
   <div className="update-part-wrapper">
     <Card>

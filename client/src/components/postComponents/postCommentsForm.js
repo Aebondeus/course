@@ -23,6 +23,7 @@ export const PostCommentsForm = ({ data }) => {
     try {
       text.author = context.id;
       const comment = { postId: data, comment: text, token: context.token };
+      // TODO: take out all routes
       await request("/handle_post/add_comm", "PUT", comment);
       e.target.reset();
       setShow(true);

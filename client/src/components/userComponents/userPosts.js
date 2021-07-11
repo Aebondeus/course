@@ -6,6 +6,7 @@ import { authContext } from "../../context/authContext";
 import { useLoad } from "../../hooks/loadHook.js";
 import { dateTimeCommon } from "../../utils/dateFormat.js";
 
+// TODO: destructure posts, desctructure events in handlers
 export const UserPosts = ({ posts, del, setDel }) => {
   const { request, load } = useLoad();
   const context = useContext(authContext);
