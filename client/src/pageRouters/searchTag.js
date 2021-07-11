@@ -7,6 +7,8 @@ import { Sorter } from "../components/commonComponents/postsSorter.js";
 import { PageNotFound } from "../components/notFound.js";
 import "../styles/search.css";
 
+// TODO: take out constants, document titles, routes and backend-interacted functions
+// TODO: error is true or false, we dont need to double check it in 54 line
 const PER_PAGE = 10;
 const defaultSort = { ratingTotal: -1 };
 

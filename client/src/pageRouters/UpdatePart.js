@@ -5,6 +5,7 @@ import { Container } from "react-bootstrap";
 import { PartUpdate } from "../components/updatePartComponents/updatePart.js";
 import { authContext } from "../context/authContext.js";
 
+// TODO: take out document titles, backend-interacted functions, routes, destructure context
 export const UpdatePart = ({ match }) => {
   const postId = match.params.postId;
   const partId = match.params.partId;

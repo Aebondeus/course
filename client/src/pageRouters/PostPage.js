@@ -8,6 +8,7 @@ import { authContext } from "../context/authContext";
 import { PageNotFound } from "../components/notFound";
 import "../styles/post.css";
 
+// TODO: change setTimeout to sockets, take out routes and backend-interacting functions
 export const PostPage = ({ match }) => {
   const [postData, setData] = useState(null);
   const [error, setError] = useState(false);

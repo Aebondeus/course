@@ -5,6 +5,7 @@ import { useLoad } from "../hooks/loadHook";
 import { useHistory } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 
+// TODO: take out all form options
 const registerOptions = {
   email: {
     required: <FormattedMessage id="register-email-req-error" />,
@@ -29,6 +30,7 @@ const registerOptions = {
   },
 };
 
+// TODO: take out titles of documents, take out routes, simplify Form.Group with map
 export const RegisterPage = () => {
   document.title = "Регистрация | Sign Up";
   const { register, errors, handleSubmit } = useForm();

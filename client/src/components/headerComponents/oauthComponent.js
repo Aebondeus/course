@@ -3,6 +3,8 @@ import { Button } from "react-bootstrap";
 import { Icon36LogoVk, Icon24LogoGoogle } from "@vkontakte/icons";
 
 export const OauthComponent = () => {
+
+  // TODO: take out oauth routes
   const handleVkSignIn = async () => {
     window.open("/oauth/auth/vkontakte", "_self");
   };

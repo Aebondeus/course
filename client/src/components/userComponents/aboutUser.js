@@ -6,6 +6,10 @@ import { useLoad } from "../../hooks/loadHook.js";
 import { dateTimeCommon } from "../../utils/dateFormat.js";
 import { InlineEdit } from "../commonComponents/inlineEdit.js";
 
+// TODO: take out routes, set translation to russian buttons, 
+// TODO: destructure context, maybe info too
+// TODO: maybe take out all functions that have interactions with backend
+
 export const UserInfo = ({ userId, deleteUser }) => {
   const [info, setInfo] = useState(null);
   const [isChange, setChange] = useState(true);

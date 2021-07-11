@@ -7,6 +7,7 @@ import { authContext } from "../../context/authContext";
 import { useLoad } from "../../hooks/loadHook.js";
 import { ToastFaliure, ToastSuccess } from "./toasts";
 
+// TODO: destructure data, take out routes
 export const PostInfo = ({ data, raters }) => {
   const [showSuccess, setSuccess] = useState(false);
   const [showError, setError] = useState(false);
@@ -91,6 +92,8 @@ export const PostInfo = ({ data, raters }) => {
             </strong>{" "}
             {!!data.tags.length ? (
               data.tags.map((tag) => {
+
+                // TODO: could be without return, or with and with destructurization
                 return (
                   <Button
                     variant="link"

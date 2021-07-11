@@ -11,6 +11,7 @@ export const MainHeader = ({ setLang, setTheme }) => {
   const theme = localStorage.getItem("theme");
   const context = useContext(authContext);
 
+  // TODO: take out header configs
   const loginOauth = async () => {
     await fetch("/oauth/login/success", {
       method: "GET",

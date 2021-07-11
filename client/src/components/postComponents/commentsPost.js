@@ -27,6 +27,7 @@ export const Comments = ({data}) => {
           <Card.Body>
             <Link to={`/user/${comment.authorId}`}>
               <div className="comment-author">
+                {/* TODO: All strings should be take out in constants or resources*/}
                 {!!comment.author ? comment.author : "DELETED USER"}:{" "}
               </div>
             </Link>

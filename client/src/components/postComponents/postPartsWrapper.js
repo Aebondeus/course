@@ -5,6 +5,7 @@ import { authContext } from "../../context/authContext.js";
 import { Parts } from "./parts.js";
 import { FormattedMessage } from "react-intl";
 
+// TODO: destructure data
 export const PostParts = ({ data }) => {
   const context = useContext(authContext);
   const history = useHistory();
