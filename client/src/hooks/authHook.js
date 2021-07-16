@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import jwt from "jsonwebtoken";
+import { config } from "../config.js";
 
 const storage = "local";
 
@@ -20,7 +21,7 @@ export const useAuth = () => {
 
   const login = useCallback(async (token) => {
     try {
-      const data = jwt.verify(token, process.env.REACT_APP_FOR_TOKEN);
+      const data = jwt.verify(token, process.env.REACT_APP_FOR_TOKEN || config.REACT_APP_FOR_TOKEN);
       const { id, nickname } = data;
       await setStatesAndStorageData(id, token, nickname);
     } catch (e) {

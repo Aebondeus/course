@@ -12,11 +12,12 @@ import passport from "passport";
 import cookieSession from "cookie-session"; //
 import cookieParser from "cookie-parser"; //
 import cors from "cors";
+import { config } from './config.js';
 
 const app = express();
-const port = process.env.PORT;
-const dbUri = process.env.MONGODB_URI;
-const cookie = process.env.COOKIE_KEY;
+const port = process.env.PORT || config.PORT;
+const dbUri = process.env.MONGODB_URI || config.MONGODB_URI;
+const cookie = process.env.COOKIE_KEY || config.COOKIE_KEY;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 

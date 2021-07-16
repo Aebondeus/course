@@ -1,7 +1,5 @@
 import Tag from "../models/Tag.js";
 
-const defaultSort = { ratingTotal: -1 };
-
 export const SearchController = async (req, res) => {
   try {
     const label = req.params.tagLabel;

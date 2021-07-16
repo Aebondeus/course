@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken";
+
 import User from "../models/User.js";
 import Genre from "../models/Genre.js";
 import Post from "../models/Post.js";
@@ -5,13 +7,13 @@ import Tag from "../models/Tag.js";
 import Part from "../models/Part.js";
 import Comment from "../models/Comment.js";
 import cloud from "../utils/cloudinary.js";
-import jwt from "jsonwebtoken";
+import { config } from "../config.js";
 
 const SCORES = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
 
 const isRealUser = (token) => {
   try {
-    const user = jwt.verify(token, process.env.FOR_TOKEN);
+    const user = jwt.verify(token, process.env.FOR_TOKEN || config.FOR_TOKEN);
     return user.id;
   } catch (e) {
     return false;

@@ -32,15 +32,5 @@ router.use("/upload_tags", uploadTags);
 router.use("/upload_genres", uploadGenres);
 router.use("/upload_comm/:postId", uploadComments);
 
-router.use("/add_genre", async (req, res) => {
-  // ! will be deleted
-  const { label } = req.body;
-  await new Genre({
-    label: label,
-    value: label.toLowerCase(),
-  }).save();
-  return res.status(200).json({ msg: "Genre was added" });
-});
-
 const postRouter = router;
 export default postRouter;
