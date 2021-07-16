@@ -7,10 +7,15 @@ import passportYandex from "passport-yandex";
 import passportGoogle from "passport-google-oauth";
 import jwt from "jsonwebtoken";
 
+import { config } from "../config.js";
+import { oauthRoutes } from "../constants/routes.js";
+
 const VkontakteStrategy = passportVkontakte.Strategy;
 const FaceBookStrategy = passportFacebook.Strategy;
 const YandexStrategy = passportYandex.Strategy;
 const GoogleStrategy = passportGoogle.OAuth2Strategy;
+
+const profileFields = ["id", "displayName", "emails"]
 
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -24,10 +29,10 @@ passport.use(
   // probably will be deleted
   new FaceBookStrategy(
     {
-      clientID: process.env.CLIENT_ID_FB,
-      clientSecret: process.env.CLIENT_SECRET_FB,
-      callbackURL: "/oauth/auth/facebook/testapp",
-      profileFields: ["id", "displayName", "emails"],
+      clientID: process.env.CLIENT_ID_FB || config.CLIENT_ID_FB,
+      clientSecret: process.env.CLIENT_SECRET_FB || config.CLIENT_SECRET_FB,
+      callbackURL: oauthRoutes.facebookCbUrl,
+      profileFields: profileFields,
     },
     async (accessToken, refreshToken, profile, cb) => {
       const data = await User.findOrCreate({
@@ -48,7 +53,7 @@ passport.use(
       const user = {
         jwtToken: jwt.sign(
           { id: res._id, nickname: res.nickName },
-          process.env.FOR_TOKEN,
+          process.env.FOR_TOKEN || config.FOR_TOKEN,
           { expiresIn: "1h" }
         ),
       };
@@ -60,10 +65,10 @@ passport.use(
 passport.use(
   new YandexStrategy(
     {
-      clientID: process.env.CLIENT_ID_YA,
-      clientSecret: process.env.CLIENT_SECRET_YA,
-      callbackURL: "/oauth/auth/yandex/mordorcourse",
-      profileFields: ["id", "displayName", "emails"],
+      clientID: process.env.CLIENT_ID_YA || config.CLIENT_ID_YA,
+      clientSecret: process.env.CLIENT_SECRET_YA || config.CLIENT_SECRET_YA,
+      callbackURL: oauthRoutes.yandexCbUrl,
+      profileFields: profileFields,
     },
     async (accessToken, refreshToken, profile, cb) => {
       const data = await User.findOrCreate({
@@ -84,7 +89,7 @@ passport.use(
       const user = {
         jwtToken: jwt.sign(
           { id: res._id, nickname: res.nickName },
-          process.env.FOR_TOKEN,
+          process.env.FOR_TOKEN || config.FOR_TOKEN,
           { expiresIn: "1h" }
         ),
       };
@@ -96,10 +101,10 @@ passport.use(
 passport.use(
   new VkontakteStrategy(
     {
-      clientID: process.env.CLIENT_ID_VK,
-      clientSecret: process.env.CLIENT_SECRET_VK,
-      callbackURL: "/oauth/auth/vkontakte/mordorcourse",
-      profileFields: ["id", "displayName", "emails"],
+      clientID: process.env.CLIENT_ID_VK || config.CLIENT_ID_VK,
+      clientSecret: process.env.CLIENT_SECRET_VK || config.CLIENT_SECRET_VK,
+      callbackURL: oauthRoutes.vkontakteCbUrl,
+      profileFields: profileFields,
     },
     async (accessToken, refreshToken, params, profile, cb) => {
       let data = null;
@@ -125,7 +130,7 @@ passport.use(
       const user = {
         jwtToken: jwt.sign(
           { id: res._id, nickname: res.nickName },
-          process.env.FOR_TOKEN,
+          process.env.FOR_TOKEN || config.FOR_TOKEN,
           { expiresIn: "1h" }
         ),
       };
@@ -137,10 +142,10 @@ passport.use(
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.CLIENT_ID_GOOGLE,
-      clientSecret: process.env.CLIENT_SECRET_GOOGLE,
-      callbackURL: "/oauth/auth/google/mordorcourse",
-      profileFields: ["id", "displayName", "emails"],
+      clientID: process.env.CLIENT_ID_GOOGLE || config.CLIENT_ID_GOOGLE,
+      clientSecret: process.env.CLIENT_SECRET_GOOGLE || config.CLIENT_SECRET_GOOGLE,
+      callbackURL: oauthRoutes.googleCbUrl,
+      profileFields: profileFields,
     },
     async (accessToken, refreshToken, profile, cb) => {
       const data = await User.findOrCreate({
@@ -161,7 +166,7 @@ passport.use(
       const user = {
         jwtToken: jwt.sign(
           { id: res._id, nickname: res.nickName },
-          process.env.FOR_TOKEN,
+          process.env.FOR_TOKEN || config.FOR_TOKEN,
           { expiresIn: "1h" }
         ),
       };
@@ -175,7 +180,7 @@ const router = express.Router();
 const CLIENT_HOME_PAGE =
   process.env.CLIENT_HOME_PAGE || "http://localhost:3000/";
 
-router.get("/login/success", (req, res) => {
+router.get(oauthRoutes.success, (req, res) => {
   if (!!req.session.passport) { // maybe req.user will be
     return res.json({
       sucess: true,
@@ -190,14 +195,14 @@ router.get("/login/success", (req, res) => {
   }
 );
 
-router.get("/login/failed", (req, res) => {
+router.get(oauthRoutes.failure, (req, res) => {
   res.status(401).json({
     success: false,
     message: "user failed to autheticate",
   });
 });
 
-router.get("/logout", (req, res) => {
+router.get(oauthRoutes.logout, (req, res) => {
   req.session = null;
   req.user = null;
   res.clearCookie("session", { path: "/" });
@@ -206,52 +211,52 @@ router.get("/logout", (req, res) => {
 });
 
 router.get(
-  "/auth/facebook",
+  oauthRoutes.facebookUrl,
   passport.authenticate("facebook", { scope: ["email"] })
 );
 router.get(
-  "/auth/vkontakte",
+  oauthRoutes.vkontakteUrl,
   passport.authenticate("vkontakte", { scope: ["email"] })
 );
 
-router.get("/auth/yandex", passport.authenticate("yandex"));
+router.get(oauthRoutes.yandexUrl, passport.authenticate("yandex"));
 
 router.get(
-  "/auth/google",
+  oauthRoutes.googleUrl,
   passport.authenticate("google", {
     scope: ["https://www.googleapis.com/auth/plus.login", "email"],
   })
 );
 
 router.get(
-  "/auth/facebook/testapp",
+  oauthRoutes.facebookApp,
   passport.authenticate("facebook", {
     successRedirect: CLIENT_HOME_PAGE,
-    failureRedirect: "/oauth/login/failed",
+    failureRedirect: oauthRoutes.failureOauth,
   })
 );
 
 router.get(
-  "/auth/yandex/mordorcourse",
+  oauthRoutes.yandexApp,
   passport.authenticate("yandex", {
     successRedirect: CLIENT_HOME_PAGE,
-    failureRedirect: "/oauth/login/failed",
+    failureRedirect: oauthRoutes.failureOauth,
   })
 );
 
 router.get(
-  "/auth/vkontakte/mordorcourse",
+  oauthRoutes.vkontakteApp,
   passport.authenticate("vkontakte", {
     successRedirect: CLIENT_HOME_PAGE,
-    failureRedirect: "/oauth/login/failed",
+    failureRedirect: oauthRoutes.failureOauth,
   })
 );
 
 router.get(
-  "/auth/google/mordorcourse",
+  oauthRoutes.googleApp,
   passport.authenticate("google", {
     successRedirect: CLIENT_HOME_PAGE,
-    failureRedirect: "/oauth/login/failed",
+    failureRedirect: oauthRoutes.failureOauth,
   })
 );
 export const oauthRouter = router;

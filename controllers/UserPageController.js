@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Post from "../models/Post.js";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
+import { config } from "../config.js";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -11,7 +12,7 @@ const matchConvert = (sortMatch) => {
 
 const isRealUser = (token) => {
   try {
-    const user = jwt.verify(token, process.env.FOR_TOKEN);
+    const user = jwt.verify(token, process.env.FOR_TOKEN || config.FOR_TOKEN);
     return user;
   } catch (e) {
     return false;
@@ -68,7 +69,7 @@ export const UserPageController = () => {
         (err, doc) => {
           const token = jwt.sign(
             { id: doc._id, nickname: doc.nickName },
-            process.env.FOR_TOKEN,
+            process.env.FOR_TOKEN || config.FOR_TOKEN,
             { expiresIn: iat }
           );
           return res

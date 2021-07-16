@@ -56,7 +56,6 @@ export const AuthButton = ({ setOpen }) => {
         </Modal.Header>
         <Modal.Body>
           {!!error && <div className="error-text text-center">{error}</div>}
-          // TODO: Make one block of the Form.Group with map
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group controlId="formSignIn">
               <Form.Label>

@@ -29,3 +29,13 @@ I also want to do the following:
 8) Add the admin panel. 
 
 The list will be updated.
+
+## Dependencies: 
+Right now there is only one really important dependency - **yarn**, since I personally find it much more convenient than npm
+## To run this on local computer:
+
+1) run **yarn install** on the root and on client folder
+
+2) add **config.js** files with the necessary data to the root directory and to the */src* folder in the client directory
+
+3) run **yarn dev** on the root directory

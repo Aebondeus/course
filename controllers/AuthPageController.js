@@ -1,12 +1,13 @@
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
+import { config } from "../config.js";
 
 export const AuthPageController = () => {
   const registerUser = async (req, res) => {
     try {
       const { email, password, nickname } = req.body;
-      const pass = bcrypt.hashSync(password, Number(process.env.SALT));
+      const pass = bcrypt.hashSync(password, Number(process.env.SALT) || config.SALT);
       const user = new User({
         email: email.toLowerCase(),
         password: pass,
@@ -50,7 +51,7 @@ export const AuthPageController = () => {
         const nickname = user.nickName;
         const token = jwt.sign(
           { id, nickname },
-          process.env.FOR_TOKEN,
+          process.env.FOR_TOKEN || config.FOR_TOKEN,
           {
             expiresIn: "1h",
           }
