@@ -6,6 +6,10 @@ import { FormattedMessage } from "react-intl";
 import { authContext } from "../../context/authContext";
 import { useLoad } from "../../hooks/loadHook.js";
 import { ToastFaliure, ToastSuccess } from "./toasts";
+import { clientRoutes, serverRoutes } from '../../constants/allRoutes';
+
+const { searchByTag, user } = clientRoutes;
+const { post: { ratePost } } = serverRoutes;
 
 // TODO: destructure data, take out routes
 export const PostInfo = ({ data, raters }) => {
@@ -18,7 +22,7 @@ export const PostInfo = ({ data, raters }) => {
   const tagSearch = (event) => {
     event.preventDefault();
     const tag = event.target.name;
-    history.push(`/searchByTag/${tag}`);
+    history.push(`${searchByTag}/${tag}`);
   };
 
   const styleToast = {
@@ -30,7 +34,7 @@ export const PostInfo = ({ data, raters }) => {
       setError(true);
     } else {
       try {
-        await request("/handle_post/rate", "PUT", {
+        await request(ratePost, "PUT", {
           postId: data.id,
           token: context.token,
           rate: event,
@@ -75,7 +79,7 @@ export const PostInfo = ({ data, raters }) => {
               <strong>
                 <FormattedMessage id="author" />:{" "}
               </strong>
-              <Link to={`/user/${data.author}`}>{data.nickname}</Link>
+              <Link to={`${user}/${data.author}`}>{data.nickname}</Link>
             </div>
           </div>
           <div className="post-genre">

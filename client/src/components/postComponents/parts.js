@@ -6,6 +6,10 @@ import { Icon24Chevron } from "@vkontakte/icons";
 import { authContext } from "../../context/authContext.js";
 import { useLoad } from "../../hooks/loadHook.js";
 import { dateTimeCommon } from "../../utils/dateFormat.js";
+import { clientRoutes, serverRoutes } from '../../constants/allRoutes';
+
+const { toPost, updatePart } = clientRoutes;
+const { part: { main } } = serverRoutes;
 
 // TODO: context should be destructured
 export const Parts = ({ part, data, idx }) => {
@@ -16,12 +20,12 @@ export const Parts = ({ part, data, idx }) => {
 
   const updateHandler = async (event) => {
     const partId = event.target.value;
-    history.push(`/updatepart/${postId}/${partId}`);
+    history.push(`${updatePart}/${postId}/${partId}`);
   };
 
   const deleteHandler = async (event) => {
     const partId = event.target.value;
-    await request(`/handle_post/part/${postId}/${partId}`, "DELETE", {
+    await request(`${main}/${postId}/${partId}`, "DELETE", {
       token: context.token,
     });
   };
@@ -30,7 +34,7 @@ export const Parts = ({ part, data, idx }) => {
     <div className="post-parts" key={idx} style={{ marginTop: "1rem" }}>
       <Card className="part-card">
         <Link
-          to={`/post/${postId}/${part.id}`}
+          to={`${toPost}/${postId}/${part.id}`}
           style={{ color: "black", textDecoration: "none" }}
         >
           <Card.Body className="part-link">

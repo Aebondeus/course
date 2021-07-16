@@ -4,6 +4,9 @@ import { Button, Spinner } from "react-bootstrap";
 import { authContext } from "../../context/authContext.js";
 import { Parts } from "./parts.js";
 import { FormattedMessage } from "react-intl";
+import { clientRoutes } from '../../constants/allRoutes';
+
+const { createPart } = clientRoutes;
 
 // TODO: destructure data
 export const PostParts = ({ data }) => {
@@ -13,7 +16,7 @@ export const PostParts = ({ data }) => {
   const partAddHandler = (event) => {
     event.preventDefault();
     const postId = event.target.value;
-    history.push(`/createpart/${postId}`);
+    history.push(`${createPart}/${postId}`);
   };
   if (!data) {
     return (

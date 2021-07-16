@@ -3,6 +3,10 @@ import { MainPart } from "../components/newPostComponents/newPost.js";
 import { useHistory } from "react-router-dom";
 import { useLoad } from "../hooks/loadHook.js";
 import { authContext } from "../context/authContext";
+import { clientRoutes, serverRoutes } from '../constants/allRoutes';
+
+const { post: { newPost, uploadTags, uploadGenres } } = serverRoutes;
+const { toPost } = clientRoutes;
 
 // TODO: take out all routes, take out functions that interact with backend
 export const NewPost = () => {
@@ -41,22 +45,22 @@ export const NewPost = () => {
     try {
       event.preventDefault();
       form.genre = chosenGenre;
-      await request("/handle_post/newpost", "POST", {
+      await request(newPost, "POST", {
         form,
         token:context.token,
         tags: chosenTags,
       });
-      history.push(`/user/${context.id}`);
+      history.push(`${toPost}/${context.id}`);
     } catch (e) {
       console.log(e);
     }
   };
 
   useEffect(() => {
-    fetch("/handle_post/upload_tags")
+    fetch(uploadTags)
       .then((res) => res.json())
       .then((data) => setTags(data));
-    fetch("/handle_post/upload_genres")
+    fetch(uploadGenres)
       .then((res) => res.json())
       .then((res) => {
         setGenres(res);
