@@ -6,7 +6,6 @@ import { serverRoutes } from '../../constants/allRoutes';
 const { oauth: {vk, yandex, google} } = serverRoutes;
 export const OauthComponent = () => {
 
-  // TODO: take out oauth routes
   const handleVkSignIn = async () => {
     window.open(vk, "_self");
   };

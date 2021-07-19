@@ -3,12 +3,12 @@ import ReactMarkdown from "react-markdown";
 import { Link } from "react-router-dom";
 import { Card, Spinner } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
-import { dateTimeComments } from "../../utils/dateFormat.js";
-import { clientRoutes } from '../../constants/allRoutes';
+import { dateTimeComments } from "../../../utils/dateFormat.js";
+import { clientRoutes } from "../../../constants/allRoutes";
 
 const { user } = clientRoutes;
 
-export const Comments = ({data}) => {
+export const Comments = ({ data }) => {
   if (!data) {
     return (
       <div className="loader text-center">
@@ -30,8 +30,12 @@ export const Comments = ({data}) => {
           <Card.Body>
             <Link to={`${user}/${comment.authorId}`}>
               <div className="comment-author">
-                {/* TODO: All strings should be take out in constants or resources*/}
-                {!!comment.author ? comment.author : "DELETED USER"}:{" "}
+                {!!comment.author ? (
+                  comment.author
+                ) : (
+                  <FormattedMessage id="user-deleted" />
+                )}
+                :{" "}
               </div>
             </Link>
             <ReactMarkdown

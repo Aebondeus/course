@@ -6,7 +6,7 @@ import { authContext } from "../context/authContext";
 import { clientRoutes, serverRoutes } from '../constants/allRoutes';
 
 const { post: { newPost, uploadTags, uploadGenres } } = serverRoutes;
-const { toPost } = clientRoutes;
+const { user } = clientRoutes;
 
 // TODO: take out all routes, take out functions that interact with backend
 export const NewPost = () => {
@@ -50,7 +50,7 @@ export const NewPost = () => {
         token:context.token,
         tags: chosenTags,
       });
-      history.push(`${toPost}/${context.id}`);
+      history.push(`${user}/${context.id}`);
     } catch (e) {
       console.log(e);
     }

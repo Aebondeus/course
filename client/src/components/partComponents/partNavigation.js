@@ -10,11 +10,7 @@ import { clientRoutes } from '../../constants/allRoutes';
 
 const { toPost } = clientRoutes;
 
-// TODO: all props should be destuctured
-export const PartNav = (props) => {
-  const partId = props.part._id;
-  const postId = props.part.post;
-  const parts = props.parts;
+export const PartNav = ({part: {_id: partId, post: postId }, parts}) => {
   const nextPage = parts[parts.indexOf(partId) + 1];
   const prevPage = parts[parts.indexOf(partId) - 1];
   return (

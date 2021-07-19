@@ -83,13 +83,14 @@
     "not-found-3":"I dont even know, what should i do...",
     "not-found-4":"Try to search something else!",
     "not-found-5":"Good luck!",
-    "previous-page":"← Previous",
-    "next-page":"Next →",
+    "previous-page":"Previous",
+    "next-page":"Next",
     "previous-part":"Previous",
     "next-part":"Next",
     "profile-delete.btn":"Delete a user",
     "profile-delete.title":"Deleting a Profile",
     "profile-delete.description":"Do you really want to delete your profile? All your posts and comments will be saved, but when you re-register you will not get access to them",
     "profile-delete.yes":"I understand everything. Delete.",
-    "tag-cloud.abscence":"There is no tags yet"
+    "tag-cloud.abscence":"There is no tags yet",
+    "user-deleted": "Deleted user"
 }

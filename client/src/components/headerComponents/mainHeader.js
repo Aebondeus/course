@@ -7,6 +7,7 @@ import { UiSwitch } from "./uiSwitchers.js";
 import { authContext } from "../../context/authContext.js";
 import "../../styles/header.css";
 import { serverRoutes } from '../../constants/allRoutes';
+import { oauthHeaders as headers } from '../../constants/headers' 
 
 const { oauth: {success} } = serverRoutes;
 
@@ -14,17 +15,11 @@ export const MainHeader = ({ setLang, setTheme }) => {
   const theme = localStorage.getItem("theme");
   const context = useContext(authContext);
 
-  // TODO: take out header configs
   const loginOauth = async () => {
     await fetch(success, {
       method: "GET",
       credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Credentials": true,
-        "Cache-Control":"no-cache, no-store, must-revalidate"
-      },
+      headers: headers
     })
       .then((res) => {
         if (res.status === 200) {

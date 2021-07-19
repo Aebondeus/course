@@ -39,3 +39,7 @@ Right now there is only one really important dependency - **yarn**, since I pers
 2) add **config.js** files with the necessary data to the root directory and to the */src* folder in the client directory
 
 3) run **yarn dev** on the root directory
+
+## TODO: 
+
+1) fix the problem with the long loading of the application at the first launch

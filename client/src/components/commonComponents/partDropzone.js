@@ -35,7 +35,8 @@ const img = {
 
 export const ImgDrop = (props) => {
   const [files, setFiles] = useState([]);
-  const onDrop = useCallback((acceptedFiles) => {
+
+  const onDrop = (acceptedFiles) => {
     props.handleFileInput(acceptedFiles);
     setFiles(
       acceptedFiles.map((file) =>
@@ -44,7 +45,8 @@ export const ImgDrop = (props) => {
         })
       )
     );
-  });
+  };
+  
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/png, image/jpeg",
     onDrop,

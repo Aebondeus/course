@@ -13,7 +13,6 @@ export const UiSwitch = ({ setLang, setTheme }) => {
     localStorage.getItem("theme") === "dark"
   );
 
-  // TODO: refactor callbacks
   const updateTheme = useCallback((event) => {
     if (event.target.checked) {
       setTheme("dark");
@@ -24,7 +23,7 @@ export const UiSwitch = ({ setLang, setTheme }) => {
       setThemeSwitch(false);
       localStorage.setItem("theme", "light");
     }
-  });
+  }, [setTheme]);
 
   const updateLang = useCallback((event) => {
     if (event.target.checked) {
@@ -36,7 +35,7 @@ export const UiSwitch = ({ setLang, setTheme }) => {
       setLangSwitch(false);
       localStorage.setItem("lang", locales.RU);
     }
-  });
+  }, [setLang]);
 
   return (
     <Nav id="navbar-items-switch" className="ml-lg-5">

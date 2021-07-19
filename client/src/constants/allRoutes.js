@@ -29,14 +29,12 @@ export const serverRoutes = {
         byTag: '/search/byTag',
     },
     user: {
-        deleteUser: '/user/deleteUser',
+        removeUser: '/user/deleteUser',
         getData: '/user/get_data',
         sort: '/user/sort',
         updateNickname: '/user/update_nickname',
         updateAbout: '/user/update_about'
     }
-
-
 }
 
 export const clientRoutes = {

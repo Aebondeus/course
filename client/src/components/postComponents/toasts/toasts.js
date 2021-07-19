@@ -2,11 +2,11 @@ import { Toast } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
 
 // TODO: maybe take out toasts to the common
-export const ToastSuccess = ({ setSuccess, show, delay, style }) => (
+export const ToastSuccess = ({ setSuccess, show, style }) => (
   <Toast
     onClose={() => setSuccess(false)}
     show={show}
-    delay={delay}
+    delay={3000}
     autohide
     style={style}
   >
@@ -21,7 +21,7 @@ export const ToastSuccess = ({ setSuccess, show, delay, style }) => (
   </Toast>
 );
 
-export const ToastFaliure = ({ setError, show, delay, style }) => (
+export const ToastFaliure = ({ setError, show, style }) => (
   <Toast
     onClose={() => setError(false)}
     show={show}

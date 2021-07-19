@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Spinner } from "react-bootstrap";
-import { authContext } from "../../context/authContext.js";
+import { authContext } from "../../../context/authContext.js";
 import { Parts } from "./parts.js";
 import { FormattedMessage } from "react-intl";
-import { clientRoutes } from '../../constants/allRoutes';
+import { clientRoutes } from '../../../constants/allRoutes';
 
 const { createPart } = clientRoutes;
 

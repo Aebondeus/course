@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 import { FormattedMessage } from "react-intl";
-import { PostInfo } from "../components/postComponents/postInfo";
-import { PostParts } from "../components/postComponents/postPartsWrapper";
-import { PostCommentsForm } from "../components/postComponents/postCommentsForm.js";
-import { Comments } from "../components/postComponents/commentsPost";
+import { PostInfoWrapper } from "../components/postComponents/info/postInfoWrapper";
+import { PostParts } from "../components/postComponents/parts/postPartsWrapper";
+import { PostCommentsForm } from "../components/postComponents/comments/commentsFormWrapper.js";
+import { Comments } from "../components/postComponents/comments/commentsPost";
 import { authContext } from "../context/authContext";
 import { PageNotFound } from "../components/notFound";
 import { serverRoutes } from '../constants/allRoutes'
@@ -77,7 +77,7 @@ export const PostPage = ({ match }) => {
   }
   return (
     <div>
-      <PostInfo data={postData} raters={raters} />
+      <PostInfoWrapper data={postData} raters={raters} />
       <div className="title-area text-center">
         <h2 style={{ margin: "2rem 0" }}>
           <FormattedMessage id="content-title" />

@@ -3,30 +3,33 @@ import { Link, useHistory } from "react-router-dom";
 import { Button, Card } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
 import { Icon24Chevron } from "@vkontakte/icons";
-import { authContext } from "../../context/authContext.js";
-import { useLoad } from "../../hooks/loadHook.js";
-import { dateTimeCommon } from "../../utils/dateFormat.js";
-import { clientRoutes, serverRoutes } from '../../constants/allRoutes';
+import { authContext } from "../../../context/authContext.js";
+import { useLoad } from "../../../hooks/loadHook.js";
+import { dateTimeCommon } from "../../../utils/dateFormat.js";
+import { clientRoutes, serverRoutes } from "../../../constants/allRoutes";
 
 const { toPost, updatePart } = clientRoutes;
-const { part: { main } } = serverRoutes;
+const {
+  part: { main },
+} = serverRoutes;
 
-// TODO: context should be destructured
-export const Parts = ({ part, data, idx }) => {
-  const context = useContext(authContext);
+export const Parts = ({
+  part: { id, date, name },
+  data: { id: postId, author },
+  idx,
+}) => {
+  const { id: contextId, token } = useContext(authContext);
   const history = useHistory();
   const { request, load } = useLoad();
-  const postId = data.id;
 
-  const updateHandler = async (event) => {
-    const partId = event.target.value;
+  const updateHandler = async ({ target: { value: partId } }) => {
     history.push(`${updatePart}/${postId}/${partId}`);
   };
 
   const deleteHandler = async (event) => {
     const partId = event.target.value;
     await request(`${main}/${postId}/${partId}`, "DELETE", {
-      token: context.token,
+      token,
     });
   };
 
@@ -34,23 +37,23 @@ export const Parts = ({ part, data, idx }) => {
     <div className="post-parts" key={idx} style={{ marginTop: "1rem" }}>
       <Card className="part-card">
         <Link
-          to={`${toPost}/${postId}/${part.id}`}
+          to={`${toPost}/${postId}/${id}`}
           style={{ color: "black", textDecoration: "none" }}
         >
           <Card.Body className="part-link">
             <div className="part-title">
-              <span className="part-name">{part.name}</span>
-              <div>{dateTimeCommon.format(Date.parse(part.date))}</div>
+              <span className="part-name">{name}</span>
+              <div>{dateTimeCommon.format(Date.parse(date))}</div>
             </div>
             <Icon24Chevron width={26} height={26} />
           </Card.Body>
         </Link>
-        {context.id === data.author && (
+        {contextId === author && (
           <Card.Footer className="part-change">
             <Button
               className="change-btn update-btn"
               variant="link"
-              value={part.id}
+              value={id}
               onClick={updateHandler}
             >
               <FormattedMessage id="update-part" />
@@ -58,7 +61,7 @@ export const Parts = ({ part, data, idx }) => {
             <Button
               className="change-btn delete-btn"
               variant="link"
-              value={part.id}
+              value={id}
               onClick={deleteHandler}
               disabled={load}
             >

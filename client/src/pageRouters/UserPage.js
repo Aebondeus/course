@@ -11,7 +11,7 @@ import { PageNotFound } from "../components/notFound.js";
 import { clientRoutes, serverRoutes } from '../constants/allRoutes';
 import "../styles/userpage.css";
 
-const { user: { sort: userSort, deleteUser } } = serverRoutes;
+const { user: { sort: userSort, removeUser } } = serverRoutes;
 const { createPost } = clientRoutes;
 const PER_PAGE = 3;
 
@@ -65,7 +65,7 @@ export const UserPage = ({ match }) => {
   };
 
   const deleteUser = async () => { //! will be refactored
-    await fetch(`${deleteUser}/${userId}`, {
+    await fetch(`${removeUser}/${userId}`, {
       method: "DELETE",
       body: JSON.stringify({
         token: context.token,

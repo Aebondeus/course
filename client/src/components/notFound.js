@@ -3,36 +3,27 @@ import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import "../styles/404.css";
 
-// TODO: remove styles, simplify explanation block with array
-const styles = {
-  notfound: {
-    paddingTop: "40px",
-    textAlign: "center",
-    fontWeight: "700",
-    fontSize: "2rem",
-  },
-};
+// TODO: try to more simplify explanation block
+
+const messagesId = [
+  "not-found-1",
+  "not-found-2",
+  "not-found-3",
+  "not-found-4",
+  "not-found-5",
+];
+
 export const PageNotFound = () => {
   document.title = "404 - Not found!";
   return (
     <div id="not-found">
       <div id="status-code">404</div>
       <div className="explanation">
-        <p>
-          <FormattedMessage id="not-found-1" />
-        </p>
-        <p>
-          <FormattedMessage id="not-found-2" />
-        </p>
-        <p>
-          <FormattedMessage id="not-found-3" />
-        </p>
-        <p>
-          <FormattedMessage id="not-found-4" />
-        </p>
-        <p>
-          <FormattedMessage id="not-found-5" />
-        </p>
+        {messagesId.map((id) => (
+          <p>
+            <FormattedMessage id={id} />
+          </p>
+        ))}
         <Link
           to="/"
           style={{ fontWeight: 700, color: "inherit", textDecoration: "none" }}
