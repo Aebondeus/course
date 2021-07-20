@@ -11,11 +11,10 @@ const {
   post: { ratePost },
 } = serverRoutes;
 
-// TODO: destructure data, take out routes
 export const PostInfoWrapper = ({ data, raters }) => {
   const [showSuccess, setSuccess] = useState(false);
   const [showError, setError] = useState(false);
-  const { request, error } = useLoad();
+  const { request } = useLoad();
   const { id: contextId, token } = useContext(authContext);
 
   const rateSent = async (event) => {

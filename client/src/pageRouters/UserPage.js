@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { UserPosts } from "../components/userComponents/userPosts";
+import { UserPostsWrapper } from "../components/userComponents/posts/userPosts";
 import { authContext } from "../context/authContext";
 import { Row, Col, Button, Spinner } from "react-bootstrap";
 import { Sorter } from "../components/commonComponents/postsSorter";
-import { UserInfo } from "../components/userComponents/aboutUser.js";
+import { AboutUserWrapper } from "../components/userComponents/about/aboutUserWrapper.js";
 import { FormattedMessage } from "react-intl";
 import { PostPaginator } from "../components/commonComponents/postPaginator.js";
 import { PageNotFound } from "../components/notFound.js";
@@ -29,11 +29,8 @@ export const UserPage = ({ match }) => {
   const pageCount = !!posts && Math.ceil(posts.length / PER_PAGE);
   const postsOnPage = !!posts && posts.slice(offset, offset + PER_PAGE);
 
-  useEffect(() => {
-    getPosts();
-  }, [del, sort, userId]);
-
-  const getPosts = async () => { //! will be refactored
+  const getPosts = useCallback(async () => {
+    //! will be refactored
     await fetch(userSort, {
       method: "PUT",
       body: JSON.stringify({
@@ -50,7 +47,11 @@ export const UserPage = ({ match }) => {
       })
       .then((res) => setPosts(res))
       .catch(() => setError(true));
-  };
+  }, [sort, userId]);
+
+  useEffect(() => {
+    getPosts();
+  }, [del, sort, userId, getPosts]);
 
   const selectHandler = (event) => {
     setSort(event.value);
@@ -100,7 +101,7 @@ export const UserPage = ({ match }) => {
   return (
     <div>
       <div className="user-data" style={{ marginBottom: "2rem" }}>
-        <UserInfo userId={userId} deleteUser={deleteUser} />
+        <AboutUserWrapper userId={userId} deleteUser={deleteUser} />
       </div>
       <Row className="user-posts-title">
         <Col lg={8} style={{ marginBottom: "1rem" }}>
@@ -117,7 +118,7 @@ export const UserPage = ({ match }) => {
       </Row>
       <Row className="user-posts-content">
         <Col lg={8} md={8} sm={12} className="user-posts">
-          <UserPosts posts={postsOnPage} del={del} setDel={setDel} />
+          <UserPostsWrapper posts={postsOnPage} del={del} setDel={setDel} />
           <PostPaginator
             pageCount={!!pageCount ? pageCount : 1}
             onPageChange={handlePageClick}

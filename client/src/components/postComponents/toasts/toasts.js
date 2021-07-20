@@ -1,7 +1,6 @@
 import { Toast } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
 
-// TODO: maybe take out toasts to the common
 export const ToastSuccess = ({ setSuccess, show, style }) => (
   <Toast
     onClose={() => setSuccess(false)}

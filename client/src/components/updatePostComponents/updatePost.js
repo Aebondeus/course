@@ -4,15 +4,28 @@ import { TagsField } from "../commonComponents/tagsSelect";
 import { FormattedMessage } from "react-intl";
 import { GenreField } from "../commonComponents/genresSelect";
 
-// TODO: destructure props
-export const MainPart = (props) => {
-  if (!props.data) {
+export const MainPart = ({
+  data,
+  genre,
+  genres,
+  error,
+  tags,
+  handleForm,
+  handleGenre,
+  handleTag,
+  formSubmit,
+  load,
+}) => {
+  if (!data) {
     return (
       <div className="text-center">
         <Spinner animation="border" role="status" />
       </div>
     );
   }
+  
+  const { name, synopsis, postId } = data;
+
   return (
     <div className="update-post-wrapper">
       <Card>
@@ -20,10 +33,10 @@ export const MainPart = (props) => {
           <FormattedMessage id="update-post" />:
         </Card.Header>
         <Card.Body>
-          {props.error && (
-            <div className="error-text text-center">{props.error}</div>
+          {error && (
+            <div className="error-text text-center">{error}</div>
           )}
-          <Form onSubmit={props.formSubmit}>
+          <Form onSubmit={formSubmit}>
             <Form.Group>
               <Form.Label>
                 <FormattedMessage id="title" />:
@@ -32,8 +45,8 @@ export const MainPart = (props) => {
                 as="textarea"
                 type="name"
                 name="name"
-                value={props.data.name}
-                onChange={props.handleForm}
+                value={name}
+                onChange={handleForm}
               />
             </Form.Group>
             <Form.Group>
@@ -44,8 +57,8 @@ export const MainPart = (props) => {
                 as="textarea"
                 type="synopsis"
                 name="synopsis"
-                value={props.data.synopsis}
-                onChange={props.handleForm}
+                value={synopsis}
+                onChange={handleForm}
               />
             </Form.Group>
             <Form.Group>
@@ -54,9 +67,9 @@ export const MainPart = (props) => {
               </Form.Label>
               <div className="genres">
                 <GenreField
-                  genres={props.genres}
-                  handleGenre={props.handleGenre}
-                  value={props.genre}
+                  genres={genres}
+                  handleGenre={handleGenre}
+                  value={genre}
                 />
               </div>
             </Form.Group>
@@ -65,17 +78,17 @@ export const MainPart = (props) => {
                 <FormattedMessage id="tags" />:
               </Form.Label>
               <TagsField
-                tags={props.tags}
-                handleTag={props.handleTag}
-                value={props.data.tags}
+                tags={tags}
+                handleTag={handleTag}
+                value={data.tags}
               />
             </Form.Group>
             <Button
               variant="link"
               className="send-btn"
               type="submit"
-              disabled={props.load}
-              value={props.data.postId}
+              disabled={load}
+              value={postId}
             >
               <FormattedMessage id="submit" />
             </Button>

@@ -4,14 +4,14 @@ import { Button, Spinner } from "react-bootstrap";
 import { authContext } from "../../../context/authContext.js";
 import { Parts } from "./parts.js";
 import { FormattedMessage } from "react-intl";
-import { clientRoutes } from '../../../constants/allRoutes';
+import { clientRoutes } from "../../../constants/allRoutes";
 
 const { createPart } = clientRoutes;
 
-// TODO: destructure data
 export const PostParts = ({ data }) => {
   const context = useContext(authContext);
   const history = useHistory();
+  const { id: contextId } = context;
 
   const partAddHandler = (event) => {
     event.preventDefault();
@@ -25,12 +25,15 @@ export const PostParts = ({ data }) => {
       </div>
     );
   }
+
+  const { id, author, parts } = data;
+
   return (
     <div className="post-parts-wrapper">
-      {context.id === data.author && (
+      {contextId === author && (
         <div className="add-part">
           <Button
-            value={data.id}
+            value={id}
             onClick={partAddHandler}
             className="new-part-btn"
             variant="link"
@@ -40,15 +43,15 @@ export const PostParts = ({ data }) => {
           </Button>
         </div>
       )}
-      {!data.parts.length && (
-        <div className="parts-abscence text-center">
+      {!parts.length ? (
+        <div className="parts-abscence">
           <FormattedMessage id="part-abscence" />
         </div>
-      )}
-      {!!data.parts.length &&
+      ) : (
         data.parts.map((part, idx) => {
           return <Parts part={part} data={data} idx={idx} />;
-        })}
+        })
+      )}
     </div>
   );
 };

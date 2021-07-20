@@ -88,9 +88,10 @@
     "previous-part":"Previous",
     "next-part":"Next",
     "profile-delete.btn":"Delete a user",
-    "profile-delete.title":"Deleting a Profile",
+    "profile-delete.title":"Deleting a Profile:",
     "profile-delete.description":"Do you really want to delete your profile? All your posts and comments will be saved, but when you re-register you will not get access to them",
     "profile-delete.yes":"I understand everything. Delete.",
+    "profile-delete.no": "Fuck, go back",
     "tag-cloud.abscence":"There is no tags yet",
     "user-deleted": "Deleted user"
 }

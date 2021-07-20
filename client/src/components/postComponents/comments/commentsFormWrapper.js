@@ -13,14 +13,15 @@ export const PostCommentsForm = ({ data }) => {
   const [error, setError] = useState(false);
   const { load, request } = useLoad();
 
-  const context = useContext(authContext);
+  const {id, token } = useContext(authContext);
 
-  const onSubmit = async (text, e) => {
+  const onSubmit = async (text, { target }) => {
     try {
-      text.author = context.id;
-      const comment = { postId: data, comment: text, token: context.token };
+      setError(false);
+      text.author = id;
+      const comment = { postId: data, comment: text, token };
       await request(addComment, "PUT", comment);
-      e.target.reset();
+      target.reset();
       setShow(true);
     } catch (err) {
       setError(true);

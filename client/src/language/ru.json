@@ -88,9 +88,10 @@
     "previous-part":"Предыдущая",
     "next-part":"Следующая",
     "profile-delete.btn":"Удалить пользователя",
-    "profile-delete.title":"Удаление профиля",
+    "profile-delete.title":"Удаление профиля:",
     "profile-delete.description":"Вы действительно хотите удалить профиль? Все ваши посты и комментарии будут сохранены, но при повторной регистрации доступа к ним вы не получите:",
     "profile-delete.yes":"Я все понимаю. Удалить.",
+    "profile-delete.no": "Я передумал",
     "tag-cloud.abscence":"Пока тегов нет",
     "user-deleted": "Пользователь удалён"
 }
