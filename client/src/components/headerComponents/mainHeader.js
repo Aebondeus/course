@@ -1,10 +1,12 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { Button, Navbar, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { AuthWrapper } from "./authWrapper.js";
 import { UiSwitch } from "./uiSwitchers.js";
 import { authContext } from "../../context/authContext.js";
+import { AuthSnack } from "../commonComponents/authSnack.js";
+
 import "../../styles/header.css";
 import { serverRoutes } from '../../constants/allRoutes';
 import { oauthHeaders as headers } from '../../constants/headers' 
@@ -12,8 +14,13 @@ import { oauthHeaders as headers } from '../../constants/headers'
 const { oauth: {success} } = serverRoutes;
 
 export const MainHeader = ({ setLang, setTheme }) => {
+  const [authOpen, setAuthOpen] = useState(false);
   const theme = localStorage.getItem("theme");
-  const context = useContext(authContext);
+  const { login, nickname } = useContext(authContext);
+
+  const handleAuthClose = () => {
+    setAuthOpen(false);
+  };
 
   const loginOauth = async () => {
     await fetch(success, {
@@ -27,11 +34,12 @@ export const MainHeader = ({ setLang, setTheme }) => {
         }
         throw Error;
       })
-      .then((res) => {
-        if (!res.user) {
-          console.log(res.msg);
+      .then(({user, msg}) => {
+        if (!user) {
+          console.log(msg);
         } else {
-          context.login(res.user.jwtToken);
+          login(user.jwtToken);
+          setAuthOpen(true);
         }
       })
       .catch(() => {
@@ -60,7 +68,12 @@ export const MainHeader = ({ setLang, setTheme }) => {
         </Form>
         <UiSwitch setLang={setLang} setTheme={setTheme} />
         <div id="mock"></div>
-        <AuthWrapper />
+        <AuthWrapper setAuthOpen={setAuthOpen}/>
+        <AuthSnack
+          nickname={nickname}
+          open={authOpen}
+          handleClose={handleAuthClose}
+        />
       </Navbar.Collapse>
     </Navbar>
   );

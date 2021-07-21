@@ -6,7 +6,7 @@ import { NewPart } from "./pageRouters/NewPart.js";
 import { NewPost } from "./pageRouters/NewPost.js";
 import { PartPage } from "./pageRouters/PartPage.js";
 import { PostPage } from "./pageRouters/PostPage.js";
-import { RegisterPage } from "./pageRouters/RegisterPage.js";
+import { RegisterPage } from "./pageRouters/registerPage/RegisterPage.js";
 import { SearchByTag } from "./pageRouters/searchTag.js";
 import { UpdatePart } from "./pageRouters/UpdatePart.js";
 import { UpdatePost } from "./pageRouters/UpdatePost.js";

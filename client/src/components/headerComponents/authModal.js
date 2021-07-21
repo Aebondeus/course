@@ -8,15 +8,7 @@ import { useContext } from "react";
 import { authContext } from "../../context/authContext.js";
 import { OauthComponent } from "./oauthComponent.js";
 import { serverRoutes, clientRoutes } from '../../constants/allRoutes';
-
-const registerOptions = {
-  email: {
-    required: <FormattedMessage id="modal-email-error" />,
-  },
-  password: {
-    required: <FormattedMessage id="modal-password-error" />,
-  },
-};
+import { authModalOptions } from "../../constants/registerOptions.js";
 
 const { login } = serverRoutes;
 const { registerPage } = clientRoutes;
@@ -68,7 +60,7 @@ export const AuthButton = ({ setOpen }) => {
               <Form.Control
                 type="email"
                 name="email"
-                ref={register(registerOptions.email)}
+                ref={register(authModalOptions.email)}
               />
             </Form.Group>
             {errors.email && (
@@ -81,7 +73,7 @@ export const AuthButton = ({ setOpen }) => {
               <Form.Control
                 type="password"
                 name="password"
-                ref={register(registerOptions.password)}
+                ref={register(authModalOptions.password)}
               />
             </Form.Group>
             {errors.password && (

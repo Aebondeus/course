@@ -11,9 +11,10 @@ const { toPost } = clientRoutes;
 
 // TODO: take out document titles, backend-interacted functions, routes, destructure context
 export const UpdatePart = ({ match }) => {
-  const postId = match.params.postId;
-  const partId = match.params.partId;
-  const context = useContext(authContext);
+  const {
+    params: { postId, partId },
+  } = match;
+  const { token } = useContext(authContext);
   const history = useHistory();
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
@@ -33,7 +34,7 @@ export const UpdatePart = ({ match }) => {
         setContent(data.part.content);
         setImage(data.part.image);
       });
-  }, []);
+  }, [postId, partId]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -54,7 +55,7 @@ export const UpdatePart = ({ match }) => {
       await request(`${main}/${postId}/${partId}`, "PUT", {
         data,
         prevImg: !!updated && prevImage,
-        token: context.token,
+        token
       });
       history.push(`${toPost}/${postId}`);
     } catch (e) {

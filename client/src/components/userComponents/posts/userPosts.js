@@ -10,7 +10,6 @@ import { Post } from "./post";
 const { post: { main }} = serverRoutes;
 const { updatePost: update } = clientRoutes;
 
-// TODO: destructure posts, desctructure events in handlers
 export const UserPostsWrapper = ({ posts, del, setDel }) => {
   const { request, load } = useLoad();
   const context = useContext(authContext);

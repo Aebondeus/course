@@ -29,7 +29,7 @@ export const PartPage = ({ match }) => {
         .catch(() => setError(true));
     };
     getData();
-  }, [partId]);
+  }, [partId, postId]);
 
   if (!!error) {
     return <PageNotFound />;

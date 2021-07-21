@@ -10,8 +10,7 @@ import "../styles/search.css";
 
 const { search: { byTag } } = serverRoutes;
 
-// TODO: take out constants, document titles, routes and backend-interacted functions
-// TODO: error is true or false, we dont need to double check it in 54 line
+// TODO: take out constants, document titles
 const PER_PAGE = 10;
 const defaultSort = { ratingTotal: -1 };
 
@@ -44,19 +43,20 @@ export const SearchByTag = ({ match }) => {
         console.log("Found error");
         setError(true);
       });
-  }, [sort]);
+  }, [sort, tagLabel]);
 
   const selectHandler = (event) => {
     setSort(event.value);
   };
 
-  const handlePageClick = (data) => {
-    setCurPage(data.selected);
+  const handlePageClick = ({ selected }) => {
+    setCurPage(selected);
   };
 
-  if (!!error) {
+  if (error) {
     return <PageNotFound />;
   }
+
   if (!posts) {
     return (
       <div className="loader text-center">
@@ -64,6 +64,7 @@ export const SearchByTag = ({ match }) => {
       </div>
     );
   }
+
   return (
     <div className="search-wrapper">
       <div className="search-title" style={{ marginBottom: "1rem" }}>

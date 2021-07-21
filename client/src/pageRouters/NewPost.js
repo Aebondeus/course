@@ -8,7 +8,6 @@ import { clientRoutes, serverRoutes } from '../constants/allRoutes';
 const { post: { newPost, uploadTags, uploadGenres } } = serverRoutes;
 const { user } = clientRoutes;
 
-// TODO: take out all routes, take out functions that interact with backend
 export const NewPost = () => {
   document.title = "New post | Новое произведение";
   const [form, setForm] = useState({
@@ -18,41 +17,41 @@ export const NewPost = () => {
   const [tags, setTags] = useState([]);
   const [genres, setGenres] = useState([]);
   const [chosenTags, setChosen] = useState(null);
-  const [chosenGenre, setGenre] = useState(null);
+  const [genreLabel, setLabel] = useState(null);
   const [tagsValue, setValue] = useState(null);
   const { load, request, error } = useLoad();
   const history = useHistory();
-  const context = useContext(authContext);
+  const {id: contextId, token} = useContext(authContext);
 
-  const handleForm = (event) => {
-    setForm({ ...form, [event.target.name]: event.target.value });
+  const handleForm = ({ target: {value, name}}) => {
+    setForm({ ...form, [name]: value });
   };
 
-  const handleTag = (event) => {
-    setValue(event);
+  const handleTag = (tags) => {
+    setValue(tags);
     setChosen(
-      event.map((e) => {
-        return e.label;
+      tags.map((tag) => {
+        return tag.label;
       })
     );
   };
 
-  const handleGenre = (event) => {
-    setGenre(event.label);
+  const handleGenre = ({ label }) => {
+    setLabel(label);
   };
 
   const formSubmit = async (event) => {
     try {
       event.preventDefault();
-      form.genre = chosenGenre;
+      form.genre = genreLabel;
       await request(newPost, "POST", {
         form,
-        token:context.token,
+        token,
         tags: chosenTags,
       });
-      history.push(`${user}/${context.id}`);
-    } catch (e) {
-      console.log(e);
+      history.push(`${user}/${contextId}`);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -64,7 +63,7 @@ export const NewPost = () => {
       .then((res) => res.json())
       .then((res) => {
         setGenres(res);
-        setGenre(res[0].label);
+        setLabel(res[0].label);
       });
   }, []);
 

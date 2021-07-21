@@ -1,21 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Nav } from "react-bootstrap";
 import { Icon24DoorArrowLeftOutline } from "@vkontakte/icons";
 import { authContext } from "../../context/authContext";
 import { AuthButton } from "./authModal";
-import { AuthSnack } from "../commonComponents/authSnack.js";
-import { clientRoutes } from '../../constants/allRoutes';
+import { clientRoutes } from "../../constants/allRoutes";
 
 const { user } = clientRoutes;
-export const AuthWrapper = () => {
-  const [authOpen, setAuthOpen] = useState(false);
-  const context = useContext(authContext);
+export const AuthWrapper = ({ setAuthOpen }) => {
+  const { id: contextId, nickname, logout } = useContext(authContext);
   const history = useHistory();
-
-  const handleAuthClose = () => {
-    setAuthOpen(false);
-  };
 
   const userHandler = (event) => {
     const userId = event.target.value;
@@ -25,28 +19,23 @@ export const AuthWrapper = () => {
   return (
     <Nav id="navbar-items-switch" className="mt-lg-2 auth-nav">
       <Nav.Item>
-        {context.id ? (
+        {contextId ? (
           <div className="auth-btn">
             <Button
-              value={context.id}
+              value={contextId}
               onClick={userHandler}
               variant="link"
               id="login"
             >
-              {context.nickname}
+              {nickname}
             </Button>
-            <Button onClick={context.logout} id="logout" variant="link">
+            <Button onClick={logout} id="logout" variant="link">
               <Icon24DoorArrowLeftOutline width={24} height={24} />
             </Button>
           </div>
         ) : (
           <AuthButton setOpen={setAuthOpen} />
         )}
-        <AuthSnack
-          nickname={context.nickname}
-          open={authOpen}
-          handleClose={handleAuthClose}
-        />
       </Nav.Item>
     </Nav>
   );

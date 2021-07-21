@@ -98,6 +98,7 @@ export const UserPage = ({ match }) => {
       </div>
     );
   }
+
   return (
     <div>
       <div className="user-data" style={{ marginBottom: "2rem" }}>

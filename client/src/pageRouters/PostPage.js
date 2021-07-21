@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { PostInfoWrapper } from "../components/postComponents/info/postInfoWrapper";
 import { PostParts } from "../components/postComponents/parts/postPartsWrapper";
@@ -11,18 +11,18 @@ import "../styles/post.css";
 
 const { post: { main, uploadComments } } = serverRoutes
 
-// TODO: change setTimeout to sockets, take out routes and backend-interacting functions
+// TODO: change setTimeout to sockets
 export const PostPage = ({ match }) => {
   const [postData, setData] = useState(null);
   const [error, setError] = useState(false);
   const [raters, setRaters] = useState([]);
   const [comments, setComments] = useState(null);
-  const [time, setTime] = useState([true]);
-  const context = useContext(authContext);
+  const [time, setTime] = useState(true);
+  const { token } = useContext(authContext);
   const postId = match.params.postId;
-  document.title = !!postData ? postData.name : "Loading...";
+  document.title = !postData ? "Loading..." : postData.name;
 
-  const getPost = () => {
+  const getPost = useCallback(() => {
     fetch(`${main}/${postId}`)
       .then((res) => {
         if (res.status === 200) {
@@ -31,29 +31,24 @@ export const PostPage = ({ match }) => {
         throw Error;
       })
       .then((data) => {
+        const { author, nickname, raters } = data;
         setData({
-          id: data.id,
-          name: data.name,
-          synopsis: data.synopsis,
-          genre: data.genre,
-          tags: data.tags,
-          author: !data.author ? "road_to_404" : data.author,
-          nickname:!data.nickname ? "DELETED USER": data.nickname,
-          parts: data.parts,
-          rating: data.rating,
+          ...data,
+          author: !author ? "road_to_404" : author,
+          nickname: !nickname ? "DELETED USER" : nickname,
         });
-        setRaters(data.raters);
+        setRaters(raters);
       })
       .catch(() => setError(true));
-  };
+  }, [postId]);
 
-  const getComm = () => {
+  const getComm = useCallback(() => {
     fetch(`${uploadComments}/${postId}`)
       .then((res) => res.json())
-      .then((res) => {
-        setComments(res);
-      });
-  };
+      .then((res) => 
+        setComments(res)
+      );
+  }, [postId]);
 
   useEffect(() => {
     if (time) {
@@ -70,7 +65,7 @@ export const PostPage = ({ match }) => {
   useEffect(() => {
     getPost();
     getComm();
-  }, [time]);
+  }, [time, getPost, getComm]);
 
   if (error) {
     return <PageNotFound />;
@@ -89,7 +84,7 @@ export const PostPage = ({ match }) => {
           <FormattedMessage id="comments" />
         </h2>
       </div>
-      {context.token && <PostCommentsForm data={postId} />}
+      {token && <PostCommentsForm data={postId} />}
       <div className="comment-part" style={{ marginTop: "1rem" }}>
         <Comments data={comments} />
       </div>
