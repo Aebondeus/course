@@ -20,7 +20,7 @@ export const DeleteUser = ({ deleteUser }) => {
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-              <FormattedMessage id="profile-delete.title" />
+            <FormattedMessage id="profile-delete.title" />
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

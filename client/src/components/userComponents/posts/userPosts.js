@@ -4,10 +4,12 @@ import { Card, Spinner } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
 import { authContext } from "../../../context/authContext";
 import { useLoad } from "../../../hooks/loadHook.js";
-import { clientRoutes, serverRoutes } from '../../../constants/allRoutes';
+import { clientRoutes, serverRoutes } from "../../../constants/allRoutes";
 import { Post } from "./post";
 
-const { post: { main }} = serverRoutes;
+const {
+  post: { main },
+} = serverRoutes;
 const { updatePost: update } = clientRoutes;
 
 export const UserPostsWrapper = ({ posts, del, setDel }) => {
@@ -60,7 +62,8 @@ export const UserPostsWrapper = ({ posts, del, setDel }) => {
             load={load}
             contextId={contextId}
           />
-        );})}
+        );
+      })}
     </div>
   );
 };

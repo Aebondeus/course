@@ -31,7 +31,7 @@ const img = {
   height: "100%",
 };
 
-export const ImgDrop = ({ handleFileInput, updated}) => {
+export const ImgDrop = ({ handleFileInput, updated }) => {
   const [files, setFiles] = useState([]);
 
   const onDrop = (acceptedFiles) => {
@@ -44,7 +44,7 @@ export const ImgDrop = ({ handleFileInput, updated}) => {
       )
     );
   };
-  
+
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/png, image/jpeg",
     onDrop,

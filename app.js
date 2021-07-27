@@ -9,10 +9,10 @@ import { userRouter } from "./routes/userPage.js";
 import { searchRouter } from "./routes/search.js";
 import { oauthRouter } from "./routes/oauth.js";
 import passport from "passport";
-import cookieSession from "cookie-session"; //
-import cookieParser from "cookie-parser"; //
+import cookieSession from "cookie-session";
+import cookieParser from "cookie-parser";
 import cors from "cors";
-import { config } from './config.js';
+import { config } from "./config.js";
 
 const app = express();
 const port = process.env.PORT || config.PORT;
@@ -32,8 +32,8 @@ app.use(
   })
 );
 app.use(cookieParser()); //
-app.use(passport.initialize()); //
-app.use(passport.session()); //
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(
   cors({

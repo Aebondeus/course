@@ -3,9 +3,11 @@ import { MainPart } from "../components/newPostComponents/newPost.js";
 import { useHistory } from "react-router-dom";
 import { useLoad } from "../hooks/loadHook.js";
 import { authContext } from "../context/authContext";
-import { clientRoutes, serverRoutes } from '../constants/allRoutes';
+import { clientRoutes, serverRoutes } from "../constants/allRoutes";
 
-const { post: { newPost, uploadTags, uploadGenres } } = serverRoutes;
+const {
+  post: { newPost, uploadTags, uploadGenres },
+} = serverRoutes;
 const { user } = clientRoutes;
 
 export const NewPost = () => {
@@ -21,9 +23,9 @@ export const NewPost = () => {
   const [tagsValue, setValue] = useState(null);
   const { load, request, error } = useLoad();
   const history = useHistory();
-  const {id: contextId, token} = useContext(authContext);
+  const { id: contextId, token } = useContext(authContext);
 
-  const handleForm = ({ target: {value, name}}) => {
+  const handleForm = ({ target: { value, name } }) => {
     setForm({ ...form, [name]: value });
   };
 

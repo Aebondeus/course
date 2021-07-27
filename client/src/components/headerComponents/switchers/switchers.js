@@ -13,29 +13,35 @@ export const UiSwitch = ({ setLang, setTheme }) => {
     localStorage.getItem("theme") === "dark"
   );
 
-  const updateTheme = useCallback(({ target : { checked }}) => {
-    if (checked) {
-      setTheme("dark");
-      localStorage.setItem("theme", "dark");
-      setThemeSwitch(true);
-    } else {
-      setTheme("light");
-      localStorage.setItem("theme", "light");
-      setThemeSwitch(false);
-    }
-  }, [setTheme]);
+  const updateTheme = useCallback(
+    ({ target: { checked } }) => {
+      if (checked) {
+        setTheme("dark");
+        localStorage.setItem("theme", "dark");
+        setThemeSwitch(true);
+      } else {
+        setTheme("light");
+        localStorage.setItem("theme", "light");
+        setThemeSwitch(false);
+      }
+    },
+    [setTheme]
+  );
 
-  const updateLang = useCallback(({ target: { checked }}) => {
-    if (checked) {
-      setLang(locales.EN);
-      localStorage.setItem("lang", locales.EN);
-      setLangSwitch(true);
-    } else {
-      setLang(locales.RU);
-      localStorage.setItem("lang", locales.RU);
-      setLangSwitch(false);
-    }
-  }, [setLang]);
+  const updateLang = useCallback(
+    ({ target: { checked } }) => {
+      if (checked) {
+        setLang(locales.EN);
+        localStorage.setItem("lang", locales.EN);
+        setLangSwitch(true);
+      } else {
+        setLang(locales.RU);
+        localStorage.setItem("lang", locales.RU);
+        setLangSwitch(false);
+      }
+    },
+    [setLang]
+  );
 
   return (
     <Nav id="navbar-items-switch" className="ml-lg-5">

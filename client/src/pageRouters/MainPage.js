@@ -4,9 +4,11 @@ import { Card } from "react-bootstrap";
 import { MostRated } from "../components/mainComponents/mostRated.js";
 import { LastUpdated } from "../components/mainComponents/lastUpdated.js";
 import { Cloud } from "../components/mainComponents/tagCloud.js";
-import { serverRoutes } from '../constants/allRoutes';
+import { serverRoutes } from "../constants/allRoutes";
 
-const { main: { ratedPosts, updatedPosts } } = serverRoutes;
+const {
+  main: { ratedPosts, updatedPosts },
+} = serverRoutes;
 export const MainPage = ({ match }) => {
   document.title = "MORDOR | The Land of cursed future";
   const [lastData, setLast] = useState(null);

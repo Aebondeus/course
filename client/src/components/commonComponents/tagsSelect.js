@@ -3,7 +3,7 @@ import CreatableSelect from "react-select/creatable";
 import { FormattedMessage } from "react-intl";
 import { ThemeContext } from "styled-components";
 
-export const TagsField = ({tags, handleTag, value}) => {
+export const TagsField = ({ tags, handleTag, value }) => {
   const context = useContext(ThemeContext);
 
   return (

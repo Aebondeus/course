@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { PageNotFound } from "../components/notFound";
 import { PartContent } from "../components/partComponents/partContent";
 import { PartNav } from "../components/partComponents/partNavigation";
-import { serverRoutes } from '../constants/allRoutes';
+import { serverRoutes } from "../constants/allRoutes";
 
-const { part: { main } } = serverRoutes;
+const {
+  part: { main },
+} = serverRoutes;
 
 export const PartPage = ({ match }) => {
   const [error, setError] = useState(false);

@@ -22,9 +22,7 @@ export const PartUpdate = ({
         <FormattedMessage id="update-part.title" />:
       </Card.Header>
       <Card.Body>
-        {error && (
-          <div className="error-text text-center">{error}</div>
-        )}
+        {error && <div className="error-text text-center">{error}</div>}
         <Form onSubmit={handleSubmit}>
           <Form.Group>
             <Form.Label>

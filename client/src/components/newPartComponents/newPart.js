@@ -14,7 +14,7 @@ export const MainForm = ({
   setContent,
   selectedTab,
   setSelectedTab,
-  load
+  load,
 }) => (
   <div className="new-part-wrapper">
     <Card>
@@ -22,9 +22,7 @@ export const MainForm = ({
         <FormattedMessage id="new-part.title" />:
       </Card.Header>
       <Card.Body>
-        {error && (
-          <div className="error-text text-center">{error}</div>
-        )}
+        {error && <div className="error-text text-center">{error}</div>}
         <Form onSubmit={handleSubmit}>
           <Form.Group>
             <Form.Label>

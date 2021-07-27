@@ -3,16 +3,18 @@ import { CommentsForm } from "./commentsFrom";
 import { useLoad } from "../../../hooks/loadHook";
 import { authContext } from "../../../context/authContext";
 import { ToastBlockComments } from "../toasts/toastBlocks";
-import { serverRoutes } from '../../../constants/allRoutes';
+import { serverRoutes } from "../../../constants/allRoutes";
 
-const { post: { addComment } } = serverRoutes;
+const {
+  post: { addComment },
+} = serverRoutes;
 
 export const PostCommentsForm = ({ data }) => {
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
   const { load, request } = useLoad();
 
-  const {id, token } = useContext(authContext);
+  const { id, token } = useContext(authContext);
 
   const onSubmit = async (text, { target }) => {
     try {

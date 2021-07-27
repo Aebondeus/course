@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useLoad } from "../../hooks/loadHook";
 import { useHistory } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
-import { clientRoutes, serverRoutes } from '../../constants/allRoutes';
+import { clientRoutes, serverRoutes } from "../../constants/allRoutes";
 import { FormBlocks } from "./formBlocks";
 
 const { register: registerRoute } = serverRoutes;

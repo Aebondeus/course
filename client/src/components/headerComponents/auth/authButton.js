@@ -7,7 +7,7 @@ import { useLoad } from "../../../hooks/loadHook.js";
 import { authContext } from "../../../context/authContext.js";
 import { AuthModal } from "./modal.js";
 
-import { serverRoutes, clientRoutes } from '../../../constants/allRoutes';
+import { serverRoutes, clientRoutes } from "../../../constants/allRoutes";
 
 const { login } = serverRoutes;
 const { registerPage } = clientRoutes;

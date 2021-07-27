@@ -3,10 +3,12 @@ import { useHistory } from "react-router-dom";
 import { useLoad } from "../hooks/loadHook.js";
 import { authContext } from "../context/authContext";
 import { MainPart } from "../components/updatePostComponents/updatePost.js";
-import { clientRoutes, serverRoutes } from '../constants/allRoutes';
+import { clientRoutes, serverRoutes } from "../constants/allRoutes";
 
 const { user } = clientRoutes;
-const { post: { main, uploadTags, uploadGenres } } = serverRoutes;
+const {
+  post: { main, uploadTags, uploadGenres },
+} = serverRoutes;
 
 export const UpdatePost = ({ match }) => {
   const postId = match.params.postId;

@@ -3,9 +3,11 @@ import { Spinner } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
 import { TagCloud } from "react-tagcloud";
-import { serverRoutes, clientRoutes } from '../../constants/allRoutes';
+import { serverRoutes, clientRoutes } from "../../constants/allRoutes";
 
-const { main: { allTags }} = serverRoutes;
+const {
+  main: { allTags },
+} = serverRoutes;
 const { searchByTag } = clientRoutes;
 
 export const Cloud = () => {

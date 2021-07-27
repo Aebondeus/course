@@ -7,7 +7,10 @@ export const AuthPageController = () => {
   const registerUser = async (req, res) => {
     try {
       const { email, password, nickname } = req.body;
-      const pass = bcrypt.hashSync(password, Number(process.env.SALT) || config.SALT);
+      const pass = bcrypt.hashSync(
+        password,
+        Number(process.env.SALT) || config.SALT
+      );
       const user = new User({
         email: email.toLowerCase(),
         password: pass,

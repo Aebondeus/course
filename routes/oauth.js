@@ -15,7 +15,7 @@ const FaceBookStrategy = passportFacebook.Strategy;
 const YandexStrategy = passportYandex.Strategy;
 const GoogleStrategy = passportGoogle.OAuth2Strategy;
 
-const profileFields = ["id", "displayName", "emails"]
+const profileFields = ["id", "displayName", "emails"];
 
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -143,7 +143,8 @@ passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.CLIENT_ID_GOOGLE || config.CLIENT_ID_GOOGLE,
-      clientSecret: process.env.CLIENT_SECRET_GOOGLE || config.CLIENT_SECRET_GOOGLE,
+      clientSecret:
+        process.env.CLIENT_SECRET_GOOGLE || config.CLIENT_SECRET_GOOGLE,
       callbackURL: oauthRoutes.googleCbUrl,
       profileFields: profileFields,
     },
@@ -181,19 +182,20 @@ const CLIENT_HOME_PAGE =
   process.env.CLIENT_HOME_PAGE || "http://localhost:3000/";
 
 router.get(oauthRoutes.success, (req, res) => {
-  if (!!req.session.passport) { // maybe req.user will be
+  if (!!req.session.passport) {
+    // maybe req.user will be
     return res.json({
       sucess: true,
       msg: "user was authenticated",
       user: req.user,
-    })}
-  return res.json({
-      success: true,
-      msg: "user wasn't authenticated or sign in with local authorization",
-      user: null,
     });
   }
-);
+  return res.json({
+    success: true,
+    msg: "user wasn't authenticated or sign in with local authorization",
+    user: null,
+  });
+});
 
 router.get(oauthRoutes.failure, (req, res) => {
   res.status(401).json({

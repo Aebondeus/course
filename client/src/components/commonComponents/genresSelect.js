@@ -3,7 +3,7 @@ import Select from "react-select";
 import { FormattedMessage } from "react-intl";
 import { ThemeContext } from "styled-components";
 
-export const GenreField = ({genres, handleGenre, value}) => {
+export const GenreField = ({ genres, handleGenre, value }) => {
   const context = useContext(ThemeContext);
 
   return (
@@ -12,7 +12,7 @@ export const GenreField = ({genres, handleGenre, value}) => {
       options={genres}
       onChange={handleGenre}
       placeholder={<FormattedMessage id="select-genre" />}
-      value={!!genres && genres.find(genre => genre.label === value)}
+      value={!!genres && genres.find((genre) => genre.label === value)}
       theme={(theme) => ({
         ...theme,
         colors: {

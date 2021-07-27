@@ -5,10 +5,12 @@ import { PostPaginator } from "../components/commonComponents/postPaginator.js";
 import { GenericPost } from "../components/commonComponents/mainPost.js";
 import { Sorter } from "../components/commonComponents/postsSorter.js";
 import { PageNotFound } from "../components/notFound.js";
-import { serverRoutes } from '../constants/allRoutes';
+import { serverRoutes } from "../constants/allRoutes";
 import "../styles/search.css";
 
-const { search: { byTag } } = serverRoutes;
+const {
+  search: { byTag },
+} = serverRoutes;
 
 // TODO: take out constants, document titles
 const PER_PAGE = 10;

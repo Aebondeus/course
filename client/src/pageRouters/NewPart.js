@@ -4,9 +4,11 @@ import { useLoad } from "../hooks/loadHook.js";
 import { useHistory } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { authContext } from "../context/authContext.js";
-import { clientRoutes, serverRoutes } from '../constants/allRoutes';
+import { clientRoutes, serverRoutes } from "../constants/allRoutes";
 
-const { part: { newPart } } = serverRoutes;
+const {
+  part: { newPart },
+} = serverRoutes;
 const { toPost } = clientRoutes;
 
 export const NewPart = ({ match }) => {

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { authModalOptions } from "../../../constants/registerOptions.js";
 import { OauthComponent } from "../oauth/oauthComponent.js";
 
-const groups = ['Email', 'Password'];
+const groups = ["Email", "Password"];
 
 export const AuthModal = ({
   show,
@@ -29,24 +29,24 @@ export const AuthModal = ({
         {!!error && <div className="error-text text-center">{error}</div>}
         <Form onSubmit={handleSubmit(onSubmit)}>
           {groups.map((group) => {
-              const lowerGroup = group.toLowerCase();
-             return (
-               <>
-                 <Form.Group controlId={`form${group}`}>
-                   <Form.Label>
-                     <FormattedMessage id={lowerGroup} />
-                   </Form.Label>
-                   <Form.Control
-                     type={lowerGroup}
-                     name={lowerGroup}
-                     ref={register(authModalOptions[lowerGroup])}
-                   />
-                 </Form.Group>
-                 {errors[lowerGroup] && (
-                   <p className="error-text">{errors[lowerGroup].message}</p>
-                 )}
-               </>
-             );
+            const lowerGroup = group.toLowerCase();
+            return (
+              <>
+                <Form.Group controlId={`form${group}`}>
+                  <Form.Label>
+                    <FormattedMessage id={lowerGroup} />
+                  </Form.Label>
+                  <Form.Control
+                    type={lowerGroup}
+                    name={lowerGroup}
+                    ref={register(authModalOptions[lowerGroup])}
+                  />
+                </Form.Group>
+                {errors[lowerGroup] && (
+                  <p className="error-text">{errors[lowerGroup].message}</p>
+                )}
+              </>
+            );
           })}
           <div className="modal-btns">
             <div className="local-strat">

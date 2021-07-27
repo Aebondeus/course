@@ -6,10 +6,12 @@ import { PostCommentsForm } from "../components/postComponents/comments/comments
 import { Comments } from "../components/postComponents/comments/commentsPost";
 import { authContext } from "../context/authContext";
 import { PageNotFound } from "../components/notFound";
-import { serverRoutes } from '../constants/allRoutes'
+import { serverRoutes } from "../constants/allRoutes";
 import "../styles/post.css";
 
-const { post: { main, uploadComments } } = serverRoutes
+const {
+  post: { main, uploadComments },
+} = serverRoutes;
 
 // TODO: change setTimeout to sockets
 export const PostPage = ({ match }) => {
@@ -45,9 +47,7 @@ export const PostPage = ({ match }) => {
   const getComm = useCallback(() => {
     fetch(`${uploadComments}/${postId}`)
       .then((res) => res.json())
-      .then((res) => 
-        setComments(res)
-      );
+      .then((res) => setComments(res));
   }, [postId]);
 
   useEffect(() => {

@@ -8,10 +8,12 @@ import { authContext } from "../../context/authContext.js";
 import { AuthSnack } from "../commonComponents/authSnack.js";
 
 import "../../styles/header.css";
-import { serverRoutes } from '../../constants/allRoutes';
-import { oauthHeaders as headers } from '../../constants/headers' 
+import { serverRoutes } from "../../constants/allRoutes";
+import { oauthHeaders as headers } from "../../constants/headers";
 
-const { oauth: {success} } = serverRoutes;
+const {
+  oauth: { success },
+} = serverRoutes;
 
 export const MainHeader = ({ setLang, setTheme }) => {
   const [authOpen, setAuthOpen] = useState(false);
@@ -34,7 +36,7 @@ export const MainHeader = ({ setLang, setTheme }) => {
         }
         throw Error;
       })
-      .then(({user, msg}) => {
+      .then(({ user, msg }) => {
         if (!user) {
           console.log(msg);
         } else {
@@ -68,7 +70,7 @@ export const MainHeader = ({ setLang, setTheme }) => {
         </Form>
         <UiSwitch setLang={setLang} setTheme={setTheme} />
         <div id="mock"></div>
-        <AuthWrapper setAuthOpen={setAuthOpen}/>
+        <AuthWrapper setAuthOpen={setAuthOpen} />
         <AuthSnack
           nickname={nickname}
           open={authOpen}

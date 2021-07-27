@@ -80,7 +80,7 @@ const createNewPost = (form, user) => {
     ratingTotal: 0,
     updated: new Date(),
   });
-}
+};
 
 const createNewPart = (part, postId, imgLink) => {
   return new Part({
@@ -90,7 +90,7 @@ const createNewPart = (part, postId, imgLink) => {
     post: postId,
     image: imgLink,
   });
-}
+};
 
 const getPostData = (post) => {
   return {
@@ -105,7 +105,7 @@ const getPostData = (post) => {
     tags: prettifyTags(post.tags),
     parts: prettifyParts(post.parts),
   };
-}
+};
 
 const prettifyComment = (arr) => {
   if (!!arr) {
@@ -146,7 +146,7 @@ const deletePostParts = async (post) => {
       !!doc.image && destroyImage(doc.image);
     });
   });
-}
+};
 
 const prettifyTags = (arr) => {
   const result = arr.map((doc) => {
@@ -271,8 +271,7 @@ export const PostPageController = () => {
           $push: { parts: newPart },
         }).exec();
         return res.status(200).json({ msg: "Part was added" });
-        }
-      );
+      });
     } catch (e) {
       console.log("Error in create part");
       console.log(e);
@@ -293,7 +292,7 @@ export const PostPageController = () => {
           if (err) {
             return res.status(404).json({ msg: "Not Found" });
           }
-          const post = getPostData(doc)
+          const post = getPostData(doc);
           return res.status(200).json(post);
         });
     } catch (e) {
@@ -338,7 +337,8 @@ export const PostPageController = () => {
       if (!genre) {
         return res.status(400).json({ msg: "Choose genre from a list" });
       }
-      await Post.findById(postId, (err, doc) => { // ? maybe in update
+      await Post.findById(postId, (err, doc) => {
+        // ? maybe in update
         unboundTag(doc.tags, doc._id);
       });
       await Post.findByIdAndUpdate(

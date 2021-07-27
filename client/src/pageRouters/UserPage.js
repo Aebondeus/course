@@ -8,15 +8,19 @@ import { AboutUserWrapper } from "../components/userComponents/about/aboutUserWr
 import { FormattedMessage } from "react-intl";
 import { PostPaginator } from "../components/commonComponents/postPaginator.js";
 import { PageNotFound } from "../components/notFound.js";
-import { clientRoutes, serverRoutes } from '../constants/allRoutes';
+import { clientRoutes, serverRoutes } from "../constants/allRoutes";
 import "../styles/userpage.css";
 
-const { user: { sort: userSort, removeUser } } = serverRoutes;
+const {
+  user: { sort: userSort, removeUser },
+} = serverRoutes;
 const { createPost } = clientRoutes;
 const PER_PAGE = 3;
 
 export const UserPage = ({ match }) => {
-  const { params: { userId }} = match;
+  const {
+    params: { userId },
+  } = match;
   const [error, setError] = useState(false);
   const [posts, setPosts] = useState(null);
   const [sort, setSort] = useState({ ratingTotal: -1 });
@@ -59,7 +63,7 @@ export const UserPage = ({ match }) => {
     if (!postsOnPage?.length && curPage !== 0) {
       setCurPage(curPage - 1);
     }
-  }, [pageCount, postsOnPage, curPage])
+  }, [pageCount, postsOnPage, curPage]);
 
   const selectHandler = ({ value }) => {
     setSort(value);
@@ -73,7 +77,8 @@ export const UserPage = ({ match }) => {
     setCurPage(selected);
   };
 
-  const deleteUser = async () => { //! will be refactored
+  const deleteUser = async () => {
+    //! will be refactored
     await fetch(`${removeUser}/${userId}`, {
       method: "DELETE",
       body: JSON.stringify({

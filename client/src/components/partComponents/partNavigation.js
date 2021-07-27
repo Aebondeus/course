@@ -6,11 +6,11 @@ import {
 } from "@vkontakte/icons";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
-import { clientRoutes } from '../../constants/allRoutes';
+import { clientRoutes } from "../../constants/allRoutes";
 
 const { toPost } = clientRoutes;
 
-export const PartNav = ({part: {_id: partId, post: postId }, parts}) => {
+export const PartNav = ({ part: { _id: partId, post: postId }, parts }) => {
   const nextPage = parts[parts.indexOf(partId) + 1];
   const prevPage = parts[parts.indexOf(partId) - 1];
   return (

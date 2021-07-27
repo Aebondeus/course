@@ -4,9 +4,11 @@ import { useHistory } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { PartUpdate } from "../components/updatePartComponents/updatePart.js";
 import { authContext } from "../context/authContext.js";
-import { clientRoutes, serverRoutes } from '../constants/allRoutes';
+import { clientRoutes, serverRoutes } from "../constants/allRoutes";
 
-const { part: { main }} = serverRoutes
+const {
+  part: { main },
+} = serverRoutes;
 const { toPost } = clientRoutes;
 
 // TODO: take out document titles, backend-interacted functions, routes, destructure context
@@ -55,7 +57,7 @@ export const UpdatePart = ({ match }) => {
       await request(`${main}/${postId}/${partId}`, "PUT", {
         data,
         prevImg: updated && prevImage,
-        token
+        token,
       });
       history.push(`${toPost}/${postId}`);
     } catch (e) {

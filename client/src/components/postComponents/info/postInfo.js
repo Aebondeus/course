@@ -1,18 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import ReactStars from "react-stars";
 
 import { FormattedMessage } from "react-intl";
 import { Tag } from "../tag/tagButton";
-import { ToastBlockRating } from "../toasts/toastBlocks"
+import { ToastBlockRating } from "../toasts/toastBlocks";
 
 import { clientRoutes } from "../../../constants/allRoutes";
 
 const { user } = clientRoutes;
 
-export const PostInfo = ({data, toastProps, rateSent, contextId}) => {
-
+export const PostInfo = ({ data, toastProps, rateSent, contextId }) => {
   const { name, author, nickname, synopsis, genre, tags, rating } = data;
   const { setSuccess, showSuccess, setError, showError } = toastProps;
 
