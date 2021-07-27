@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Nav } from "react-bootstrap";
 import { Icon24DoorArrowLeftOutline } from "@vkontakte/icons";
-import { authContext } from "../../context/authContext";
-import { AuthButton } from "./authModal";
-import { clientRoutes } from "../../constants/allRoutes";
+import { authContext } from "../../../context/authContext";
+import { AuthButton } from "./authButton";
+import { clientRoutes } from "../../../constants/allRoutes";
 
 const { user } = clientRoutes;
 export const AuthWrapper = ({ setAuthOpen }) => {

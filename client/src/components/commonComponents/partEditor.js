@@ -3,13 +3,13 @@ import ReactMde from "react-mde";
 import ReactMarkdown from "react-markdown";
 import "react-mde/lib/styles/css/react-mde-all.css";
 
-export const PartEditor = (props) => {
+export const PartEditor = ({ content, setContent, selectedTab, setSelectedTab }) => {
   return (
     <ReactMde
-      value={props.content}
-      onChange={props.setContent}
-      selectedTab={props.selectedTab}
-      onTabChange={props.setSelectedTab}
+      value={content}
+      onChange={setContent}
+      selectedTab={selectedTab}
+      onTabChange={setSelectedTab}
       generateMarkdownPreview={(markdown) =>
         Promise.resolve(<ReactMarkdown source={markdown} />)
       }

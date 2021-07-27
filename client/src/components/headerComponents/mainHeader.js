@@ -1,9 +1,9 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useCallback } from "react";
 import { Button, Navbar, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
-import { AuthWrapper } from "./authWrapper.js";
-import { UiSwitch } from "./uiSwitchers.js";
+import { AuthWrapper } from "./auth/wrapper.js";
+import { UiSwitch } from "./switchers/switchers.js";
 import { authContext } from "../../context/authContext.js";
 import { AuthSnack } from "../commonComponents/authSnack.js";
 
@@ -22,11 +22,11 @@ export const MainHeader = ({ setLang, setTheme }) => {
     setAuthOpen(false);
   };
 
-  const loginOauth = async () => {
+  const loginOauth = useCallback(async () => {
     await fetch(success, {
       method: "GET",
       credentials: "include",
-      headers: headers
+      headers,
     })
       .then((res) => {
         if (res.status === 200) {
@@ -45,11 +45,11 @@ export const MainHeader = ({ setLang, setTheme }) => {
       .catch(() => {
         console.log("Athentication was failed");
       });
-  };
+  }, [login]);
 
   useEffect(() => {
     loginOauth();
-  }, []);
+  }, [loginOauth]);
 
   return (
     <Navbar collapseOnSelect expand="lg" variant={theme}>

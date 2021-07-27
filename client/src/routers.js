@@ -43,7 +43,7 @@ export const Routes = (token) => {
       <Route path={`${createPart}/:postId`} component={NewPart} exact>
         {!token && <Redirect to={mainPage} />}
       </Route>
-      <Route path={`${updatePart}/:postId/:partI`} component={UpdatePart} exact>
+      <Route path={`${updatePart}/:postId/:partId`} component={UpdatePart} exact>
         {!token && <Redirect to={mainPage} />}
       </Route>
       <Route path={`${searchByTag}/:tagLabel`} component={SearchByTag} exact />

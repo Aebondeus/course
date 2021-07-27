@@ -4,8 +4,7 @@ import { FormattedMessage } from "react-intl";
 
 const thumbsContainer = {
   display: "flex",
-  flexDirection: "row",
-  flexWrap: "wrap",
+  flexFlow: "row wrap",
   marginTop: 16,
 };
 
@@ -23,7 +22,6 @@ const thumb = {
 
 const thumbInner = {
   display: "flex",
-  minWidth: 0,
   overflow: "hidden",
 };
 
@@ -33,11 +31,11 @@ const img = {
   height: "100%",
 };
 
-export const ImgDrop = (props) => {
+export const ImgDrop = ({ handleFileInput, updated}) => {
   const [files, setFiles] = useState([]);
 
   const onDrop = (acceptedFiles) => {
-    props.handleFileInput(acceptedFiles);
+    handleFileInput(acceptedFiles);
     setFiles(
       acceptedFiles.map((file) =>
         Object.assign(file, {
@@ -79,7 +77,7 @@ export const ImgDrop = (props) => {
             <em>
               (<FormattedMessage id="dnd-p" />)
             </em>
-            {!!props.updated && (
+            {updated && (
               <div>
                 <em>
                   (<FormattedMessage id="dnd-update" />)

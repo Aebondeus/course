@@ -22,7 +22,7 @@ const isRealUser = (token) => {
 
 const isAuthorOfPost = async (userId, postId) => {
   const post = await Post.findById(postId).exec();
-  return userId === post.author;
+  return userId == post.author;
 };
 
 const medium = (arr) => {
@@ -251,7 +251,7 @@ export const PostPageController = () => {
     try {
       const { postId, token, part } = req.body;
       const user = isRealUser(token);
-      const author = isAuthorOfPost(user, postId);
+      const author = await isAuthorOfPost(user, postId);
       if (!part.name) {
         return res.status(400).json({ msg: "You're forget about a title!" });
       }
@@ -327,7 +327,7 @@ export const PostPageController = () => {
       const postId = req.params.postId;
       const { form, token, tags } = req.body;
       const user = isRealUser(token);
-      const author = isAuthorOfPost(user, postId);
+      const author = await isAuthorOfPost(user, postId);
       const genre = await Genre.findOne({ label: form.genre }).exec();
       if (!form.title) {
         return res.status(400).json({ msg: "You forget about a title!" });
@@ -369,9 +369,11 @@ export const PostPageController = () => {
     try {
       const partId = req.params.partId;
       const postId = req.params.postId;
-      const user = isRealUser(token);
-      const author = isAuthorOfPost(user, postId);
       const { data, prevImg, token } = req.body;
+      const user = isRealUser(token);
+      const author = await isAuthorOfPost(user, postId);
+      console.log(author);
+
       if (!data.name) {
         return res.status(400).json({ msg: "You're forget about a title" });
       }
@@ -408,7 +410,7 @@ export const PostPageController = () => {
       const postId = req.params.postId;
       const { token } = req.body;
       const user = isRealUser(token);
-      const author = isAuthorOfPost(user, postId);
+      const author = await isAuthorOfPost(user, postId);
       if (!user || !author) {
         return res.status(403).json({ msg: "Forbidden" });
       }
@@ -435,7 +437,7 @@ export const PostPageController = () => {
       const { postId, partId } = req.params;
       const { token } = req.body;
       const user = isRealUser(token);
-      const author = isAuthorOfPost(user, postId);
+      const author = await isAuthorOfPost(user, postId);
       if (!user || !author) {
         return res.status(403).json({ msg: "Forbidden" });
       }

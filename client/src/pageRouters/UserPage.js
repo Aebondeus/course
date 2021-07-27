@@ -16,18 +16,20 @@ const { createPost } = clientRoutes;
 const PER_PAGE = 3;
 
 export const UserPage = ({ match }) => {
-  const userId = match.params.userId;
+  const { params: { userId }} = match;
   const [error, setError] = useState(false);
   const [posts, setPosts] = useState(null);
   const [sort, setSort] = useState({ ratingTotal: -1 });
   const [del, setDel] = useState(false);
   const [curPage, setCurPage] = useState(0);
-  const context = useContext(authContext);
+  const { id: contextId, token, logout } = useContext(authContext);
   const history = useHistory();
 
+  const pageCount = posts && Math.ceil(posts.length / PER_PAGE);
+
   const offset = curPage * PER_PAGE;
-  const pageCount = !!posts && Math.ceil(posts.length / PER_PAGE);
-  const postsOnPage = !!posts && posts.slice(offset, offset + PER_PAGE);
+
+  const postsOnPage = posts && posts.slice(offset, offset + PER_PAGE);
 
   const getPosts = useCallback(async () => {
     //! will be refactored
@@ -53,23 +55,29 @@ export const UserPage = ({ match }) => {
     getPosts();
   }, [del, sort, userId, getPosts]);
 
-  const selectHandler = (event) => {
-    setSort(event.value);
+  useEffect(() => {
+    if (!postsOnPage?.length && curPage !== 0) {
+      setCurPage(curPage - 1);
+    }
+  }, [pageCount, postsOnPage, curPage])
+
+  const selectHandler = ({ value }) => {
+    setSort(value);
   };
 
   const newPost = () => {
     history.push(createPost);
   };
 
-  const handlePageClick = (data) => {
-    setCurPage(data.selected);
+  const handlePageClick = ({ selected }) => {
+    setCurPage(selected);
   };
 
   const deleteUser = async () => { //! will be refactored
     await fetch(`${removeUser}/${userId}`, {
       method: "DELETE",
       body: JSON.stringify({
-        token: context.token,
+        token,
       }),
       headers: { "Content-Type": "application/json" },
     })
@@ -79,8 +87,8 @@ export const UserPage = ({ match }) => {
         }
         throw Error;
       })
-      .then((res) => {
-        context.logout();
+      .then(() => {
+        logout();
         history.push("/");
       })
       .catch(() => {
@@ -88,9 +96,10 @@ export const UserPage = ({ match }) => {
       });
   };
 
-  if (!!error) {
+  if (error) {
     return <PageNotFound />;
   }
+
   if (!posts) {
     return (
       <div className="loader text-center">
@@ -109,7 +118,7 @@ export const UserPage = ({ match }) => {
           <div className="post-title">
             <FormattedMessage id="user-posts.title" />:
           </div>
-          {userId === context.id && (
+          {userId === contextId && (
             <Button variant="link" className="new-post-btn" onClick={newPost}>
               ✒️
               <FormattedMessage id="new-post" />
@@ -120,10 +129,12 @@ export const UserPage = ({ match }) => {
       <Row className="user-posts-content">
         <Col lg={8} md={8} sm={12} className="user-posts">
           <UserPostsWrapper posts={postsOnPage} del={del} setDel={setDel} />
-          <PostPaginator
-            pageCount={!!pageCount ? pageCount : 1}
-            onPageChange={handlePageClick}
-          />
+          {pageCount > 1 && (
+            <PostPaginator
+              pageCount={pageCount}
+              onPageChange={handlePageClick}
+            />
+          )}
         </Col>
         <Col lg={4} md={4} sm={12} className="posts-sorter">
           <Sorter selectHandler={selectHandler} />

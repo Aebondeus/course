@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { Nav } from "react-bootstrap";
 import Grid from "@material-ui/core/Grid";
 import Switch from "@material-ui/core/Switch";
-import locales from "../../language/locales.js";
+import locales from "../../../language/locales.js";
 import { FormattedMessage } from "react-intl";
 
 export const UiSwitch = ({ setLang, setTheme }) => {
@@ -13,27 +13,27 @@ export const UiSwitch = ({ setLang, setTheme }) => {
     localStorage.getItem("theme") === "dark"
   );
 
-  const updateTheme = useCallback((event) => {
-    if (event.target.checked) {
+  const updateTheme = useCallback(({ target : { checked }}) => {
+    if (checked) {
       setTheme("dark");
       localStorage.setItem("theme", "dark");
       setThemeSwitch(true);
     } else {
       setTheme("light");
-      setThemeSwitch(false);
       localStorage.setItem("theme", "light");
+      setThemeSwitch(false);
     }
   }, [setTheme]);
 
-  const updateLang = useCallback((event) => {
-    if (event.target.checked) {
+  const updateLang = useCallback(({ target: { checked }}) => {
+    if (checked) {
       setLang(locales.EN);
       localStorage.setItem("lang", locales.EN);
       setLangSwitch(true);
     } else {
       setLang(locales.RU);
-      setLangSwitch(false);
       localStorage.setItem("lang", locales.RU);
+      setLangSwitch(false);
     }
   }, [setLang]);
 

@@ -10,7 +10,7 @@ import { FormBlocks } from "./formBlocks";
 const { register: registerRoute } = serverRoutes;
 const { mainPage } = clientRoutes;
 
-// TODO: take out titles of documents, take out routes, simplify Form.Group with map
+// TODO: take out titles of documents
 export const RegisterPage = () => {
   document.title = "Регистрация | Sign Up";
   const { register, errors, handleSubmit } = useForm();

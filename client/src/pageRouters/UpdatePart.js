@@ -29,10 +29,10 @@ export const UpdatePart = ({ match }) => {
   useEffect(() => {
     fetch(`${main}/${postId}/${partId}`)
       .then((data) => data.json())
-      .then((data) => {
-        setName(data.part.name);
-        setContent(data.part.content);
-        setImage(data.part.image);
+      .then(({ part: { name, image, content } }) => {
+        setName(name);
+        setContent(content);
+        setImage(image);
       });
   }, [postId, partId]);
 
@@ -54,7 +54,7 @@ export const UpdatePart = ({ match }) => {
       const data = { name, content, image };
       await request(`${main}/${postId}/${partId}`, "PUT", {
         data,
-        prevImg: !!updated && prevImage,
+        prevImg: updated && prevImage,
         token
       });
       history.push(`${toPost}/${postId}`);
